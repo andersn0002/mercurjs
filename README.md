@@ -19,8 +19,6 @@
 
 # What is Mercur?
 
-<a href="https://www.mercurjs.com/">Mercur</a> is the first truly limitless open source marketplace platform that combines the simplicity of SaaS with the freedom of open source. Built on [MedusaJS](https://github.com/medusajs/medusa) 2.0, it empowers businesses to create custom marketplaces without choosing between ownership and ease of use.
-
 Mercur is a platform to start, customize, manage, and scale your marketplace for every business model with a modern technology stack.
 
 ## Why Choose Mercur?
@@ -43,8 +41,6 @@ Mercur is a platform to start, customize, manage, and scale your marketplace for
 <b>Storefronts for Marketplace </b> <br>
 Customizable storefronts designed for B2B and B2C with all elements including browsing and buying products across multiple vendors at once. 
 
-Discover <a href="https://github.com/mercurjs/b2c-marketplace-storefront">B2C Storefront Repository</a> - <a href="https://b2c.mercurjs.com/">🛍️ Check demo </a>
-
 <b>Admin Panel</b> <br>
 Control over whole marketplace: setting product categories, vendors, commissions and rules
 
@@ -65,7 +61,7 @@ Built-in integration with Stripe for payments and Resend for communication needs
 
 ```bash
 # Clone the repository
-git clone https://github.com/mercurjs/mercur.git
+git clone https://github.com/andersn0002/mercurjs.git
 
 # Change directory
 cd mercur
@@ -110,13 +106,6 @@ yarn dev
 - Node.js v20+
 - PostgreSQL
 - Git CLI
-
-# Resources
-
-#### Learn more about Mercur
-
-- [Mercur Website](https://www.mercurjs.com/)
-- [Mercur Docs](https://docs.mercurjs.com/introduction)
 
 #### Learn more about Medusa
 

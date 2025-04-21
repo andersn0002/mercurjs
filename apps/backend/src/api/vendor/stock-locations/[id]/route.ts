@@ -6,6 +6,8 @@ import {
   updateStockLocationsWorkflow
 } from '@medusajs/medusa/core-flows'
 
+import { VendorUpdateStockLocationType } from '../validators'
+
 /**
  * @oas [get] /vendor/stock-locations/{id}
  * operationId: "VendorGetStockLocation"
@@ -51,7 +53,7 @@ export const GET = async (
   } = await query.graph(
     {
       entity: 'stock_location',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: {
         id: req.params.id
       }
@@ -104,7 +106,7 @@ export const GET = async (
  *   - cookie_auth: []
  */
 export const POST = async (
-  req: AuthenticatedMedusaRequest,
+  req: AuthenticatedMedusaRequest<VendorUpdateStockLocationType>,
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
@@ -123,7 +125,7 @@ export const POST = async (
   } = await query.graph(
     {
       entity: 'stock_location',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: {
         id: req.params.id
       }

@@ -1,4 +1,5 @@
 // copy of https://github.com/medusajs/medusa/blob/develop/packages/core/core-flows/src/cart/utils/prepare-confirm-inventory-input.ts
+// @ts-nocheck
 import {
   BigNumberInput,
   ConfirmVariantInventoryWorkflowInputDTO
@@ -10,6 +11,7 @@ interface ConfirmInventoryPreparationInput {
     variant_id: string
     inventory_item_id: string
     required_quantity: number
+    stock_location_ids: [string]
   }[]
   items: {
     id?: string
@@ -21,7 +23,6 @@ interface ConfirmInventoryPreparationInput {
     manage_inventory?: boolean
     allow_backorder?: boolean
   }[]
-  location_ids: string[]
 }
 
 interface ConfirmInventoryItem {
@@ -37,7 +38,6 @@ export const prepareConfirmInventoryInput = (data: {
   input: ConfirmVariantInventoryWorkflowInputDTO
 }) => {
   const productVariantInventoryItems = new Map<string, any>()
-  const stockLocationIds = new Set<string>()
   const allVariants = new Map<string, any>()
   let hasSalesChannelStockLocation = false
   let hasManagedInventory = false
@@ -68,18 +68,20 @@ export const prepareConfirmInventoryInput = (data: {
         hasSalesChannelStockLocation = true
       }
 
-      if (stock_locations) {
-        stockLocationIds.add(stock_locations.id)
-      }
-
       if (inventory_items) {
         const inventoryItemId = inventory_items.inventory_item_id
         if (!productVariantInventoryItems.has(inventoryItemId)) {
           productVariantInventoryItems.set(inventoryItemId, {
             variant_id: inventory_items.variant_id,
             inventory_item_id: inventoryItemId,
-            required_quantity: inventory_items.required_quantity
+            required_quantity: inventory_items.required_quantity,
+            stock_location_ids: []
           })
+        }
+        if (stock_locations) {
+          productVariantInventoryItems
+            .get(inventoryItemId)
+            .stock_location_ids.push(stock_locations.id)
         }
       }
 
@@ -112,7 +114,6 @@ export const prepareConfirmInventoryInput = (data: {
     product_variant_inventory_items: Array.from(
       productVariantInventoryItems.values()
     ),
-    location_ids: Array.from(stockLocationIds),
     items: data.input.items,
     variants: Array.from(allVariants.values())
   })
@@ -122,7 +123,6 @@ export const prepareConfirmInventoryInput = (data: {
 
 const formatInventoryInput = ({
   product_variant_inventory_items,
-  location_ids,
   items,
   variants
 }: ConfirmInventoryPreparationInput) => {
@@ -162,7 +162,7 @@ const formatInventoryInput = ({
         required_quantity: variantInventoryItem.required_quantity,
         allow_backorder: !!variant.allow_backorder,
         quantity: item.quantity,
-        location_ids: location_ids
+        location_ids: variantInventoryItem.stock_location_ids
       })
     )
   })

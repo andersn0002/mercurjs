@@ -2,8 +2,11 @@ import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import { ContainerRegistrationKeys } from '@medusajs/framework/utils'
 
 import sellerRequest from '../../../links/seller-request'
-import { fetchSellerByAuthActorId } from '../../../shared/infra/http/utils'
-import { createRequestWorkflow } from '../../../workflows/requests/workflows'
+import { fetchSellerByAuthContext } from '../../../shared/infra/http/utils'
+import {
+  createProductRequestWorkflow,
+  createRequestWorkflow
+} from '../../../workflows/requests/workflows'
 import { VendorCreateRequestType } from './validators'
 
 /**
@@ -54,9 +57,9 @@ export const GET = async (
 
   const { data: requests, metadata } = await query.graph({
     entity: sellerRequest.entryPoint,
-    fields: req.remoteQueryConfig.fields.map((field) => `request.${field}`),
+    fields: req.queryConfig.fields.map((field) => `request.${field}`),
     filters: req.filterableFields,
-    pagination: req.remoteQueryConfig.pagination
+    pagination: req.queryConfig.pagination
   })
 
   res.json({
@@ -100,10 +103,7 @@ export const POST = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const seller = await fetchSellerByAuthActorId(
-    req.auth_context.actor_id,
-    req.scope
-  )
+  const seller = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
   const { result } = await createRequestWorkflow.run({
     input: {
@@ -120,7 +120,7 @@ export const POST = async (
     data: [request]
   } = await query.graph({
     entity: 'request',
-    fields: req.remoteQueryConfig.fields,
+    fields: req.queryConfig.fields,
     filters: {
       id: result.id
     }

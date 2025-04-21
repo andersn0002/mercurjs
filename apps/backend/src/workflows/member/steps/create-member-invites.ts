@@ -1,8 +1,7 @@
-import SellerModuleService from 'src/modules/seller/service'
-
 import { StepResponse, createStep } from '@medusajs/framework/workflows-sdk'
 
 import { SELLER_MODULE } from '../../../modules/seller'
+import SellerModuleService from '../../../modules/seller/service'
 import { CreateMemberInviteDTO } from '../../../modules/seller/types'
 
 export const createMemberInviteStep = createStep(
@@ -10,13 +9,13 @@ export const createMemberInviteStep = createStep(
   async (input: CreateMemberInviteDTO, { container }) => {
     const service = container.resolve<SellerModuleService>(SELLER_MODULE)
 
-    const [memberInvite] = await service.createInvites(input)
+    const [memberInvite] = await service.createMemberInvites(input)
 
     return new StepResponse(memberInvite, memberInvite.id)
   },
   async (memberInviteId: string, { container }) => {
     const service = container.resolve<SellerModuleService>(SELLER_MODULE)
 
-    await service.deleteInvites([memberInviteId])
+    await service.deleteMemberInvites([memberInviteId])
   }
 )

@@ -2,7 +2,8 @@ import * as z from 'zod'
 
 import {
   createFindParams,
-  createOperatorMap
+  createOperatorMap,
+  createSelectParams
 } from '@medusajs/medusa/api/utils/validators'
 
 export type VendorGetOrderParamsType = z.infer<typeof VendorGetOrderParams>
@@ -21,19 +22,23 @@ export const VendorGetOrderParams = createFindParams({
   })
 )
 
+export type VendorGetOrderChangesParamsType = z.infer<
+  typeof VendorGetOrderChangesParams
+>
+export const VendorGetOrderChangesParams = createSelectParams()
+
 /**
  * @schema VendorCreateFulfillment
  * type: object
  * properties:
  *   requires_shipping:
  *     type: boolean
- *     description: The number of items to return. Default 50.
  *   location_id:
  *     type: string
- *     description: The number of items to skip before starting the response. Default 0.
+ *     description: The location id.
  *   items:
  *     type: array
- *     description: Sales channels to associate the product with.
+ *     description: Items to create fulfillment.
  *     items:
  *       type: object
  *       properties:
@@ -54,4 +59,52 @@ export const VendorCreateFulfillment = z.object({
   ),
   requires_shipping: z.boolean(),
   location_id: z.string()
+})
+
+/**
+ * @schema VendorOrderCreateShipment
+ * type: object
+ * properties:
+ *   items:
+ *     type: array
+ *     description: Items in the shipment.
+ *     items:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *         quantity:
+ *           type: number
+ *   labels:
+ *     type: array
+ *     description: Labels of the shipment
+ *     items:
+ *       type: object
+ *       properties:
+ *         tracking_number:
+ *           type: string
+ *         tracking_url:
+ *           type: string
+ *         label_url:
+ *           type: string
+ */
+export type VendorOrderCreateShipmentType = z.infer<
+  typeof VendorOrderCreateShipment
+>
+export const VendorOrderCreateShipment = z.object({
+  items: z.array(
+    z.object({
+      id: z.string(),
+      quantity: z.number()
+    })
+  ),
+  labels: z
+    .array(
+      z.object({
+        tracking_number: z.string(),
+        tracking_url: z.string(),
+        label_url: z.string()
+      })
+    )
+    .optional()
 })

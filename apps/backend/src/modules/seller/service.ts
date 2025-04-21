@@ -1,3 +1,4 @@
+import crypto, { createHash } from 'crypto'
 import jwt, { JwtPayload } from 'jsonwebtoken'
 
 import { ConfigModule } from '@medusajs/framework'
@@ -10,7 +11,13 @@ import {
 } from '@medusajs/framework/utils'
 
 import { SELLER_MODULE } from '.'
-import { Invite, Member, Seller } from './models'
+import {
+  Member,
+  MemberInvite,
+  Seller,
+  SellerApiKey,
+  SellerOnboarding
+} from './models'
 import { MemberInviteDTO } from './types'
 
 type InjectedDependencies = {
@@ -25,9 +32,11 @@ type SellerModuleConfig = {
 const DEFAULT_VALID_INVITE_DURATION = 60 * 60 * 24 * 7000
 
 class SellerModuleService extends MedusaService({
-  Invite,
+  MemberInvite,
   Member,
-  Seller
+  Seller,
+  SellerOnboarding,
+  SellerApiKey
 }) {
   private readonly config_: SellerModuleConfig
   private readonly httpConfig_: ConfigModule['projectConfig']['http']
@@ -56,7 +65,7 @@ class SellerModuleService extends MedusaService({
       complete: true
     })
 
-    const invite = await this.retrieveInvite(decoded.payload.id, {})
+    const invite = await this.retrieveMemberInvite(decoded.payload.id, {})
 
     if (invite.accepted) {
       throw new MedusaError(
@@ -77,12 +86,16 @@ class SellerModuleService extends MedusaService({
 
   @InjectTransactionManager()
   // @ts-expect-error: createInvites method already exists
-  async createInvites(
+  async createMemberInvites(
     input: CreateInviteDTO | CreateInviteDTO[],
     @MedusaContext() sharedContext: Context = {}
   ): Promise<MemberInviteDTO[]> {
     const data = Array.isArray(input) ? input : [input]
 
+    const expires_at = new Date()
+    expires_at.setMilliseconds(
+      new Date().getMilliseconds() + DEFAULT_VALID_INVITE_DURATION
+    )
     const toCreate = data.map((invite) => {
       return {
         ...invite,
@@ -91,25 +104,22 @@ class SellerModuleService extends MedusaService({
       }
     })
 
-    const created = await super.createInvites(toCreate, sharedContext)
-
+    const created = await super.createMemberInvites(toCreate, sharedContext)
     const toUpdate = Array.isArray(created) ? created : [created]
 
     const updates = toUpdate.map((invite) => {
       return {
+        ...invite,
         id: invite.id,
-        expires_at: new Date().setMilliseconds(
-          new Date().getMilliseconds() + DEFAULT_VALID_INVITE_DURATION
-        ),
+        expires_at,
         token: this.generateToken({ id: invite.id })
       }
     })
 
-    await this.updateInvites(updates, sharedContext)
+    // @ts-ignore
+    await this.updateMemberInvites(updates, sharedContext)
 
-    return this.listInvites({
-      id: updates.map((u) => u.id)
-    })
+    return updates
   }
 
   private generateToken(data: { id: string }): string {
@@ -117,6 +127,39 @@ class SellerModuleService extends MedusaService({
     return jwt.sign(data, jwtSecret, {
       expiresIn: this.config_.validInviteDuration
     })
+  }
+
+  public async generateSecretKey() {
+    const plainToken = 'ssk_' + crypto.randomBytes(32).toString('hex')
+    const redacted = [plainToken.slice(0, 6), plainToken.slice(-3)].join('***')
+    const hashedToken = this.calculateHash(plainToken)
+
+    return {
+      plainToken,
+      hashedToken,
+      redacted
+    }
+  }
+
+  public calculateHash(token: string): string {
+    return createHash('sha256').update(token).digest('hex')
+  }
+
+  async isOnboardingCompleted(seller_id: string): Promise<boolean> {
+    const { onboarding } = await this.retrieveSeller(seller_id, {
+      relations: ['onboarding']
+    })
+
+    if (!onboarding) {
+      return false
+    }
+
+    return (
+      onboarding.locations_shipping &&
+      onboarding.products &&
+      onboarding.store_information &&
+      onboarding.stripe_connection
+    )
   }
 }
 

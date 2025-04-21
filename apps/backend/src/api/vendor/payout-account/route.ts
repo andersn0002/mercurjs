@@ -1,10 +1,9 @@
-import sellerPayoutAccountLink from '#/links/seller-payout-account'
-import { fetchSellerByAuthActorId } from '#/shared/infra/http/utils'
-import { createPayoutAccountForSellerWorkflow } from '#/workflows/seller/workflows'
-
 import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import { ContainerRegistrationKeys } from '@medusajs/framework/utils'
 
+import sellerPayoutAccountLink from '../../../links/seller-payout-account'
+import { fetchSellerByAuthActorId } from '../../../shared/infra/http/utils'
+import { createPayoutAccountForSellerWorkflow } from '../../../workflows/seller/workflows'
 import { VendorCreatePayoutAccountType } from './validators'
 
 /**
@@ -46,9 +45,7 @@ export const GET = async (
   } = await query.graph(
     {
       entity: sellerPayoutAccountLink.entryPoint,
-      fields: req.remoteQueryConfig.fields.map(
-        (field) => `payout_account.${field}`
-      ),
+      fields: req.queryConfig.fields.map((field) => `payout_account.${field}`),
       filters: req.filterableFields
     },
     { throwIfKeyNotFound: true }
@@ -91,10 +88,7 @@ export const POST = async (
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const seller = await fetchSellerByAuthActorId(
-    req.auth_context.actor_id,
-    req.scope
-  )
+  const seller = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
   const { result } = await createPayoutAccountForSellerWorkflow(req.scope).run({
     context: { transactionId: seller.id },
@@ -109,7 +103,7 @@ export const POST = async (
   } = await query.graph(
     {
       entity: 'payout_account',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: {
         id: result.id
       }

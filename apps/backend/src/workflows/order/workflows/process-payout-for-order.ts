@@ -1,6 +1,3 @@
-import { PAYOUT_MODULE } from '#/modules/payout'
-import { PayoutWorkflowEvents } from '#/modules/payout/types'
-
 import { Modules } from '@medusajs/framework/utils'
 import { transform, when } from '@medusajs/framework/workflows-sdk'
 import {
@@ -10,6 +7,9 @@ import {
 } from '@medusajs/medusa/core-flows'
 import { createWorkflow } from '@medusajs/workflows-sdk'
 
+import sellerOrder from '../../../links/seller-order'
+import { PAYOUT_MODULE } from '../../../modules/payout'
+import { PayoutWorkflowEvents } from '../../../modules/payout/types'
 import {
   createPayoutStep,
   validateNoExistingPayoutForOrderStep,
@@ -26,15 +26,23 @@ export const processPayoutForOrderWorkflow = createWorkflow(
     validateNoExistingPayoutForOrderStep(input.order_id)
 
     const { data: orders } = useQueryGraphStep({
-      entity: 'order',
-      fields: ['id', 'total', 'currency_code'],
+      entity: sellerOrder.entryPoint,
+      fields: ['seller_id', 'order.total', 'order.currency_code'],
       filters: {
-        id: input.order_id
+        order_id: input.order_id
       },
       options: { throwIfKeyNotFound: true }
     }).config({ name: 'query-order' })
 
-    const order = transform(orders, (orders) => orders[0])
+    const order = transform(orders, (orders) => {
+      const transformed = orders[0]
+      return {
+        seller_id: transformed.seller_id,
+        id: transformed.order_id,
+        total: transformed.order.total,
+        currency_code: transformed.order.currency_code
+      }
+    })
 
     const { data: sellers } = useQueryGraphStep({
       entity: 'seller',

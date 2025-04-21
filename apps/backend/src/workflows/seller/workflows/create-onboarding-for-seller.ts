@@ -1,9 +1,10 @@
-import { CreateOnboardingDTO } from '#/modules/payout/types'
-
 import { WorkflowResponse, createWorkflow } from '@medusajs/workflows-sdk'
 
-import { validatePayoutAccountExistsForSellerStep } from '../steps'
-import { createOnboardingStep } from '../steps/create-onboarding'
+import { CreateOnboardingDTO } from '../../../modules/payout/types'
+import {
+  createPayoutOnboardingStep,
+  validatePayoutAccountExistsForSellerStep
+} from '../steps'
 
 type CreateOnboardingForSellerInput = {
   context: CreateOnboardingDTO['context']
@@ -15,7 +16,7 @@ export const createOnboardingForSellerWorkflow = createWorkflow(
   function (input: CreateOnboardingForSellerInput) {
     const { id } = validatePayoutAccountExistsForSellerStep(input.seller_id)
 
-    const onboarding = createOnboardingStep({
+    const onboarding = createPayoutOnboardingStep({
       context: input.context,
       payout_account_id: id
     })

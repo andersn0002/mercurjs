@@ -1,9 +1,10 @@
 import { z } from 'zod'
 
 import { ProductStatus } from '@medusajs/framework/utils'
-import { createFindParams } from '@medusajs/medusa/api/utils/validators'
+import { createFindParams, WithAdditionalData } from '@medusajs/medusa/api/utils/validators'
 
 import { IdAssociation } from '../../../shared/infra/http/utils'
+import { AdditionalData } from '@medusajs/framework/types'
 
 export type VendorGetProductParamsType = z.infer<typeof VendorGetProductParams>
 export const VendorGetProductParams = createFindParams({
@@ -29,9 +30,25 @@ export const VendorGetProductParams = createFindParams({
  *     items:
  *       type: string
  */
-const CreateProductOption = z.object({
+export type CreateProductOptionType = z.infer<typeof CreateProductOption>
+export const CreateProductOption = z.object({
   title: z.string(),
   values: z.array(z.string())
+})
+
+/**
+ * @schema VendorAssignBrandName
+ * type: object
+ * required:
+ *   - brand_name
+ * properties:
+ *   brand_name:
+ *     type: string
+ *     description: The name of the brand.
+ */
+export type VendorAssignBrandNameType = z.infer<typeof VendorAssignBrandName>
+export const VendorAssignBrandName = z.object({
+  brand_name: z.string()
 })
 
 /**
@@ -50,6 +67,7 @@ const CreateProductOption = z.object({
  *     items:
  *       type: string
  */
+export type UpdateProductOptionType = z.infer<typeof UpdateProductOption>
 export const UpdateProductOption = z.object({
   id: z.string().optional(),
   title: z.string().optional(),
@@ -207,7 +225,8 @@ const UpdateVariantPrice = z.object({
  *         required_quantity:
  *           type: number
  */
-const CreateProductVariant = z
+export type CreateProductVariantType = z.infer<typeof CreateProductVariant>
+export const CreateProductVariant = z
   .object({
     title: z.string(),
     sku: z.string().optional(),
@@ -216,8 +235,8 @@ const CreateProductVariant = z
     barcode: z.string().optional(),
     hs_code: z.string().optional(),
     mid_code: z.string().optional(),
-    allow_backorder: z.boolean().optional().default(false),
-    manage_inventory: z.boolean().optional().default(true),
+    allow_backorder: z.literal(false).optional().default(false),
+    manage_inventory: z.literal(true).optional().default(true),
     variant_rank: z.number().optional(),
     weight: z.number().optional(),
     length: z.number().optional(),
@@ -321,7 +340,8 @@ const CreateProductVariant = z
  *     additionalProperties:
  *       type: string
  */
-const UpdateProductVariant = z
+export type UpdateProductVariantType = z.infer<typeof UpdateProductVariant>
+export const UpdateProductVariant = z
   .object({
     id: z.string().optional(),
     title: z.string().optional(),
@@ -349,7 +369,7 @@ const UpdateProductVariant = z
 /* Products */
 
 /**
- * @schema VendorCreateProduct
+ * @schema CreateProduct
  * type: object
  * required:
  *   - title
@@ -469,8 +489,8 @@ const UpdateProductVariant = z
  *         id:
  *           type: string
  */
-export type VendorCreateProductType = z.infer<typeof VendorCreateProduct>
-export const VendorCreateProduct = z
+export type VendorCreateProductType = z.infer<typeof CreateProduct> & AdditionalData
+export const CreateProduct = z
   .object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -484,7 +504,7 @@ export const VendorCreateProduct = z
     external_id: z.string().optional(),
     type_id: z.string().optional(),
     collection_id: z.string().optional(),
-    categories: z.array(IdAssociation).optional(),
+    categories: z.array(IdAssociation).max(1).optional(),
     tags: z.array(IdAssociation).optional(),
     options: z.array(CreateProductOption).optional(),
     variants: z.array(CreateProductVariant).optional(),
@@ -497,12 +517,27 @@ export const VendorCreateProduct = z
     origin_country: z.string().optional(),
     material: z.string().optional(),
     metadata: z.record(z.unknown()).optional(),
-    sales_channels: z.array(z.object({ id: z.string() })).optional()
+    sales_channels: z.array(z.object({ id: z.string() })).optional(),
+    brand_name: z.string().optional()
   })
   .strict()
+/**
+ * @schema VendorCreateProduct
+ * type: object
+ * allOf:
+ *   - $ref: "#/components/schemas/CreateProduct"
+ *   - type: object
+ *     properties:
+  *      additional_data:
+  *        type: object
+  *        description: Additional data to use in products hooks.
+  *        additionalProperties: true
+ * 
+ */
+export const VendorCreateProduct = WithAdditionalData(CreateProduct)
 
 /**
- * @schema VendorUpdateProduct
+ * @schema UpdateProduct
  * type: object
  * properties:
  *   title:
@@ -524,10 +559,6 @@ export const VendorCreateProduct = z
  *     description: The product variants to update.
  *     items:
  *       $ref: "#/components/schemas/UpdateProductVariant"
- *   status:
- *     type: string
- *     enum: [draft, proposed, published, rejected]
- *     description: The status of the product.
  *   subtitle:
  *     type: string
  *     nullable: true
@@ -631,15 +662,14 @@ export const VendorCreateProduct = z
  *         id:
  *           type: string
  */
-export type VendorUpdateProductType = z.infer<typeof VendorUpdateProduct>
-export const VendorUpdateProduct = z
+export type VendorUpdateProductType = z.infer<typeof UpdateProduct> & AdditionalData
+export const UpdateProduct = z
   .object({
     title: z.string().optional(),
     discountable: z.boolean().optional(),
     is_giftcard: z.boolean().optional(),
     options: z.array(UpdateProductOption).optional(),
     variants: z.array(UpdateProductVariant).optional(),
-    status: z.nativeEnum(ProductStatus).optional(),
     subtitle: z.string().nullish(),
     description: z.string().nullish(),
     images: z.array(z.object({ url: z.string() })).optional(),
@@ -648,7 +678,7 @@ export const VendorUpdateProduct = z
     type_id: z.string().nullish(),
     external_id: z.string().nullish(),
     collection_id: z.string().nullish(),
-    categories: z.array(IdAssociation).optional(),
+    categories: z.array(IdAssociation).max(1).optional(),
     tags: z.array(IdAssociation).optional(),
     weight: z.number().nullish(),
     length: z.number().nullish(),
@@ -662,3 +692,36 @@ export const VendorUpdateProduct = z
     sales_channels: z.array(z.object({ id: z.string() })).optional()
   })
   .strict()
+
+/**
+ * @schema VendorUpdateProduct
+ * type: object
+ * allOf:
+ *   - $ref: "#/components/schemas/UpdateProduct"
+ *   - type: object
+ *     properties:
+  *      additional_data:
+  *        type: object
+  *        description: Additional data to use in products hooks.
+  *        additionalProperties: true
+ * 
+ */
+export const VendorUpdateProduct = WithAdditionalData(UpdateProduct)
+
+/**
+ * @schema VendorUpdateProductStatus
+ * type: object
+ * required:
+ *   - title
+ * properties:
+ *   status:
+ *     type: string
+ *     enum: [draft, proposed, published, rejected]
+ *     description: The status of the product.
+ */
+export type VendorUpdateProductStatusType = z.infer<
+  typeof VendorUpdateProductStatus
+>
+export const VendorUpdateProductStatus = z.object({
+  status: z.nativeEnum(ProductStatus)
+})

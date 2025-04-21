@@ -28,7 +28,7 @@ import { ContainerRegistrationKeys } from '@medusajs/framework/utils'
  *     in: query
  *     schema:
  *       type: string
- *       enum: [product,product_collection,product_category,seller]
+ *       enum: [product,product_collection,product_category,seller,review_remove,product_type]
  *     required: false
  *     description: Filter by request type
  *   - name: status
@@ -72,9 +72,9 @@ export async function GET(
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
   const { data: requests, metadata } = await query.graph({
     entity: 'request',
-    fields: req.remoteQueryConfig.fields,
+    fields: req.queryConfig.fields,
     filters: req.filterableFields,
-    pagination: req.remoteQueryConfig.pagination
+    pagination: req.queryConfig.pagination
   })
 
   res.json({

@@ -1,11 +1,10 @@
-import { filterBySellerId } from '#/shared/infra/http/middlewares'
-
 import {
   validateAndTransformBody,
   validateAndTransformQuery
 } from '@medusajs/framework'
 import { MiddlewareRoute } from '@medusajs/medusa'
 
+import { filterBySellerId } from '../../../shared/infra/http/middlewares'
 import { vendorMemberInviteQueryConfig } from './query-config'
 import {
   VendorAcceptMemberInvite,
@@ -18,11 +17,11 @@ export const vendorInvitesMiddlewares: MiddlewareRoute[] = [
     method: ['GET'],
     matcher: '/vendor/invites',
     middlewares: [
-      filterBySellerId(),
       validateAndTransformQuery(
         VendorGetMemberInviteParams,
         vendorMemberInviteQueryConfig.list
-      )
+      ),
+      filterBySellerId()
     ]
   },
   {

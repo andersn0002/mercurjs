@@ -21,18 +21,41 @@ module.exports = defineConfig({
     { resolve: './src/modules/configuration' },
     { resolve: './src/modules/order-return-request' },
     { resolve: './src/modules/requests' },
-    { resolve: './src/modules/default-shipping-options' },
+    { resolve: './src/modules/reviews' },
+    { resolve: './src/modules/brand' },
     {
       resolve: './src/modules/taxcode',
       options: {
         apiKey: process.env.STRIPE_SECRET_API_KEY
       }
     },
+    { resolve: './src/modules/commission' },
     {
       resolve: './src/modules/payout',
       options: {
         apiKey: process.env.STRIPE_SECRET_API_KEY,
         webhookSecret: process.env.STRIPE_CONNECTED_ACCOUNTS_WEBHOOK_SECRET
+      }
+    },
+    {
+      resolve: '@medusajs/medusa/file',
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/medusa/file-local',
+            id: 'local',
+            options: {
+              backend_url: process.env.BACKEND_URL
+            }
+          }
+        ]
+      }
+    },
+    {
+      resolve: './src/modules/algolia',
+      options: {
+        apiKey: process.env.ALGOLIA_API_KEY,
+        appId: process.env.ALGOLIA_APP_ID
       }
     },
     {
@@ -50,19 +73,35 @@ module.exports = defineConfig({
       }
     },
     {
-      resolve: '@medusajs/medusa/fulfillment',
+      resolve: '@medusajs/medusa/notification',
       options: {
         providers: [
           {
-            resolve: '@medusajs/medusa/fulfillment-manual',
-            id: 'manual'
-          },
-          {
-            resolve: './src/modules/easypost',
-            id: 'easypost',
+            resolve: './src/modules/resend',
+            id: 'resend',
             options: {
-              apiKey: process.env.EASYPOST_API_KEY || 'supersecret',
-              mockEasyPostClient: true
+              channels: ['email'],
+              api_key: process.env.RESEND_API_KEY,
+              from: process.env.RESEND_FROM_EMAIL
+            }
+          }
+        ]
+      }
+    },
+    {
+      resolve: '@medusajs/medusa/file',
+      options: {
+        providers: [
+          {
+            resolve: '@medusajs/medusa/file-s3',
+            id: 's3',
+            options: {
+              file_url: process.env.S3_FILE_URL,
+              access_key_id: process.env.S3_ACCESS_KEY_ID,
+              secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
+              region: process.env.S3_REGION,
+              bucket: process.env.S3_BUCKET,
+              endpoint: process.env.S3_ENDPOINT
             }
           }
         ]

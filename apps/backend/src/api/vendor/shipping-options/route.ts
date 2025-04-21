@@ -1,26 +1,18 @@
-import sellerShippingOption from '#/links/seller-shipping-option'
-
 import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import { ContainerRegistrationKeys, Modules } from '@medusajs/framework/utils'
 import { createShippingOptionsWorkflow } from '@medusajs/medusa/core-flows'
 
+import sellerShippingOption from '../../../links/seller-shipping-option'
 import { SELLER_MODULE } from '../../../modules/seller'
-import { fetchSellerByAuthActorId } from '../../../shared/infra/http/utils'
+import { fetchSellerByAuthContext } from '../../../shared/infra/http/utils'
 import { VendorCreateShippingOptionType } from './validators'
 
 /**
- * @oas [post] /vendor/service-zones/{id}/shipping-options
+ * @oas [post] /vendor/shipping-options
  * operationId: "VendorCreateShippingOption"
  * summary: "Create a Shipping Option"
- * description: "Creates a Shipping Option for a Service Zone."
+ * description: "Creates a Shipping Option for authenticated vendor."
  * x-authenticated: true
- * parameters:
- *   - in: path
- *     name: id
- *     required: true
- *     description: The ID of the Service Zone.
- *     schema:
- *       type: string
  * requestBody:
  *   content:
  *     application/json:
@@ -49,10 +41,7 @@ export const POST = async (
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
   const remoteLink = req.scope.resolve(ContainerRegistrationKeys.REMOTE_LINK)
 
-  const seller = await fetchSellerByAuthActorId(
-    req.auth_context?.actor_id,
-    req.scope
-  )
+  const seller = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
   const { result } = await createShippingOptionsWorkflow(req.scope).run({
     input: [
@@ -74,32 +63,25 @@ export const POST = async (
   })
 
   const {
-    data: [shippingOption]
+    data: [shipping_option]
   } = await query.graph(
     {
       entity: 'shipping_option',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: { id: result[0].id }
     },
     { throwIfKeyNotFound: true }
   )
 
-  res.status(201).json({ shipping_option: shippingOption })
+  res.status(201).json({ shipping_option })
 }
 
 /**
- * @oas [get] /vendor/service-zones/{id}/shipping-options
+ * @oas [get] /vendor/shipping-options
  * operationId: "VendorListShippingOptions"
  * summary: "List Shipping Options"
- * description: "Retrieves a list of Shipping Options for a Service Zone."
+ * description: "Retrieves a list of Shipping Options for authenticated vendor."
  * x-authenticated: true
- * parameters:
- *   - in: path
- *     name: id
- *     required: true
- *     description: The ID of the Service Zone.
- *     schema:
- *       type: string
  * responses:
  *   "200":
  *     description: OK
@@ -135,11 +117,9 @@ export const GET = async (
 
   const { data: sellerShippingOptions, metadata } = await query.graph({
     entity: sellerShippingOption.entryPoint,
-    fields: req.remoteQueryConfig.fields.map(
-      (field) => `shipping_option.${field}`
-    ),
+    fields: req.queryConfig.fields.map((field) => `shipping_option.${field}`),
     filters: req.filterableFields,
-    pagination: req.remoteQueryConfig.pagination
+    pagination: req.queryConfig.pagination
   })
 
   res.json({

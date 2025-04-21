@@ -1,11 +1,19 @@
-import { PayoutAccountDTO } from '#/modules/payout/types'
+import { PayoutAccountDTO } from '../../../modules/payout/types'
 
 export type SellerDTO = {
   id: string
   created_at: Date
   updated_at: Date
   name: string
+  email: string | null
+  phone: string | null
   description: string | null
+  address_line: string | null
+  city: string | null
+  state: string | null
+  postal_code: string | null
+  country_code: string | null
+  tax_id: string | null
   handle: string
   photo: string | null
   members?: Partial<MemberDTO>[]
@@ -26,6 +34,7 @@ export type MemberDTO = {
   created_at: Date
   updated_at: Date
   role: MemberRole
+  email: string | null
   name: string | null
   bio: string | null
   photo: string | null
@@ -43,4 +52,17 @@ export type MemberInviteDTO = {
   token: string
   expires_at: Date
   accepted: boolean
+}
+
+export type SellerApiKeyDTO = {
+  id: string
+  seller_id: string
+  token: string
+  redacted: string
+  title: string
+  created_by: string
+  revoked_by: string | null
+  revoked_at: Date | null
+  created_at: Date
+  updated_at: Date | null
 }

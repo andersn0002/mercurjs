@@ -1,9 +1,8 @@
-import { fetchSellerByAuthActorId } from '#/shared/infra/http/utils'
-import { inviteMemberWorkflow } from '#/workflows/member/workflows'
-
 import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import { ContainerRegistrationKeys } from '@medusajs/framework/utils'
 
+import { fetchSellerByAuthActorId } from '../../../shared/infra/http/utils'
+import { inviteMemberWorkflow } from '../../../workflows/member/workflows'
 import { VendorInviteMemberType } from './validators'
 
 /**
@@ -39,10 +38,7 @@ export const POST = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
-  const seller = await fetchSellerByAuthActorId(
-    req.auth_context.actor_id,
-    req.scope
-  )
+  const seller = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
   const { result: created } = await inviteMemberWorkflow(req.scope).run({
     input: {
@@ -55,8 +51,8 @@ export const POST = async (
     data: [invite]
   } = await query.graph(
     {
-      entity: 'invite',
-      fields: req.remoteQueryConfig.fields,
+      entity: 'member_invite',
+      fields: req.queryConfig.fields,
       filters: { id: created.id }
     },
     { throwIfKeyNotFound: true }
@@ -126,11 +122,11 @@ export const GET = async (
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
   const { data: invites, metadata } = await query.graph({
-    entity: 'invite',
-    fields: req.remoteQueryConfig.fields,
+    entity: 'member_invite',
+    fields: req.queryConfig.fields,
     filters: req.filterableFields,
     pagination: {
-      ...req.remoteQueryConfig.pagination
+      ...req.queryConfig.pagination
     }
   })
 

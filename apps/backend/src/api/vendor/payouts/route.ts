@@ -1,10 +1,10 @@
-import sellerPayoutAccount from '#/links/seller-payout-account'
-
 import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import {
   ContainerRegistrationKeys,
   MedusaError
 } from '@medusajs/framework/utils'
+
+import sellerPayoutAccount from '../../../links/seller-payout-account'
 
 export const GET = async (
   req: AuthenticatedMedusaRequest,
@@ -29,11 +29,11 @@ export const GET = async (
 
   const { data: payouts, metadata } = await query.graph({
     entity: 'payout',
-    fields: req.remoteQueryConfig.fields,
+    fields: req.queryConfig.fields,
     filters: {
       payout_account_id: sellerPayoutAccountRelation.payout_account_id
     },
-    pagination: req.remoteQueryConfig.pagination
+    pagination: req.queryConfig.pagination
   })
 
   res.json({

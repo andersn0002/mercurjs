@@ -9,6 +9,7 @@ import {
   updateProductsWorkflow
 } from '@medusajs/medusa/core-flows'
 
+import { getAvgRating } from '../../../../modules/reviews/utils'
 import {
   VendorGetProductParamsType,
   VendorUpdateProductType
@@ -60,13 +61,15 @@ export const GET = async (
   } = await query.graph(
     {
       entity: 'product',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: { id: req.params.id }
     },
     { throwIfKeyNotFound: true }
   )
 
-  res.json({ product })
+  const rating = await getAvgRating(req.scope, 'product', req.params.id)
+
+  res.json({ product: { ...product, rating } })
 }
 
 /**
@@ -115,10 +118,14 @@ export const POST = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
+  const { additional_data, ...update } = req.validatedBody
+
   const { result } = await updateProductsWorkflow(req.scope).run({
     input: {
       // @ts-expect-error: updateProductsWorkflow does not support null values
-      products: [req.validatedBody]
+      update,
+      selector: { id: req.params.id },
+      additional_data
     }
   })
 
@@ -127,7 +134,7 @@ export const POST = async (
   } = await query.graph(
     {
       entity: 'product',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: { id: result[0].id }
     },
     { throwIfKeyNotFound: true }

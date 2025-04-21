@@ -2,8 +2,6 @@ import { z } from 'zod'
 
 import { createFindParams } from '@medusajs/medusa/api/utils/validators'
 
-import { VendorCreateProduct } from '../products/validators'
-
 export type VendorGetRequestsParamsType = z.infer<
   typeof VendorGetRequestsParams
 >
@@ -12,7 +10,13 @@ export const VendorGetRequestsParams = createFindParams({
   limit: 50
 }).extend({
   type: z
-    .enum(['product_collection', 'product_category', 'product'])
+    .enum([
+      'product_collection',
+      'product_category',
+      'product',
+      'review_remove',
+      'product_type'
+    ])
     .optional(),
   status: z.enum(['accepted', 'rejected', 'pending']).optional()
 })
@@ -84,7 +88,7 @@ const ProductCollectionRequest = z.object({
 })
 
 /**
- * @schema ProductRequest
+ * @schema ReviewRemoveRequest
  * type: object
  * required:
  *   - type
@@ -93,13 +97,52 @@ const ProductCollectionRequest = z.object({
  *   type:
  *     type: string
  *     description: The type of the request
- *     enum: [product]
+ *     enum: [review_remove]
  *   data:
- *     $ref: "#/components/schemas/VendorCreateProduct"
+ *     type: object
+ *     properties:
+ *       review_id:
+ *         type: string
+ *         description: Id of the review to remove
+ *       reason:
+ *         type: string
+ *         description: The reason to remove review
  */
-const ProductRequest = z.object({
-  type: z.literal('product'),
-  data: VendorCreateProduct
+const ReviewRemoveRequest = z.object({
+  type: z.literal('review_remove'),
+  data: z.object({
+    review_id: z.string(),
+    reason: z.string()
+  })
+})
+
+/**
+ * @schema ProductTypeRequest
+ * type: object
+ * required:
+ *   - type
+ *   - data
+ * properties:
+ *   type:
+ *     type: string
+ *     description: The type of the request
+ *     enum: [product_type]
+ *   data:
+ *     type: object
+ *     properties:
+ *       value:
+ *         type: string
+ *         description: The product type value
+ *       metadata:
+ *         type: object
+ *         description: The product type metadata
+ */
+const ProductTypeRequest = z.object({
+  type: z.literal('product_type'),
+  data: z.object({
+    value: z.string(),
+    metadata: z.record(z.unknown()).nullish()
+  })
 })
 
 /**
@@ -112,15 +155,17 @@ const ProductRequest = z.object({
  *     type: object
  *     description: The resource to be created by request
  *     oneOf:
- *       - $ref: "#/components/schemas/ProductRequest"
  *       - $ref: "#/components/schemas/ProductCollectionRequest"
  *       - $ref: "#/components/schemas/ProductCategoryRequest"
+ *       - $ref: "#/components/schemas/ReviewRemoveRequest"
+ *       - $ref: "#/components/schemas/ProductTypeRequest"
  */
 export type VendorCreateRequestType = z.infer<typeof VendorCreateRequest>
 export const VendorCreateRequest = z.object({
   request: z.discriminatedUnion('type', [
     ProductCategoryRequest,
     ProductCollectionRequest,
-    ProductRequest
+    ReviewRemoveRequest,
+    ProductTypeRequest
   ])
 })

@@ -463,6 +463,11 @@ export interface AdminBatchUpdateProduct {
    * The product's ID.
    */
   id: string;
+  /**
+   * shipping_profile_id
+   * The ID of the product's shipping profile.
+   */
+  shipping_profile_id?: string;
 }
 
 /** The properties to update of a product variant. */
@@ -1389,6 +1394,11 @@ export interface AdminCreateProduct {
    * The ID of the product in an external or third-party system.
    */
   external_id?: string;
+  /**
+   * shipping_profile_id
+   * The ID of the product's shipping profile.
+   */
+  shipping_profile_id?: string;
 }
 
 /** The product category's details. */
@@ -2700,9 +2710,247 @@ export interface AdminDeletePaymentCollectionResponse {
 }
 
 /** The draft order's details. */
+export interface AdminDraftOrder {
+  /** The draft order's payment collections. */
+  payment_collections: AdminPaymentCollection[];
+  /** The draft order's fulfillments. */
+  fulfillments?: AdminOrderFulfillment[];
+  /** The sales channel's details. */
+  sales_channel?: AdminSalesChannel;
+  /** The customer's details. */
+  customer?: AdminCustomer;
+  /** An order address. */
+  shipping_address?: AdminOrderAddress;
+  /** An order address. */
+  billing_address?: AdminOrderAddress;
+  /** The draft order's items. */
+  items: AdminOrderLineItem[];
+  /** The draft order's shipping methods. */
+  shipping_methods: AdminOrderShippingMethod[];
+  /**
+   * status
+   * The draft order's status.
+   */
+  status: string;
+  /**
+   * currency_code
+   * The draft order's currency code.
+   * @example "usd"
+   */
+  currency_code: string;
+  /**
+   * id
+   * The draft order's ID.
+   */
+  id: string;
+  /**
+   * version
+   * The draft order's version.
+   */
+  version: number;
+  /**
+   * region_id
+   * The ID of the region associated with the draft order.
+   */
+  region_id: string;
+  /**
+   * customer_id
+   * The ID of the customer that the draft order belongs to.
+   */
+  customer_id: string;
+  /**
+   * sales_channel_id
+   * The ID of the sales channel that the draft order is placed in.
+   */
+  sales_channel_id: string;
+  /**
+   * email
+   * The customer email associated with the draft order.
+   * @format email
+   */
+  email: string;
+  /**
+   * display_id
+   * The draft order's display ID.
+   */
+  display_id?: number;
+  /** The draft order's payment status. */
+  payment_status:
+    | "not_paid"
+    | "awaiting"
+    | "authorized"
+    | "partially_authorized"
+    | "canceled"
+    | "captured"
+    | "partially_captured"
+    | "partially_refunded"
+    | "refunded"
+    | "requires_action";
+  /** The draft order's fulfillment status. */
+  fulfillment_status:
+    | "canceled"
+    | "not_fulfilled"
+    | "partially_fulfilled"
+    | "fulfilled"
+    | "partially_shipped"
+    | "shipped"
+    | "partially_delivered"
+    | "delivered";
+  /** The draft order's transactions. */
+  transactions?: BaseOrderTransaction[];
+  /** The order's summary details. */
+  summary: BaseOrderSummary;
+  /** The draft order's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+  /**
+   * created_at
+   * The date the draft order was created.
+   * @format date-time
+   */
+  created_at: string;
+  /**
+   * updated_at
+   * The date the draft order was updated.
+   * @format date-time
+   */
+  updated_at: string;
+  /**
+   * original_item_total
+   * The total of the draft order's items including taxes, excluding promotions.
+   */
+  original_item_total: number;
+  /**
+   * original_item_subtotal
+   * The total of the draft order's items excluding taxes, including promotions.
+   */
+  original_item_subtotal: number;
+  /**
+   * original_item_tax_total
+   * The tax total of the draft order's items excluding promotions.
+   */
+  original_item_tax_total: number;
+  /**
+   * item_total
+   * The total of the draft order's items including taxes and promotions.
+   */
+  item_total: number;
+  /**
+   * item_subtotal
+   * The total of the draft order's items excluding taxes, including promotions.
+   */
+  item_subtotal: number;
+  /**
+   * item_tax_total
+   * The tax total of the draft order's items including promotions.
+   */
+  item_tax_total: number;
+  /**
+   * original_total
+   * The draft order's total excluding promotions, including taxes.
+   */
+  original_total: number;
+  /**
+   * original_subtotal
+   * The draft order's total excluding taxes, including promotions.
+   */
+  original_subtotal: number;
+  /**
+   * original_tax_total
+   * The draft order's tax total, excluding promotions.
+   */
+  original_tax_total: number;
+  /**
+   * total
+   * The draft order's total including taxes and promotions.
+   */
+  total: number;
+  /**
+   * subtotal
+   * The draft order's total excluding taxes, including promotions.
+   */
+  subtotal: number;
+  /**
+   * tax_total
+   * The draft order's tax total including promotions.
+   */
+  tax_total: number;
+  /**
+   * discount_total
+   * The draft order's discount or promotions total.
+   */
+  discount_total: number;
+  /**
+   * discount_tax_total
+   * The tax total of draft order's discount or promotion.
+   */
+  discount_tax_total: number;
+  /**
+   * gift_card_total
+   * The draft order's gift card total.
+   */
+  gift_card_total: number;
+  /**
+   * gift_card_tax_total
+   * The tax total of the draft order's gift card.
+   */
+  gift_card_tax_total: number;
+  /**
+   * shipping_total
+   * The draft order's shipping total including taxes and promotions.
+   */
+  shipping_total: number;
+  /**
+   * shipping_subtotal
+   * The draft order's shipping total excluding taxes, including promotions.
+   */
+  shipping_subtotal: number;
+  /**
+   * shipping_tax_total
+   * The tax total of the draft order's shipping.
+   */
+  shipping_tax_total: number;
+  /**
+   * original_shipping_total
+   * The draft order's shipping total including taxes, excluding promotions.
+   */
+  original_shipping_total: number;
+  /**
+   * original_shipping_subtotal
+   * The draft order's shipping total excluding taxes, including promotions.
+   */
+  original_shipping_subtotal: number;
+  /**
+   * original_shipping_tax_total
+   * The tax total of the draft order's shipping excluding promotions.
+   */
+  original_shipping_tax_total: number;
+}
+
+/** The list of draft orders with pagination fields. */
+export interface AdminDraftOrderListResponse {
+  /**
+   * limit
+   * The maximum number of items retrieved.
+   */
+  limit: number;
+  /**
+   * offset
+   * The number of items skipped before retrieving the returned items.
+   */
+  offset: number;
+  /**
+   * count
+   * The total count of items available.
+   */
+  count: number;
+  /** The list of draft orders. */
+  draft_orders: AdminDraftOrder[];
+}
+
+/** The draft order's details. */
 export interface AdminDraftOrderResponse {
-  /** The order's details. */
-  draft_order: AdminOrder;
+  /** The draft order's details. */
+  draft_order: AdminDraftOrder;
 }
 
 /** The exchange's details. */
@@ -5241,12 +5489,7 @@ export interface AdminPaymentCollection {
   /** The payment collection's metadata, can hold custom key-value pairs. */
   metadata?: object;
   /** The payment collection's status. */
-  status:
-    | "canceled"
-    | "not_paid"
-    | "awaiting"
-    | "authorized"
-    | "partially_authorized";
+  status: "canceled" | "not_paid" | "awaiting" | "authorized" | "partially_authorized";
   /** The payment provider used to process the collection's payments and sessions. */
   payment_providers: AdminPaymentProvider[];
   /** The payment collection's payment sessions. */
@@ -5312,13 +5555,7 @@ export interface AdminPaymentSession {
    */
   context?: object;
   /** The payment session's status. */
-  status:
-    | "authorized"
-    | "captured"
-    | "canceled"
-    | "pending"
-    | "requires_more"
-    | "error";
+  status: "authorized" | "captured" | "canceled" | "pending" | "requires_more" | "error";
   /**
    * authorized_at
    * The date the payment session was authorized.
@@ -6523,6 +6760,8 @@ export interface AdminProduct {
    * @format date-time
    */
   deleted_at: string;
+  /** The shipping profile's details.. */
+  shipping_profile?: AdminShippingProfile;
 }
 
 /** The product category's details. */
@@ -8833,6 +9072,130 @@ export interface AdminUpdateCustomerGroup {
   metadata?: object;
 }
 
+/** The data to update in the draft order. */
+export interface AdminUpdateDraftOrder {
+  /**
+   * email
+   * The customer email associated with the draft order.
+   * @format email
+   */
+  email?: string;
+  /** The draft order's shipping address. */
+  shipping_address?: {
+    /**
+     * first_name
+     * The shipping address's first name.
+     */
+    first_name?: string;
+    /**
+     * last_name
+     * The shipping address's last name.
+     */
+    last_name?: string;
+    /**
+     * phone
+     * The shipping address's phone.
+     */
+    phone?: string;
+    /**
+     * company
+     * The shipping address's company.
+     */
+    company?: string;
+    /**
+     * address_1
+     * The first address line.
+     */
+    address_1?: string;
+    /**
+     * address_2
+     * The second address line.
+     */
+    address_2?: string;
+    /**
+     * city
+     * The shipping address's city.
+     */
+    city?: string;
+    /**
+     * country_code
+     * The shipping address's country code.
+     * @example "us"
+     */
+    country_code?: string;
+    /**
+     * province
+     * The shipping address's province.
+     */
+    province?: string;
+    /**
+     * postal_code
+     * The shipping address's postal code.
+     */
+    postal_code?: string;
+    /** The shipping address's metadata, can hold custom key-value pairs. */
+    metadata?: object;
+  };
+  /** The draft order's billing address. */
+  billing_address?: {
+    /**
+     * first_name
+     * The billing address's first name.
+     */
+    first_name?: string;
+    /**
+     * last_name
+     * The billing address's last name.
+     */
+    last_name?: string;
+    /**
+     * phone
+     * The billing address's phone.
+     */
+    phone?: string;
+    /**
+     * company
+     * The billing address's company.
+     */
+    company?: string;
+    /**
+     * address_1
+     * The first address line.
+     */
+    address_1?: string;
+    /**
+     * address_2
+     * The second address line.
+     */
+    address_2?: string;
+    /**
+     * city
+     * The billing address's city.
+     */
+    city?: string;
+    /**
+     * country_code
+     * The billing address's country code.
+     * @example "us"
+     */
+    country_code?: string;
+    /**
+     * province
+     * The billing address's province.
+     */
+    province?: string;
+    /**
+     * postal_code
+     * The billing address's postal code.
+     */
+    postal_code?: string;
+    /** The billing address's metadata, can hold custom key-value pairs. */
+    metadata?: object;
+  };
+  /** The draft order's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+}
+
 /** The details to update in the order. */
 export interface AdminUpdateOrder {
   /**
@@ -8953,6 +9316,8 @@ export interface AdminUpdateOrder {
     /** The address's metadata, can hold custom key-value pairs. */
     metadata?: object;
   };
+  /** The order's metadata, can hold custom key-value pairs. */
+  metadata?: object;
 }
 
 /** the details to update in a price list. */
@@ -9685,14 +10050,7 @@ export interface AdminWorkflowExecution {
   /** The workflow execution's context. */
   context: WorkflowExecutionContext;
   /** The workflow execution's state. */
-  state:
-    | "not_started"
-    | "invoking"
-    | "waiting_to_compensate"
-    | "compensating"
-    | "done"
-    | "reverted"
-    | "failed";
+  state: "not_started" | "invoking" | "waiting_to_compensate" | "compensating" | "done" | "reverted" | "failed";
   /**
    * created_at
    * The date the workflow execution was created.
@@ -9739,12 +10097,7 @@ export interface AdminWorkflowExecutionExecution {
           | "skipped_failure"
           | "timeout";
         /** The invokation step's state. */
-        status:
-          | "idle"
-          | "ok"
-          | "waiting_response"
-          | "temp_failure"
-          | "permanent_failure";
+        status: "idle" | "ok" | "waiting_response" | "temp_failure" | "permanent_failure";
       };
       /** The step's definition details. */
       definition?: {
@@ -9815,12 +10168,7 @@ export interface AdminWorkflowExecutionExecution {
           | "skipped_failure"
           | "timeout";
         /** The compensation function's status. */
-        status:
-          | "idle"
-          | "ok"
-          | "waiting_response"
-          | "temp_failure"
-          | "permanent_failure";
+        status: "idle" | "ok" | "waiting_response" | "temp_failure" | "permanent_failure";
       };
       /**
        * depth
@@ -9989,6 +10337,16 @@ export interface BaseCalculatedPriceSet {
   calculated_price?: object;
   /** The original price's details. */
   original_price?: object;
+  /**
+   * original_amount_with_tax
+   * The amount of the original price with taxes applied.
+   */
+  original_amount_with_tax: number;
+  /**
+   * original_amount_without_tax
+   * The amount of the original price without taxes.
+   */
+  original_amount_without_tax: number;
 }
 
 /** The details of a captured payment. */
@@ -11783,46 +12141,6 @@ export interface BaseOrderShippingMethodTaxLine {
 /** The order's summary details. */
 export interface BaseOrderSummary {
   /**
-   * total
-   * The order's total including taxes and promotions.
-   */
-  total: number;
-  /**
-   * subtotal
-   * The order's total excluding taxes, including promotions.
-   */
-  subtotal: number;
-  /**
-   * total_tax
-   * The order's total taxes.
-   */
-  total_tax: number;
-  /**
-   * ordered_total
-   * The order's total when it was placed.
-   */
-  ordered_total: number;
-  /**
-   * fulfilled_total
-   * The total of the fulfilled items of the order.
-   */
-  fulfilled_total: number;
-  /**
-   * returned_total
-   * The total of the order's returned items.
-   */
-  returned_total: number;
-  /**
-   * return_request_total
-   * The total of the items requested to be returned.
-   */
-  return_request_total: number;
-  /**
-   * write_off_total
-   * The total of the items removed from the order.
-   */
-  write_off_total: number;
-  /**
    * paid_total
    * The total amount paid.
    */
@@ -11832,6 +12150,31 @@ export interface BaseOrderSummary {
    * The total amount refunded.
    */
   refunded_total: number;
+  /**
+   * pending_difference
+   * The difference pending to be processed. If negative, the customer needs a refund. Otherwise, additional payment is required from the customer.
+   */
+  pending_difference: number;
+  /**
+   * current_order_total
+   * The order's current total, could be the total after a change in the order.
+   */
+  current_order_total: number;
+  /**
+   * original_order_total
+   * The order's original total.
+   */
+  original_order_total: number;
+  /**
+   * transaction_total
+   * The total of the transactions made on the order.
+   */
+  transaction_total: number;
+  /**
+   * accounting_total
+   * The order's total without the credit-line total.
+   */
+  accounting_total: number;
 }
 
 /** An order transaction's details. */
@@ -12007,12 +12350,7 @@ export interface BasePaymentCollection {
   /** The payment collection's metadata, can hold custom key-value pairs. */
   metadata?: object;
   /** The payment collection's status. */
-  status:
-    | "canceled"
-    | "not_paid"
-    | "awaiting"
-    | "authorized"
-    | "partially_authorized";
+  status: "canceled" | "not_paid" | "awaiting" | "authorized" | "partially_authorized" | "completed" | "failed";
   /** The payment provider used to process the collection's payments and sessions. */
   payment_providers: BasePaymentProvider[];
   /** The payment collection's payment sessions. */
@@ -12061,13 +12399,7 @@ export interface BasePaymentSession {
    */
   context?: object;
   /** The payment session's status. */
-  status:
-    | "authorized"
-    | "captured"
-    | "canceled"
-    | "pending"
-    | "requires_more"
-    | "error";
+  status: "error" | "authorized" | "canceled" | "captured" | "pending" | "requires_more";
   /**
    * authorized_at
    * The date the payment session was authorized.
@@ -13237,11 +13569,7 @@ export interface CustomerGroupInCustomerFilters {
 /** Response Error */
 export interface Error {
   /** A slug code to indicate the type of the error. */
-  code?:
-    | "invalid_state_error"
-    | "invalid_request_error"
-    | "api_error"
-    | "unknown_error";
+  code?: "invalid_state_error" | "invalid_request_error" | "api_error" | "unknown_error";
   /**
    * Description of the error that occurred.
    * @example "first_name must be a string"
@@ -13320,13 +13648,7 @@ export interface Order {
   version: number;
   order_change?: object;
   /** The order's status. */
-  status:
-    | "canceled"
-    | "requires_action"
-    | "pending"
-    | "completed"
-    | "draft"
-    | "archived";
+  status: "canceled" | "requires_action" | "pending" | "completed" | "draft" | "archived";
   /**
    * region_id
    * The ID of the region the order belongs to.
@@ -13906,6 +14228,11 @@ export interface OrderCreditLine {
    * @format date-time
    */
   updated_at: string;
+  /**
+   * amount
+   * The credit line's amount.
+   */
+  amount: number;
 }
 
 /** The order change's exchange. */
@@ -14438,6 +14765,11 @@ export interface OrderReturnItem {
    * @format date-time
    */
   updated_at?: string;
+  /**
+   * damaged_quantity
+   * The item's damaged quantity.
+   */
+  damaged_quantity?: number;
 }
 
 /** The shipping method's details. */
@@ -14706,6 +15038,11 @@ export interface OrderTransaction {
    */
   updated_at: string;
   order: object;
+  /**
+   * version
+   * The order version that the transaction belongs to.
+   */
+  version: number;
 }
 
 /** The refund reason's details. */
@@ -14982,6 +15319,16 @@ export interface StoreCalculatedPrice {
      */
     max_quantity: number;
   };
+  /**
+   * original_amount_with_tax
+   * The original amount with taxes applied.
+   */
+  original_amount_with_tax: number;
+  /**
+   * original_amount_without_tax
+   * The original amount without taxes.
+   */
+  original_amount_without_tax: number;
 }
 
 /** The cart's details. */
@@ -15154,6 +15501,14 @@ export interface StoreCart {
    * The total taxes applied on the cart's shipping amount.
    */
   original_shipping_tax_total: number;
+  /** The cart's promotions. */
+  promotions: StoreCartPromotion[];
+}
+
+/** The promotion's details. */
+export interface StoreCartAddPromotion {
+  /** Promotion codes to add to the cart. */
+  promo_codes: string[];
 }
 
 /** The address's details. */
@@ -15571,6 +15926,40 @@ export interface StoreCartLineItem {
   discount_tax_total: number;
 }
 
+/** The promotion's promotions. */
+export interface StoreCartPromotion {
+  /**
+   * id
+   * The promotion's ID.
+   */
+  id: string;
+  /**
+   * code
+   * The promotion's code.
+   */
+  code?: string;
+  /**
+   * is_automatic
+   * The promotion's is automatic.
+   */
+  is_automatic?: boolean;
+  /** The promotion's application method. */
+  application_method?: {
+    /**
+     * value
+     * The application method's value.
+     */
+    value: string;
+    /** The application method's type. */
+    type: "fixed" | "percentage";
+    /**
+     * currency_code
+     * The application method's currency code.
+     */
+    currency_code: string;
+  };
+}
+
 /** The cart's details. */
 export interface StoreCartResponse {
   /** The cart's details. */
@@ -15880,6 +16269,11 @@ export interface StoreCartShippingOption {
   prices: StorePrice[];
   /** The shipping option's calculated price. */
   calculated_price: StoreCalculatedPrice;
+  /**
+   * insufficient_inventory
+   * Whether the shipping option's location doesn't have sufficient quantity for any of the cart's items.
+   */
+  insufficient_inventory: boolean;
 }
 
 /** The collection's details. */
@@ -16361,8 +16755,6 @@ export interface StoreInitializePaymentSession {
    * @example "pp_stripe_stripe"
    */
   provider_id: string;
-  /** The payment's context, such as the customer or address details. If the customer is logged-in, the customer `id` is set in the context under a `customer.id` property. */
-  context?: object;
   /** Any data necessary for the payment provider to process the payment. */
   data?: object;
 }
@@ -21827,12 +22219,7 @@ export interface StorePaymentCollection {
   /** The payment collection's metadata, can hold custom key-value pairs. */
   metadata?: object;
   /** The payment collection's status. */
-  status:
-    | "canceled"
-    | "not_paid"
-    | "awaiting"
-    | "authorized"
-    | "partially_authorized";
+  status: "canceled" | "not_paid" | "awaiting" | "authorized" | "partially_authorized";
   /** The payment provider used to process the collection's payments and sessions. */
   payment_providers: StorePaymentProvider[];
   /** The payment collection's payment sessions. */
@@ -21887,13 +22274,7 @@ export interface StorePaymentSession {
    */
   context?: object;
   /** The payment session's status. */
-  status:
-    | "authorized"
-    | "captured"
-    | "canceled"
-    | "pending"
-    | "requires_more"
-    | "error";
+  status: "authorized" | "captured" | "canceled" | "pending" | "requires_more" | "error";
   /**
    * authorized_at
    * The date the payment session was authorized.
@@ -23101,6 +23482,152 @@ export interface WorkflowExecutionContext {
 }
 
 /**
+ * CommissionAggregate
+ * Commission aggregate object
+ */
+export interface AdminCommissionAggregate {
+  /** The unique identifier. */
+  id?: string;
+  /** Commission rule name. */
+  name?: string;
+  /** Commission rate type. */
+  type?: "flat" | "percentage";
+  /** Rule reference type */
+  reference?: string;
+  /** Rule reference id */
+  reference_id?: string;
+  /** Indicates if rule is active. */
+  is_active?: boolean;
+  /** Indicates if rate is calculated including tax. */
+  include_tax?: boolean;
+  /** Percent of commission. */
+  percentage_rate?: number;
+  /** Flat rate price id */
+  price_id?: string;
+  /** Flat rate price currency code */
+  price_currency?: string;
+  /** Flat rate price amount */
+  price_amount?: string;
+  /** Min price id */
+  min_price_id?: string;
+  /** Min price currency code */
+  min_price_currency?: string;
+  /** Min price amount */
+  min_price_amount?: string;
+  /** Max price id */
+  max_price_id?: string;
+  /** Max price currency code */
+  max_price_currency?: string;
+  /** Max price amount */
+  max_price_amount?: string;
+  /** Aggregated fee value */
+  fee_value?: string;
+  /** Aggregated reference value */
+  ref_value?: string;
+}
+
+/**
+ * CommissionRate
+ * Commission rate object
+ */
+export interface AdminCommissionRate {
+  /** The unique identifier. */
+  id?: string;
+  /** Commission rate type. */
+  type?: "flat" | "percentage";
+  /** Percent of commission. */
+  percentage_rate?: number;
+  /** Indicates if rate is calculated including tax. */
+  include_tax?: boolean;
+  /** Flat commission value. */
+  price_set_id?: string;
+  /** Min commission value. */
+  min_price_set_id?: string;
+  /** Max commission value. */
+  max_price_set_id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
+export interface AdminCommissionRatePrice {
+  /** Currency of the price. */
+  currency_code?: string;
+  /** The subtitle of the product. */
+  amount?: number;
+}
+
+/**
+ * CommissionRule
+ * Commission rule object
+ */
+export interface AdminCommissionRule {
+  /** The unique identifier. */
+  id?: string;
+  /** Commission rule name. */
+  name?: string;
+  /** Rule reference type */
+  reference?: string;
+  /** Rule reference id */
+  reference_id?: string;
+  /** Indicates if rule is active. */
+  is_active?: boolean;
+  /** Commission rate object */
+  rate?: AdminCommissionRate;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
+export interface AdminCreateCommissionRate {
+  /** Rate type. */
+  type?: "flat" | "percentage";
+  /** The subtitle of the product. */
+  percentage_rate?: number;
+  /** The description of the product. */
+  include_tax?: boolean;
+  price_set?: AdminCommissionRatePrice;
+  min_price_set?: AdminCommissionRatePrice;
+  max_price_set?: AdminCommissionRatePrice;
+}
+
+export interface AdminCreateCommissionRule {
+  /** Commission rule name. */
+  name?: string;
+  /** Rule reference type */
+  reference?: string;
+  /** Rule reference id */
+  reference_id?: string;
+  /** Indicates if rule is active. */
+  is_active?: boolean;
+  rate?: AdminCreateCommissionRate;
+}
+
+export interface AdminCreateRule {
+  /** The type of the rule */
+  rule_type?:
+    | "global_product_catalog"
+    | "require_product_approval"
+    | "product_request_enabled"
+    | "product_import_enabled";
+  is_enabled?: boolean;
+}
+
+/**
  * Order return request
  * A return request object with its properties
  */
@@ -23199,8 +23726,13 @@ export interface AdminReviewRequest {
   reviewer_note?: string;
   /** A status of the request */
   status?: "accepted" | "rejected";
-  /** Assign product to seller (applicable only to Product request) */
-  assign_product_to_seller?: boolean;
+}
+
+export interface AdminUpdateCommissionRule {
+  /** Commission rule name. */
+  name?: string;
+  /** Indicates if rule is active. */
+  is_active?: boolean;
 }
 
 /**
@@ -23212,6 +23744,107 @@ export interface AdminUpdateOrderReturnRequest {
   admin_reviewer_note?: string;
   /** A status of the request */
   status?: "refunded" | "canceled";
+}
+
+export interface AdminUpdateRule {
+  is_enabled?: boolean;
+}
+
+export interface AdminUpsertDefaultCommissionRule {
+  /** Commission rule name. */
+  name?: string;
+  /** Rule reference type */
+  reference?: "site";
+  /** Rule reference id */
+  reference_id?: string;
+  /** Indicates if rule is active. */
+  is_active?: boolean;
+  rate?: AdminCreateCommissionRate;
+}
+
+/**
+ * Configuration rule
+ * A configuration rule object
+ */
+export interface ConfigurationRule {
+  /** The unique identifier of the rule. */
+  id?: string;
+  /** The unique type of the rule. */
+  rule_type?: string;
+  /** Flag that indicates if rule is enabled. */
+  is_enabled?: boolean;
+}
+
+export interface CreateProduct {
+  /** The title of the product. */
+  title: string;
+  /** The subtitle of the product. */
+  subtitle?: string;
+  /** The description of the product. */
+  description?: string;
+  /**
+   * Whether the product is a gift card.
+   * @default false
+   */
+  is_giftcard?: boolean;
+  /**
+   * Whether the product can be discounted.
+   * @default true
+   */
+  discountable?: boolean;
+  /** Images of the product. */
+  images?: {
+    url: string;
+  }[];
+  /** The thumbnail of the product. */
+  thumbnail?: string;
+  /** A unique handle to identify the product. */
+  handle?: string;
+  /**
+   * The status of the product.
+   * @default "draft"
+   */
+  status?: "draft" | "proposed" | "published" | "rejected";
+  /** The external ID of the product. */
+  external_id?: string;
+  /** The ID of the product type. */
+  type_id?: string;
+  /** The ID of the collection the product belongs to. */
+  collection_id?: string;
+  /** Categories the product belongs to. */
+  categories?: {
+    id: string;
+  }[];
+  /** Tags associated with the product. */
+  tags?: {
+    id: string;
+  }[];
+  /** Product options. */
+  options?: CreateProductOption[];
+  /** Product variants. */
+  variants?: CreateProductVariant[];
+  /** The weight of the product. */
+  weight?: number;
+  /** The length of the product. */
+  length?: number;
+  /** The height of the product. */
+  height?: number;
+  /** The width of the product. */
+  width?: number;
+  /** The HS code of the product. */
+  hs_code?: string;
+  /** The MID code of the product. */
+  mid_code?: string;
+  /** The country of origin of the product. */
+  origin_country?: string;
+  /** The material composition of the product. */
+  material?: string;
+  /** Additional metadata for the product. */
+  metadata?: object;
+  /** Sales channels to associate the product with. */
+  sales_channels?: {
+    id: string;
+  }[];
 }
 
 export interface CreateProductOption {
@@ -23433,10 +24066,86 @@ export interface ProductCollectionRequest {
   };
 }
 
-export interface ProductRequest {
+export interface ProductTypeRequest {
   /** The type of the request */
-  type: "product";
-  data: VendorCreateProduct;
+  type: "product_type";
+  data: {
+    /** The product type value */
+    value?: string;
+    /** The product type metadata */
+    metadata?: object;
+  };
+}
+
+/**
+ * Seller/product review
+ * A product/seller review with rating and comment
+ */
+export interface Review {
+  /** The unique identifier of the review. */
+  id?: string;
+  /** The rating associated with the review. */
+  rating?: number;
+  /** Indicates if review reference is seller or product */
+  reference?: "seller" | "product";
+  /** Customer comment on resource */
+  customer_note?: string | null;
+  /** Id of the customer who left the review */
+  customer_id?: string;
+  /** Seller response to customer review */
+  seller_note?: string | null;
+}
+
+export interface ReviewRemoveRequest {
+  /** The type of the request */
+  type: "review_remove";
+  data: {
+    /** Id of the review to remove */
+    review_id?: string;
+    /** The reason to remove review */
+    reason?: string;
+  };
+}
+
+/**
+ * Api key
+ * A seller api key details
+ */
+export interface SellerApiKey {
+  /** The unique identifier of the api key. */
+  id?: string;
+  /** The api key title. */
+  title?: string;
+  /** The redacted api key value. */
+  redacted?: string;
+  /** The identity that created the api key. */
+  created_by?: string;
+  /** The identity that revoked the api key. */
+  revoked_by?: string;
+  /**
+   * The date with timezone at which the invite expires.
+   * @format date-time
+   */
+  revoked_at?: string;
+}
+
+/**
+ * Api key explicit
+ * A seller api key with explicit token value
+ */
+export interface SellerApiKeyExplicit {
+  /** The unique identifier of the api key. */
+  id?: string;
+  /** The api key title. */
+  title?: string;
+  /** The redacted api key value. */
+  redacted?: string;
+  /** The seller id associated with the api key. */
+  seller_id?: string;
+  /** Explicit api key value. */
+  token?: string;
+  /** The identity that created the api key. */
+  created_by?: string;
 }
 
 /**
@@ -23448,10 +24157,156 @@ export interface StoreCreateOrderReturnRequest {
   order_id?: string;
   /** Customer note. */
   customer_note?: string;
+  /** ID of the shipping option */
+  shipping_option_id?: string;
   /** Array of items to return */
   line_items?: {
     line_item_id?: string;
     quantity?: number;
+  }[];
+}
+
+/**
+ * Create Review
+ * A schema for creating a review.
+ */
+export interface StoreCreateReview {
+  /** Indicates if review reference is seller or product */
+  reference?: "seller" | "product";
+  /** The unique identifier of reference. */
+  reference_id?: string;
+  /**
+   * The customer rating on the resource.
+   * @min 1
+   * @max 5
+   */
+  rating?: number;
+  /**
+   * The customer note on the resource.
+   * @maxLength 300
+   */
+  customer_note?: string;
+}
+
+/**
+ * Seller
+ * A seller object with its properties
+ */
+export interface StoreSeller {
+  /** The unique identifier of the seller. */
+  id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /** The name of the seller. */
+  name?: string;
+  /** A description of the seller. */
+  description?: string | null;
+  /** A unique handle for the seller. */
+  handle?: string;
+  /** Store contact email. */
+  email?: string | null;
+  /** Store contact phone. */
+  phone?: string | null;
+  /** URL to the seller's photo. */
+  photo?: string | null;
+  /** Seller address line. */
+  address_line?: string | null;
+  /** Seller postal code. */
+  postal_code?: string | null;
+  /** Seller city. */
+  city?: string | null;
+  /** Seller state. */
+  state?: string | null;
+  /** Seller country code. */
+  country_code?: string | null;
+  /** Seller tax id. */
+  tax_id?: string | null;
+}
+
+/**
+ * Update Review
+ * A schema for the review update.
+ */
+export interface StoreUpdateReview {
+  /**
+   * The customer rating on the resource.
+   * @min 1
+   * @max 5
+   */
+  rating?: number;
+  /**
+   * The customer note on the resource.
+   * @maxLength 300
+   */
+  customer_note?: string;
+}
+
+export interface UpdateProduct {
+  /** The title of the product. */
+  title?: string;
+  /** Whether the product can be discounted. */
+  discountable?: boolean;
+  /** Whether the product is a gift card. */
+  is_giftcard?: boolean;
+  /** The product options to update. */
+  options?: UpdateProductOption[];
+  /** The product variants to update. */
+  variants?: UpdateProductVariant[];
+  /** The subtitle of the product. */
+  subtitle?: string | null;
+  /** The description of the product. */
+  description?: string | null;
+  /** Images of the product. */
+  images?: {
+    url?: string;
+  }[];
+  /** The thumbnail of the product. */
+  thumbnail?: string | null;
+  /** The handle of the product. */
+  handle?: string | null;
+  /** The ID of the product type. */
+  type_id?: string | null;
+  /** The external ID of the product. */
+  external_id?: string | null;
+  /** The ID of the collection the product belongs to. */
+  collection_id?: string | null;
+  /** Product category IDs to associate with the product. */
+  categories?: {
+    id: string;
+  }[];
+  /** Product tag IDs to associate with the product. */
+  tags?: {
+    id: string;
+  }[];
+  /** The weight of the product. */
+  weight?: number | null;
+  /** The length of the product. */
+  length?: number | null;
+  /** The height of the product. */
+  height?: number | null;
+  /** The width of the product. */
+  width?: number | null;
+  /** The HS code of the product. */
+  hs_code?: string | null;
+  /** The MID code of the product. */
+  mid_code?: string | null;
+  /** The country of origin of the product. */
+  origin_country?: string | null;
+  /** The material composition of the product. */
+  material?: string | null;
+  /** Additional metadata for the product. */
+  metadata?: object | null;
+  /** Sales channels to associate the product with. */
+  sales_channels?: {
+    id: string;
   }[];
 }
 
@@ -23548,12 +24403,192 @@ export interface VendorAcceptMemberInvite {
   name: string;
 }
 
+/**
+ * Promotion Application Method
+ * Application method object
+ */
+export interface VendorApplicationMethod {
+  /** The unique identifier of the item. */
+  id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /** Description of the promotion. */
+  description?: string;
+  /** The percentage value of the promotion. */
+  value?: number;
+  /** The max quantity of the items. */
+  max_quantity?: string;
+  /** Apply to quantity of the items. */
+  apply_to_quantity?: string;
+  /** Buy ruyles min quantity of the items. */
+  buy_rules_min_quantity?: string;
+  /** The type of the application method. */
+  type?: string;
+  /** The target type of the application method. */
+  target_type?: string;
+  /** The allocation of the application method. */
+  allocation?: string;
+  /** Promotion target rules. */
+  target_rules?: VendorPromotionRule[];
+}
+
+export interface VendorAssignBrandName {
+  /** The name of the brand. */
+  brand_name: string;
+}
+
+export interface VendorBatchPromotionRule {
+  /** Rules to create. */
+  create?: VendorCreatePromotionRule[];
+  /** Rules to delete. */
+  delete?: string[];
+}
+
+/** The campaign's details. */
+export interface VendorCampaign {
+  /**
+   * id
+   * The campaign's ID.
+   */
+  id?: string;
+  /**
+   * name
+   * The campaign's name.
+   */
+  name?: string;
+  /**
+   * description
+   * The campaign's description.
+   */
+  description?: string;
+  /**
+   * currency
+   * The campaign's currency.
+   */
+  currency?: string;
+  /**
+   * campaign_identifier
+   * The campaign's identifier.
+   */
+  campaign_identifier?: string;
+  /**
+   * starts_at
+   * The date and time that the campaign starts.
+   */
+  starts_at?: string;
+  /**
+   * ends_at
+   * The date and time that the campaign ends.
+   */
+  ends_at?: string;
+  /** The campaign's budget. */
+  budget?: {
+    /**
+     * id
+     * The budget's ID.
+     */
+    id: string;
+    /** The budget's type. `spend` means the limit is set on the total amount discounted by the campaign's promotions; `usage` means the limit is set on the total number of times the campaign's promotions can be used. */
+    type: "spend" | "usage";
+    /**
+     * currency_code
+     * The budget's currency code.
+     */
+    currency_code: string;
+    /**
+     * limit
+     * The budget's limit.
+     */
+    limit: number;
+    /**
+     * used
+     * How much of the budget has been used. If the limit is `spend`, this property holds the total amount discounted so far. If the limit is `usage`, it holds the number of times the campaign's promotions have been used so far.
+     */
+    used: number;
+  };
+  /**
+   * created_at
+   * The date the campaign was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the campaign was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /**
+   * deleted_at
+   * The date the campaign was deleted.
+   * @format date-time
+   */
+  deleted_at?: string;
+}
+
+export interface VendorCreateApplicationMethod {
+  /** Description of the promotion. */
+  description?: string;
+  /** The percentage value of the promotion. */
+  value?: number;
+  /** The max quantity of the items. */
+  max_quantity?: string;
+  /** Apply to quantity of the items. */
+  apply_to_quantity?: string;
+  /** Buy ruyles min quantity of the items. */
+  buy_rules_min_quantity?: string;
+  /** The type of the application method. */
+  type?: "percentage";
+  /** The target type of the application method. */
+  target_type?: "items";
+  /** The allocation of the application method. */
+  allocation?: "each" | "across";
+  /** Promotion target rules. */
+  target_rules?: VendorCreatePromotionRule[];
+}
+
+export interface VendorCreateCampaign {
+  /** The campaign's name. */
+  name?: string;
+  /** The campaign's identifier. */
+  campaign_identifier?: string;
+  /** The campaign's description. */
+  description?: string;
+  /** The date and time that the campaign starts. */
+  starts_at?: string;
+  /** The date and time that the campaign ends. */
+  ends_at?: string;
+  budget?: VendorCreateCampaignBudget;
+}
+
+export interface VendorCreateCampaignBudget {
+  /** The budget's type. */
+  type?: "spend" | "usage";
+  /** The buget's limit. */
+  limit?: number;
+  /** The budget's currency_code. */
+  currency_code?: string;
+}
+
+/** Create customer group details */
+export interface VendorCreateCustomerGroup {
+  /** Customer group name */
+  name?: string;
+}
+
 export interface VendorCreateFulfillment {
-  /** The number of items to return. Default 50. */
   requires_shipping?: boolean;
-  /** The number of items to skip before starting the response. Default 0. */
+  /** The location id. */
   location_id?: string;
-  /** Sales channels to associate the product with. */
+  /** Items to create fulfillment. */
   items?: {
     id?: string;
     quantity?: number;
@@ -23575,6 +24610,11 @@ export interface VendorCreateInventoryLevel {
    * The inventory level in stock.
    */
   stocked_quantity?: number;
+  /**
+   * reserved_quantity
+   * The quantity reserved from the available stocked_quantity.
+   */
+  reserved_quantity?: number;
 }
 
 export interface VendorCreateOnboarding {
@@ -23587,81 +24627,109 @@ export interface VendorCreatePayoutAccount {
   context?: object | null;
 }
 
-export interface VendorCreateProduct {
-  /** The title of the product. */
-  title: string;
-  /** The subtitle of the product. */
-  subtitle?: string;
-  /** The description of the product. */
-  description?: string;
+export interface VendorCreatePriceList {
   /**
-   * Whether the product is a gift card.
+   * title
+   * The price list's title.
+   */
+  title?: string;
+  /**
+   * description
+   * The price list's description.
+   */
+  description?: string;
+  /** The price list's rules. */
+  rules?: object;
+  /**
+   * starts_at
+   * The date the price list starts.
+   */
+  starts_at?: string;
+  /**
+   * ends_at
+   * The date the price list ends.
+   */
+  ends_at?: string;
+  /** The price list's status. */
+  status?: "draft" | "active";
+  /** The price list's type. */
+  type?: "sale" | "override";
+  /** The price list's prices. */
+  prices?: VendorCreatePriceListPrice[];
+}
+
+export interface VendorCreatePriceListPrice {
+  /**
+   * variant_id
+   * The ID of the product variant this price list is for.
+   */
+  variant_id?: string;
+  /** The price's rules. */
+  rules?: object;
+  /**
+   * currency_code
+   * The price's currency code.
+   * @example "usd"
+   */
+  currency_code?: string;
+  /**
+   * amount
+   * The price's amount.
+   */
+  amount?: number;
+  /**
+   * min_quantity
+   * The minimum quantity that must be available in the cart for the price to be applied.
+   */
+  min_quantity?: number;
+  /**
+   * max_quantity
+   * The maximum quantity allowed to be available in the cart for the price to be applied.
+   */
+  max_quantity?: number;
+}
+
+export type VendorCreateProduct = CreateProduct & {
+  /** Additional data to use in products hooks. */
+  additional_data?: Record<string, any>;
+};
+
+export interface VendorCreateProductTag {
+  /** The title of the product tag. */
+  value: string;
+  /** Product tag metadata. */
+  metadata?: object;
+}
+
+export interface VendorCreatePromotion {
+  /** The code of the promotion. */
+  code?: string;
+  /**
+   * Whether the promotion is applied automatically.
    * @default false
    */
-  is_giftcard?: boolean;
-  /**
-   * Whether the product can be discounted.
-   * @default true
-   */
-  discountable?: boolean;
-  /** Images of the product. */
-  images?: {
-    url: string;
-  }[];
-  /** The thumbnail of the product. */
-  thumbnail?: string;
-  /** A unique handle to identify the product. */
-  handle?: string;
-  /**
-   * The status of the product.
-   * @default "draft"
-   */
-  status?: "draft" | "proposed" | "published" | "rejected";
-  /** The external ID of the product. */
-  external_id?: string;
-  /** The ID of the product type. */
-  type_id?: string;
-  /** The ID of the collection the product belongs to. */
-  collection_id?: string;
-  /** Categories the product belongs to. */
-  categories?: {
-    id: string;
-  }[];
-  /** Tags associated with the product. */
-  tags?: {
-    id: string;
-  }[];
-  /** Product options. */
-  options?: CreateProductOption[];
-  /** Product variants. */
-  variants?: CreateProductVariant[];
-  /** The weight of the product. */
-  weight?: number;
-  /** The length of the product. */
-  length?: number;
-  /** The height of the product. */
-  height?: number;
-  /** The width of the product. */
-  width?: number;
-  /** The HS code of the product. */
-  hs_code?: string;
-  /** The MID code of the product. */
-  mid_code?: string;
-  /** The country of origin of the product. */
-  origin_country?: string;
-  /** The material composition of the product. */
-  material?: string;
-  /** Additional metadata for the product. */
-  metadata?: object;
-  /** Sales channels to associate the product with. */
-  sales_channels?: {
-    id: string;
-  }[];
+  is_automatic?: boolean;
+  /** The type of the promotion. */
+  type?: "standard";
+  application_method?: VendorCreateApplicationMethod;
+  /** Promotion rules. */
+  rules?: VendorCreatePromotionRule[];
+}
+
+export interface VendorCreatePromotionRule {
+  /** The description of the rule. */
+  description?: string;
+  /** The attribute of the rule. */
+  attribute?: string;
+  /** The operator of the rule. */
+  operator?: "in" | "eq";
+  /** Rule values. */
+  values?: string[];
 }
 
 export interface VendorCreateRequest {
   /** The resource to be created by request */
-  request: ProductRequest | ProductCollectionRequest | ProductCategoryRequest;
+  request: ProductCollectionRequest | ProductCategoryRequest | ReviewRemoveRequest | ProductTypeRequest;
 }
 
 export interface VendorCreateSeller {
@@ -23672,11 +24740,29 @@ export interface VendorCreateSeller {
   name: string;
   /** A description of the seller. */
   description?: string | null;
+  /** Store contact email. */
+  email?: string;
+  /** Store contact phone. */
+  phone?: string;
   /** URL to the seller's photo. */
   photo?: string | null;
+  /** Seller address line. */
+  address_line?: string | null;
+  /** Seller postal code. */
+  postal_code?: string | null;
+  /** Seller city. */
+  city?: string | null;
+  /** Seller state. */
+  state?: string | null;
+  /** Seller country code. */
+  country_code?: string | null;
+  /** Seller tax id. */
+  tax_id?: string | null;
   member: {
     /** The name of the member. */
     name: string;
+    /** The email of the member. */
+    email: string;
     /** The member's biography. */
     bio?: string | null;
     /** The member's phone number. */
@@ -23684,6 +24770,15 @@ export interface VendorCreateSeller {
     /** URL to the member's photo. */
     photo?: string | null;
   };
+}
+
+/**
+ * Create api key
+ * A schema for the api key creation.
+ */
+export interface VendorCreateSellerApiKey {
+  /** The title of the key */
+  title?: string;
 }
 
 export interface VendorCreateServiceZone {
@@ -23720,6 +24815,133 @@ export interface VendorCreateStockLocationFulfillmentSet {
   name: string;
   /** Type of the fulfillment set */
   type: string;
+}
+
+/**
+ * Vendor currency details
+ * Currency object.
+ */
+export interface VendorCurrency {
+  /** The unique identifier of the currency. */
+  id?: string;
+  /** Indicates if currency is default in the store. */
+  is_default?: boolean;
+  /** The currency code. */
+  currency_code?: string;
+}
+
+/**
+ * VendorCustomer
+ * Customer who placed an order in sellers store.
+ */
+export interface VendorCustomer {
+  /** The unique identifier of the customer. */
+  id?: string;
+  /** Company name */
+  company_name?: string | null;
+  /** First name */
+  first_name?: string;
+  /** Last name */
+  last_name?: string;
+  /** Email */
+  email?: string;
+  /** Phone number */
+  phone?: string | null;
+  /** Indicates if customer has account */
+  has_account?: boolean;
+  /** The customer's groups. */
+  groups?: VendorCustomerGroup[];
+}
+
+/**
+ * VendorCustomerGroup
+ * Customer group details.
+ */
+export interface VendorCustomerGroup {
+  /** The unique identifier of the customer. */
+  id?: string;
+  /** Company name */
+  name?: string | null;
+}
+
+/** The order's overview. */
+export interface VendorCustomerOrderOverview {
+  /**
+   * id
+   * The order's ID.
+   */
+  id?: string;
+  /**
+   * version
+   * The order's version.
+   */
+  version?: number;
+  /**
+   * region_id
+   * The ID of the region associated with the order.
+   */
+  region_id?: string;
+  /**
+   * status
+   * The status of the order.
+   */
+  status?: string;
+  /**
+   * customer_id
+   * The ID of the customer that placed the order.
+   */
+  customer_id?: string;
+  /**
+   * sales_channel_id
+   * The ID of the sales channel the order is placed in.
+   */
+  sales_channel_id?: string;
+  /**
+   * email
+   * The email of the customer that placed the order.
+   * @format email
+   */
+  email?: string;
+  /**
+   * currency_code
+   * The order's currency code.
+   */
+  currency_code?: string;
+  /**
+   * display_id
+   * The order's display ID.
+   */
+  display_id?: number;
+  /**
+   * is_draft_order
+   * Indicates if order is draft.
+   */
+  is_draft_order?: boolean;
+  /** The order's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+  /**
+   * created_at
+   * The date the order was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the order was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
+/**
+ * Vendor statistics
+ * Statistics object.
+ */
+export interface VendorDateStatistics {
+  /** Timestamp of the count */
+  date?: string;
+  /** Count of the records */
+  count?: string;
 }
 
 /**
@@ -24033,6 +25255,14 @@ export interface VendorInviteMember {
   role: "owner" | "admin" | "member";
 }
 
+/** Create customer group details */
+export interface VendorLinkCustomersToGroup {
+  /** Customer ids to add. */
+  add?: string[];
+  /** Customer ids to remove. */
+  remove?: string[];
+}
+
 /**
  * Member
  * A member object with its properties
@@ -24213,6 +25443,189 @@ export interface VendorOrderAddress {
   updated_at?: string;
 }
 
+/** The order's change. */
+export interface VendorOrderChange {
+  /**
+   * id
+   * The order change's ID.
+   */
+  id?: string;
+  /**
+   * version
+   * The order change's version. This will be the order's version when the change is applied.
+   */
+  version?: number;
+  /** The order change's type. */
+  change_type?: "return" | "exchange" | "claim" | "edit";
+  /**
+   * order_id
+   * The ID of the order this change applies on.
+   */
+  order_id?: string;
+  /**
+   * return_id
+   * The ID of the associated return.
+   */
+  return_id?: string;
+  /**
+   * exchange_id
+   * The ID of the associated exchange.
+   */
+  exchange_id?: string;
+  /**
+   * claim_id
+   * The ID of the associated claim.
+   */
+  claim_id?: string;
+  /** The order change's actions. */
+  actions?: VendorOrderChangeAction[];
+  /** The order change's status. */
+  status?: "canceled" | "requested" | "pending" | "confirmed" | "declined";
+  /**
+   * requested_by
+   * The ID of the user that requested the change.
+   */
+  requested_by?: string;
+  /**
+   * requested_at
+   * The date the order change was requested.
+   * @format date-time
+   */
+  requested_at?: string;
+  /**
+   * confirmed_by
+   * The ID of the user that confirmed the order change.
+   */
+  confirmed_by?: string;
+  /**
+   * confirmed_at
+   * The date the order change was confirmed.
+   * @format date-time
+   */
+  confirmed_at?: string;
+  /**
+   * declined_by
+   * The ID of the user that declined the order change.
+   */
+  declined_by?: string;
+  /**
+   * declined_reason
+   * The reason the order change was declined.
+   */
+  declined_reason?: string;
+  /** The order change's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+  /**
+   * declined_at
+   * The date the order change was declined.
+   * @format date-time
+   */
+  declined_at?: string;
+  /**
+   * canceled_by
+   * The ID of the user that canceled the order change.
+   */
+  canceled_by?: string;
+  /**
+   * canceled_at
+   * The date the order change was canceled.
+   * @format date-time
+   */
+  canceled_at?: string;
+  /**
+   * created_at
+   * The date the order change was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the order change was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
+/** The order change action's details. */
+export interface VendorOrderChangeAction {
+  /**
+   * id
+   * The action's ID.
+   */
+  id?: string;
+  /**
+   * order_change_id
+   * The ID of the order change that the action belongs to.
+   */
+  order_change_id?: string;
+  /**
+   * order_id
+   * The ID of the order the associated change is for.
+   */
+  order_id?: string;
+  /**
+   * return_id
+   * The ID of the associated return.
+   */
+  return_id?: string;
+  /**
+   * claim_id
+   * The ID of the associated claim.
+   */
+  claim_id?: string;
+  /**
+   * exchange_id
+   * The ID of the associated exchange.
+   */
+  exchange_id?: string;
+  /**
+   * reference
+   * The name of the table this action applies on.
+   */
+  reference?: "claim" | "exchange" | "return" | "order_shipping_method";
+  /**
+   * reference_id
+   * The ID of the record in the referenced table.
+   */
+  reference_id?: string;
+  /** The applied action. */
+  action?:
+    | "CANCEL_RETURN_ITEM"
+    | "FULFILL_ITEM"
+    | "DELIVER_ITEM"
+    | "CANCEL_ITEM_FULFILLMENT"
+    | "ITEM_ADD"
+    | "ITEM_REMOVE"
+    | "ITEM_UPDATE"
+    | "RECEIVE_DAMAGED_RETURN_ITEM"
+    | "RECEIVE_RETURN_ITEM"
+    | "RETURN_ITEM"
+    | "SHIPPING_ADD"
+    | "SHIPPING_REMOVE"
+    | "SHIP_ITEM"
+    | "WRITE_OFF_ITEM"
+    | "REINSTATE_ITEM";
+  /** The action's details. */
+  details?: object;
+  /**
+   * internal_note
+   * A note that's viewed only by admin users.
+   */
+  internal_note?: string;
+  /**
+   * created_at
+   * The date the action was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the action was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
 /**
  * VendorOrderCountryCode
  * The country's details.
@@ -24251,6 +25664,20 @@ export interface VendorOrderCountryCode {
    * The country's display name.
    */
   display_name?: string;
+}
+
+export interface VendorOrderCreateShipment {
+  /** Items in the shipment. */
+  items?: {
+    id?: string;
+    quantity?: number;
+  }[];
+  /** Labels of the shipment */
+  labels?: {
+    tracking_number?: string;
+    tracking_url?: string;
+    label_url?: string;
+  }[];
 }
 
 /** The order's details. */
@@ -24802,12 +26229,7 @@ export interface VendorOrderPaymentCollection {
   /** The payment collection's metadata, can hold custom key-value pairs. */
   metadata?: object;
   /** The payment collection's status. */
-  status?:
-    | "canceled"
-    | "not_paid"
-    | "awaiting"
-    | "authorized"
-    | "partially_authorized";
+  status?: "canceled" | "not_paid" | "awaiting" | "authorized" | "partially_authorized";
 }
 
 /**
@@ -25039,6 +26461,128 @@ export interface VendorPayoutAccount {
   updated_at?: string;
 }
 
+/** The price list's details. */
+export interface VendorPriceList {
+  /**
+   * id
+   * The price list's ID.
+   */
+  id?: string;
+  /**
+   * title
+   * The price list's title.
+   */
+  title?: string;
+  /**
+   * description
+   * The price list's description.
+   */
+  description?: string;
+  /** The price list's rules. */
+  rules?: object;
+  /**
+   * starts_at
+   * The date the price list starts.
+   */
+  starts_at?: string;
+  /**
+   * ends_at
+   * The date the price list ends.
+   */
+  ends_at?: string;
+  /** The price list's status. */
+  status?: "draft" | "active";
+  /** The price list's type. */
+  type?: "sale" | "override";
+  /** The price list's prices. */
+  prices?: VendorPriceListPrice[];
+  /**
+   * created_at
+   * The date the price list was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the price list was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /**
+   * deleted_at
+   * The date the price list was deleted.
+   * @format date-time
+   */
+  deleted_at?: string;
+}
+
+/** The details of a price list's price. */
+export interface VendorPriceListPrice {
+  /**
+   * variant_id
+   * The ID of the product variant this price list is for.
+   */
+  variant_id?: string;
+  /** The price's rules. */
+  rules?: object;
+  /**
+   * id
+   * The price's ID.
+   */
+  id?: string;
+  /**
+   * title
+   * The price's title.
+   */
+  title?: string;
+  /**
+   * currency_code
+   * The price's currency code.
+   * @example "usd"
+   */
+  currency_code?: string;
+  /**
+   * amount
+   * The price's amount.
+   */
+  amount?: number;
+  /** The price's raw amount. */
+  raw_amount?: object;
+  /**
+   * min_quantity
+   * The minimum quantity that must be available in the cart for the price to be applied.
+   */
+  min_quantity?: number;
+  /**
+   * max_quantity
+   * The maximum quantity allowed to be available in the cart for the price to be applied.
+   */
+  max_quantity?: number;
+  /**
+   * price_set_id
+   * The ID of the price set this price belongs to.
+   */
+  price_set_id?: string;
+  /**
+   * created_at
+   * The date the price was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the price was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /**
+   * deleted_at
+   * The date the price was deleted.
+   * @format date-time
+   */
+  deleted_at?: string;
+}
+
 /**
  * Product
  * A product object with its properties
@@ -25114,6 +26658,8 @@ export interface VendorProduct {
    * @example {"car":"white"}
    */
   metadata?: object;
+  /** The average rating from customer reviews */
+  rating?: string | null;
 }
 
 /**
@@ -25383,6 +26929,98 @@ export interface VendorProductVariant {
 }
 
 /**
+ * Promotion
+ * Promotion object
+ */
+export interface VendorPromotion {
+  /** The unique identifier of the item. */
+  id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /** The code of the promotion. */
+  code?: string;
+  /** Whether the promotion is applied automatically. */
+  is_automatic?: boolean;
+  /** The type of the promotion. */
+  type?: string;
+  /** Application method object */
+  application_method?: VendorApplicationMethod;
+  /** Promotion rules. */
+  rules?: VendorPromotionRule[];
+}
+
+export interface VendorPromotionRule {
+  /** The unique identifier of the item. */
+  id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /** The description of the rule. */
+  description?: string;
+  /** The attribute of the rule. */
+  attribute?: string;
+  /** The operator of the rule. */
+  operator?: string;
+  /** Rule values. */
+  values?: {
+    value?: string;
+  }[];
+}
+
+/** The return receival details. */
+export interface VendorReceiveReturn {
+  /**
+   * internal_note
+   * A note.
+   */
+  internal_note?: string;
+  /**
+   * description
+   * The return's description.
+   */
+  description?: string;
+  /** The return's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+}
+
+/** The items details. */
+export interface VendorReceiveReturnItems {
+  /** The items details. */
+  items?: {
+    /**
+     * id
+     * The ID of the item in the order.
+     */
+    id?: string;
+    /**
+     * quantity
+     * The item's quantity.
+     */
+    quantity?: number;
+    /**
+     * internal_note
+     * A note.
+     */
+    internal_note?: string;
+  }[];
+}
+
+/**
  * Request
  * A request object
  */
@@ -25413,45 +27051,245 @@ export interface VendorRequest {
   status?: string;
 }
 
-/**
- * VendorSalesChannel
- * The sales channel's details.
- */
-export interface VendorSalesChannel {
+/** The reservation's details. */
+export interface VendorReservation {
   /**
    * id
-   * The sales channel's ID.
+   * The reservation's ID.
    */
   id?: string;
   /**
-   * name
-   * The sales channel's name.
+   * line_item_id
+   * The ID of the line item this reservation is for.
    */
-  name?: string;
+  line_item_id?: string;
+  /**
+   * location_id
+   * The ID of the location the quantity is reserved from.
+   */
+  location_id?: string;
+  /**
+   * quantity
+   * The reservation's quantity.
+   */
+  quantity?: number;
+  /**
+   * external_id
+   * An ID in an external system
+   */
+  external_id?: string;
   /**
    * description
-   * The sales channel's description.
+   * The reservation's description.
    */
   description?: string;
   /**
-   * is_disabled
-   * Whether the sales channel is disabled.
+   * inventory_item_id
+   * The ID of the inventory item this reservation is associated with.
    */
-  is_disabled?: boolean;
-  /** The sales channel's metadata, can hold custom key-value pairs. */
-  metadata?: object;
+  inventory_item_id?: string;
+  /**
+   * created_by
+   * The ID of the user that created this reservation.
+   */
+  created_by?: string;
+  /**
+   * deleted_at
+   * The date this reservation was deleted.
+   * @format date-time
+   */
+  deleted_at?: string;
   /**
    * created_at
-   * The date the sales channel was created.
+   * The date this reservation was created.
    * @format date-time
    */
   created_at?: string;
   /**
    * updated_at
-   * The date the sales channel was updated.
+   * The date this reservation was updated.
    * @format date-time
    */
   updated_at?: string;
+}
+
+/** The return's details. */
+export interface VendorReturn {
+  /**
+   * id
+   * The return's ID.
+   */
+  id?: string;
+  /** The return's status. */
+  status?: "canceled" | "requested" | "received" | "partially_received";
+  /**
+   * refund_amount
+   * The amount refunded by this return.
+   */
+  refund_amount?: number;
+  /**
+   * order_id
+   * The ID of the associated order.
+   */
+  order_id?: string;
+  /** The return's items. */
+  items?: VendorReturnItem[];
+  /**
+   * created_at
+   * The date the return was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * canceled_at
+   * The date the return was canceled.
+   * @format date-time
+   */
+  canceled_at?: string;
+  /**
+   * exchange_id
+   * The return's exchange id.
+   */
+  exchange_id?: string;
+  /**
+   * location_id
+   * The return's location id.
+   */
+  location_id?: string;
+  /**
+   * claim_id
+   * The return's claim id.
+   */
+  claim_id?: string;
+  /**
+   * order_version
+   * The return's order version.
+   */
+  order_version?: number;
+  /**
+   * display_id
+   * The return's display id.
+   */
+  display_id?: number;
+  /**
+   * no_notification
+   * Whether the customer should receive notifications about the return's updates.
+   */
+  no_notification?: boolean;
+  /**
+   * received_at
+   * The date the return was received.
+   */
+  received_at?: string;
+}
+
+/** The return item's details. */
+export interface VendorReturnItem {
+  /**
+   * id
+   * The return item's ID.
+   */
+  id?: string;
+  /**
+   * quantity
+   * The return item's quantity.
+   */
+  quantity?: number;
+  /**
+   * received_quantity
+   * The received quantity of the item. This quantity is added to the stocked inventory quantity of the item.
+   */
+  received_quantity?: number;
+  /**
+   * damaged_quantity
+   * The received damaged quantity of the item, which isn't added to the stocked inventory quantity of the item.
+   */
+  damaged_quantity?: number;
+  /**
+   * reason_id
+   * The ID of the return reason associated with the item.
+   */
+  reason_id?: string;
+  /**
+   * note
+   * A note about why the item was returned.
+   */
+  note?: string;
+  /**
+   * item_id
+   * The ID of the associated order item.
+   */
+  item_id?: string;
+  /**
+   * return_id
+   * The ID of the return this return item belongs to.
+   */
+  return_id?: string;
+  /** The return item's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+}
+
+/** The return receival details. */
+export interface VendorReturnsDismissItemsAction {
+  /** Quantity of the item */
+  quantity?: string;
+  /** A note. */
+  internal_note?: string;
+}
+
+/** The return receival details. */
+export interface VendorReturnsReceiveItemsAction {
+  /** Quantity of the item */
+  quantity?: string;
+  /** A note. */
+  internal_note?: string;
+}
+
+/** The details of the sales channel. */
+export interface VendorSalesChannel {
+  /**
+   * id
+   * The sales channel ID.
+   */
+  id?: string;
+  /**
+   * name
+   * The sales channel name.
+   */
+  name?: string;
+  /**
+   * description
+   * The sales channel description.
+   */
+  description?: string;
+  /**
+   * is_disabled
+   * Is sales channel disabled.
+   */
+  is_disabled?: boolean;
+  /**
+   * metadata
+   * The sales channel metadata.
+   */
+  metadata?: object;
+  /**
+   * created_at
+   * The date the channel was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the channel was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /**
+   * deleted_at
+   * The date the channel was deleted.
+   * @format date-time
+   */
+  deleted_at?: string;
 }
 
 /**
@@ -25477,10 +27315,55 @@ export interface VendorSeller {
   description?: string | null;
   /** A unique handle for the seller. */
   handle: string;
+  /** Store contact email. */
+  email?: string | null;
+  /** Store contact phone. */
+  phone?: string | null;
   /** URL to the seller's photo. */
   photo?: string | null;
+  /** Seller address line. */
+  address_line?: string | null;
+  /** Seller postal code. */
+  postal_code?: string | null;
+  /** Seller city. */
+  city?: string | null;
+  /** Seller state. */
+  state?: string | null;
+  /** Seller country code. */
+  country_code?: string | null;
+  /** Seller tax id. */
+  tax_id?: string | null;
   /** The members associated with the seller. */
   members?: VendorMember[];
+}
+
+/**
+ * SellerOnboarding
+ * An onboarding object with its properties
+ */
+export interface VendorSellerOnboarding {
+  /** The unique identifier of the onboarding. */
+  id: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at: string;
+  /** The unique identifier of the seller. */
+  seller_id?: string;
+  /** Indicates if seller completed store information. */
+  store_information?: boolean;
+  /** Indicates if seller completed stripe connection. */
+  stripe_connection?: boolean;
+  /** Indicates if seller added shipping locations. */
+  locations_shipping?: boolean;
+  /** Indicates if seller added products. */
+  products?: boolean;
 }
 
 /** The shipping option's service zone. */
@@ -25687,6 +27570,42 @@ export interface VendorStockLocation {
 }
 
 /**
+ * Vendor store
+ * Store object.
+ */
+export interface VendorStore {
+  /** The unique identifier of the store. */
+  id?: string;
+  /** Name of the store. */
+  name?: string;
+  /** Id of the default sales channel. */
+  default_sales_channel_id?: string;
+  /** Id of the default region. */
+  default_region_id?: string;
+  /** Id of the default location. */
+  default_location_id?: string;
+  /** List of the supported currencies. */
+  supported_currencies?: VendorCurrency[];
+}
+
+export interface VendorUpdateCampaign {
+  /** The campaign's name. */
+  name?: string;
+  /** The campaign's identifier. */
+  campaign_identifier?: string;
+  /** The campaign's description. */
+  description?: string;
+  /** The date and time that the campaign starts. */
+  starts_at?: string;
+  /** The date and time that the campaign ends. */
+  ends_at?: string;
+  budget?: {
+    /** The buget's limit. */
+    limit?: number;
+  };
+}
+
+/**
  * VendorUpdateInventoryItem
  * The inventory item's details.
  */
@@ -25763,6 +27682,11 @@ export interface VendorUpdateInventoryItem {
 export interface VendorUpdateInventoryLevel {
   /** The quantity of the InventoryItem in StockLocation. */
   stocked_quantity?: number;
+  /**
+   * reserved_quantity
+   * The quantity reserved from the available stocked_quantity.
+   */
+  reserved_quantity?: number;
 }
 
 export interface VendorUpdateMember {
@@ -25787,67 +27711,64 @@ export interface VendorUpdateOrderReturnRequest {
   status?: "refunded" | "withdrawn" | "escalated";
 }
 
-export interface VendorUpdateProduct {
-  /** The title of the product. */
+export interface VendorUpdatePriceList {
+  /**
+   * title
+   * The price list's title.
+   */
   title?: string;
-  /** Whether the product can be discounted. */
-  discountable?: boolean;
-  /** Whether the product is a gift card. */
-  is_giftcard?: boolean;
-  /** The product options to update. */
-  options?: UpdateProductOption[];
-  /** The product variants to update. */
-  variants?: UpdateProductVariant[];
+  /**
+   * description
+   * The price list's description.
+   */
+  description?: string;
+  /** The price list's rules. */
+  rules?: object;
+  /**
+   * starts_at
+   * The date the price list starts.
+   */
+  starts_at?: string;
+  /**
+   * ends_at
+   * The date the price list ends.
+   */
+  ends_at?: string;
+  /** The price list's status. */
+  status?: "draft" | "active";
+  /** The price list's type. */
+  type?: "sale" | "override";
+}
+
+export type VendorUpdateProduct = UpdateProduct & {
+  /** Additional data to use in products hooks. */
+  additional_data?: Record<string, any>;
+};
+
+export interface VendorUpdateProductStatus {
   /** The status of the product. */
   status?: "draft" | "proposed" | "published" | "rejected";
-  /** The subtitle of the product. */
-  subtitle?: string | null;
-  /** The description of the product. */
-  description?: string | null;
-  /** Images of the product. */
-  images?: {
-    url?: string;
-  }[];
-  /** The thumbnail of the product. */
-  thumbnail?: string | null;
-  /** The handle of the product. */
-  handle?: string | null;
-  /** The ID of the product type. */
-  type_id?: string | null;
-  /** The external ID of the product. */
-  external_id?: string | null;
-  /** The ID of the collection the product belongs to. */
-  collection_id?: string | null;
-  /** Product category IDs to associate with the product. */
-  categories?: {
-    id: string;
-  }[];
-  /** Product tag IDs to associate with the product. */
-  tags?: {
-    id: string;
-  }[];
-  /** The weight of the product. */
-  weight?: number | null;
-  /** The length of the product. */
-  length?: number | null;
-  /** The height of the product. */
-  height?: number | null;
-  /** The width of the product. */
-  width?: number | null;
-  /** The HS code of the product. */
-  hs_code?: string | null;
-  /** The MID code of the product. */
-  mid_code?: string | null;
-  /** The country of origin of the product. */
-  origin_country?: string | null;
-  /** The material composition of the product. */
-  material?: string | null;
-  /** Additional metadata for the product. */
-  metadata?: object | null;
-  /** Sales channels to associate the product with. */
-  sales_channels?: {
-    id: string;
-  }[];
+}
+
+export interface VendorUpdateReservation {
+  /** The description of the reservation. */
+  description?: string;
+  /** The location id of the reservation. */
+  location_id?: string;
+  /** The number of items in the reservation. */
+  quantity?: number;
+}
+
+/**
+ * Update Review
+ * A schema for the review update.
+ */
+export interface VendorUpdateReview {
+  /**
+   * The seller response to a review.
+   * @maxLength 300
+   */
+  seller_note?: string;
 }
 
 /**
@@ -25864,6 +27785,22 @@ export interface VendorUpdateSeller {
   description?: string | null;
   /** URL to the seller's photo. */
   photo?: string | null;
+  /** Store contact email. */
+  email?: string;
+  /** Store contact phone. */
+  phone?: string;
+  /** Seller address line. */
+  address_line?: string | null;
+  /** Seller postal code. */
+  postal_code?: string | null;
+  /** Seller city. */
+  city?: string | null;
+  /** Seller state. */
+  state?: string | null;
+  /** Seller country code. */
+  country_code?: string | null;
+  /** Seller tax id. */
+  tax_id?: string | null;
 }
 
 export interface VendorUpdateServiceZone {
@@ -25934,22 +27871,16 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   cancelToken?: CancelToken;
 }
 
-export type RequestParams = Omit<
-  FullRequestParams,
-  "body" | "method" | "query" | "path"
->;
+export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
 
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (
-    securityData: SecurityDataType | null
-  ) => Promise<RequestParams | void> | RequestParams | void;
+  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
   customFetch?: typeof fetch;
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown>
-  extends Response {
+export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
   data: D;
   error: E;
 }
@@ -25968,8 +27899,7 @@ export class HttpClient<SecurityDataType = unknown> {
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
-  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
-    fetch(...fetchParams);
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) => fetch(...fetchParams);
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -26002,15 +27932,9 @@ export class HttpClient<SecurityDataType = unknown> {
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
-    const keys = Object.keys(query).filter(
-      (key) => "undefined" !== typeof query[key]
-    );
+    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
     return keys
-      .map((key) =>
-        Array.isArray(query[key])
-          ? this.addArrayQueryParam(query, key)
-          : this.addQueryParam(query, key)
-      )
+      .map((key) => (Array.isArray(query[key]) ? this.addArrayQueryParam(query, key) : this.addQueryParam(query, key)))
       .join("&");
   }
 
@@ -26021,13 +27945,8 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string")
-        ? JSON.stringify(input)
-        : input,
-    [ContentType.Text]: (input: any) =>
-      input !== null && typeof input !== "string"
-        ? JSON.stringify(input)
-        : input,
+      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
+    [ContentType.Text]: (input: any) => (input !== null && typeof input !== "string" ? JSON.stringify(input) : input),
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
@@ -26037,17 +27956,14 @@ export class HttpClient<SecurityDataType = unknown> {
             ? property
             : typeof property === "object" && property !== null
               ? JSON.stringify(property)
-              : `${property}`
+              : `${property}`,
         );
         return formData;
       }, new FormData()),
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  protected mergeRequestParams(
-    params1: RequestParams,
-    params2?: RequestParams
-  ): RequestParams {
+  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -26060,9 +27976,7 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  protected createAbortSignal = (
-    cancelToken: CancelToken
-  ): AbortSignal | undefined => {
+  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -26106,26 +28020,15 @@ export class HttpClient<SecurityDataType = unknown> {
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
     const responseFormat = format || requestParams.format;
 
-    return this.customFetch(
-      `${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`,
-      {
-        ...requestParams,
-        headers: {
-          ...(requestParams.headers || {}),
-          ...(type && type !== ContentType.FormData
-            ? { "Content-Type": type }
-            : {}),
-        },
-        signal:
-          (cancelToken
-            ? this.createAbortSignal(cancelToken)
-            : requestParams.signal) || null,
-        body:
-          typeof body === "undefined" || body === null
-            ? null
-            : payloadFormatter(body),
-      }
-    ).then(async (response) => {
+    return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
+      ...requestParams,
+      headers: {
+        ...(requestParams.headers || {}),
+        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
+      },
+      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
+      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
+    }).then(async (response) => {
       const r = response.clone() as HttpResponse<T, E>;
       r.data = null as unknown as T;
       r.error = null as unknown as E;
@@ -26160,9 +28063,7 @@ export class HttpClient<SecurityDataType = unknown> {
  * @title Medusa API
  * @version 1.0.0
  */
-export class Api<
-  SecurityDataType extends unknown,
-> extends HttpClient<SecurityDataType> {
+export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
   admin = {
     /**
      * @description Retrieve a list of API keys. The API keys can be filtered by fields such as `id`. The API keys can also be sorted or paginated.
@@ -26839,7 +28740,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -26910,7 +28811,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminApiKeyResponse, Error | string>({
         path: `/admin/api-keys/${id}`,
@@ -26940,7 +28841,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminApiKeyResponse, Error | string>({
         path: `/admin/api-keys/${id}`,
@@ -27010,7 +28911,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminApiKeyResponse, Error | string>({
         path: `/admin/api-keys/${id}/revoke`,
@@ -27047,7 +28948,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminApiKeyResponse, Error | string>({
         path: `/admin/api-keys/${id}/sales-channels`,
@@ -27092,7 +28993,7 @@ export class Api<
          */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -27200,7 +29101,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCampaignResponse, Error | string>({
         path: `/admin/campaigns`,
@@ -27231,7 +29132,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCampaignResponse, Error | string>({
         path: `/admin/campaigns/${id}`,
@@ -27308,7 +29209,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCampaignResponse, Error | string>({
         path: `/admin/campaigns/${id}`,
@@ -27383,7 +29284,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCampaignResponse, Error | string>({
         path: `/admin/campaigns/${id}/promotions`,
@@ -27914,7 +29815,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimListResponse, Error | string>({
         path: `/admin/claims`,
@@ -27943,7 +29844,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimOrderResponse, Error | string>({
         path: `/admin/claims`,
@@ -27974,7 +29875,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimResponse, Error | string>({
         path: `/admin/claims/${id}`,
@@ -27994,11 +29895,7 @@ export class Api<
      * @request POST:/admin/claims/{id}/cancel
      * @secure
      */
-    adminPostClaimsIdCancel: (
-      id: string,
-      data: AdminPostCancelClaimReqSchema,
-      params: RequestParams = {}
-    ) =>
+    adminPostClaimsIdCancel: (id: string, data: AdminPostCancelClaimReqSchema, params: RequestParams = {}) =>
       this.request<AdminClaimResponse, Error | string>({
         path: `/admin/claims/${id}/cancel`,
         method: "POST",
@@ -28028,7 +29925,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/claim-items`,
@@ -28061,7 +29958,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/claim-items/${actionId}`,
@@ -28093,7 +29990,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/claim-items/${actionId}`,
@@ -28116,7 +30013,7 @@ export class Api<
     adminPostClaimsIdInboundItems: (
       id: string,
       data: AdminPostReturnsRequestItemsReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimReturnPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/items`,
@@ -28141,7 +30038,7 @@ export class Api<
       id: string,
       actionId: string,
       data: AdminPostReturnsRequestItemsActionReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimReturnPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/items/${actionId}`,
@@ -28162,11 +30059,7 @@ export class Api<
      * @request DELETE:/admin/claims/{id}/inbound/items/{action_id}
      * @secure
      */
-    adminDeleteClaimsIdInboundItemsActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteClaimsIdInboundItemsActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminClaimReturnPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/items/${actionId}`,
         method: "DELETE",
@@ -28187,7 +30080,7 @@ export class Api<
     adminPostClaimsIdInboundShippingMethod: (
       id: string,
       data: AdminPostReturnsShippingReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimReturnPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/shipping-method`,
@@ -28219,7 +30112,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/shipping-method/${actionId}`,
@@ -28241,11 +30134,7 @@ export class Api<
      * @request DELETE:/admin/claims/{id}/inbound/shipping-method/{action_id}
      * @secure
      */
-    adminDeleteClaimsIdInboundShippingMethodActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteClaimsIdInboundShippingMethodActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminClaimReturnPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/inbound/shipping-method/${actionId}`,
         method: "DELETE",
@@ -28273,7 +30162,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/items`,
@@ -28306,7 +30195,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/items/${actionId}`,
@@ -28338,7 +30227,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/items/${actionId}`,
@@ -28368,7 +30257,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/shipping-method`,
@@ -28401,7 +30290,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/shipping-method/${actionId}`,
@@ -28433,7 +30322,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimPreviewResponse, Error | string>({
         path: `/admin/claims/${id}/outbound/shipping-method/${actionId}`,
@@ -28462,7 +30351,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminClaimRequestResponse, Error | string>({
         path: `/admin/claims/${id}/request`,
@@ -29009,7 +30898,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCollectionListResponse, Error | string>({
         path: `/admin/collections`,
@@ -29038,7 +30927,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCollectionResponse, Error | string>({
         path: `/admin/collections`,
@@ -29069,7 +30958,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCollectionResponse, Error | string>({
         path: `/admin/collections/${id}`,
@@ -29099,7 +30988,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCollectionResponse, Error | string>({
         path: `/admin/collections/${id}`,
@@ -29154,7 +31043,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCollectionResponse, Error | string>({
         path: `/admin/collections/${id}/products`,
@@ -29216,7 +31105,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCurrencyListResponse, Error | string>({
         path: `/admin/currencies`,
@@ -29245,7 +31134,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCurrencyResponse, Error | string>({
         path: `/admin/currencies/${code}`,
@@ -29776,7 +31665,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -29827,7 +31716,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerGroupResponse, Error | string>({
         path: `/admin/customer-groups`,
@@ -29858,7 +31747,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerGroupResponse, Error | string>({
         path: `/admin/customer-groups/${id}`,
@@ -29888,7 +31777,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerGroupResponse, Error | string>({
         path: `/admin/customer-groups/${id}`,
@@ -29962,7 +31851,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerGroupResponse, Error | string>({
         path: `/admin/customer-groups/${id}/customers`,
@@ -31826,7 +33715,7 @@ export class Api<
          */
         has_account?: boolean;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -31909,7 +33798,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers`,
@@ -31940,7 +33829,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers/${id}`,
@@ -32002,7 +33891,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers/${id}`,
@@ -32110,7 +33999,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -32233,7 +34122,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers/${id}/addresses`,
@@ -32265,7 +34154,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerAddressResponse, Error | string>({
         path: `/admin/customers/${id}/addresses/${addressId}`,
@@ -32367,7 +34256,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers/${id}/addresses/${addressId}`,
@@ -32399,7 +34288,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -32456,7 +34345,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminCustomerResponse, Error | string>({
         path: `/admin/customers/${id}/customer-groups`,
@@ -32956,30 +34845,6 @@ export class Api<
         $or?: object[];
         /** Filter by the associated sales channels to retrieve its draft orders. */
         sales_channel_id?: string[];
-        /** Filter by the fulfillment status of the draft order. */
-        fulfillment_status?: (
-          | "canceled"
-          | "not_fulfilled"
-          | "partially_fulfilled"
-          | "fulfilled"
-          | "partially_shipped"
-          | "shipped"
-          | "partially_delivered"
-          | "delivered"
-        )[];
-        /** Filter by the payment status of the draft order. */
-        payment_status?: (
-          | "canceled"
-          | "not_paid"
-          | "awaiting"
-          | "authorized"
-          | "partially_authorized"
-          | "captured"
-          | "partially_captured"
-          | "partially_refunded"
-          | "refunded"
-          | "requires_action"
-        )[];
         /** Filter by region IDs to retrieve their associated draft orders. */
         region_id?: string | string[];
         /**
@@ -33300,31 +35165,9 @@ export class Api<
         /** The draft order's customer id. */
         customer_id?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
-      this.request<
-        {
-          /**
-           * limit
-           * The maximum number of items returned.
-           */
-          limit: number;
-          /**
-           * offset
-           * The number of items skipped before retrieving the returned items.
-           */
-          offset: number;
-          /**
-           * count
-           * The total number of items.
-           */
-          count: number;
-        } & {
-          /** The order's details. */
-          draft_orders: AdminOrder;
-        },
-        Error | string
-      >({
+      this.request<AdminDraftOrderListResponse, Error | string>({
         path: `/admin/draft-orders`,
         method: "GET",
         query: query,
@@ -33587,7 +35430,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminDraftOrderResponse, Error | string>({
         path: `/admin/draft-orders`,
@@ -33609,11 +35452,54 @@ export class Api<
      * @request GET:/admin/draft-orders/{id}
      * @secure
      */
-    adminGetDraftOrdersId: (id: string, params: RequestParams = {}) =>
+    adminGetDraftOrdersId: (
+      id: string,
+      query?: {
+        /**
+         * fields
+         * Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+         */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<AdminDraftOrderResponse, Error | string>({
         path: `/admin/draft-orders/${id}`,
         method: "GET",
+        query: query,
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Update a draft order's details.
+     *
+     * @tags Admin Draft Orders
+     * @name AdminPostDraftOrdersId
+     * @summary Update a Draft Order
+     * @request POST:/admin/draft-orders/{id}
+     * @secure
+     */
+    adminPostDraftOrdersId: (
+      id: string,
+      data: AdminUpdateDraftOrder,
+      query?: {
+        /**
+         * fields
+         * Comma-separated fields that should be included in the returned data. If a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. Without prefix it will replace the entire default fields.
+         */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<AdminDraftOrderResponse, Error | string>({
+        path: `/admin/draft-orders/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -34121,7 +36007,7 @@ export class Api<
           $exists?: boolean;
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -34172,7 +36058,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeOrderResponse, Error | string>({
         path: `/admin/exchanges`,
@@ -34203,7 +36089,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeResponse, Error | string>({
         path: `/admin/exchanges/${id}`,
@@ -34223,11 +36109,7 @@ export class Api<
      * @request POST:/admin/exchanges/{id}/cancel
      * @secure
      */
-    adminPostExchangesIdCancel: (
-      id: string,
-      data: AdminPostCancelExchangeReqSchema,
-      params: RequestParams = {}
-    ) =>
+    adminPostExchangesIdCancel: (id: string, data: AdminPostCancelExchangeReqSchema, params: RequestParams = {}) =>
       this.request<AdminExchangeResponse, Error | string>({
         path: `/admin/exchanges/${id}/cancel`,
         method: "POST",
@@ -34250,7 +36132,7 @@ export class Api<
     adminPostExchangesIdInboundItems: (
       id: string,
       data: AdminPostExchangesReturnRequestItemsReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeReturnResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/items`,
@@ -34275,7 +36157,7 @@ export class Api<
       id: string,
       actionId: string,
       data: AdminPostExchangesRequestItemsReturnActionReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeReturnResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/items/${actionId}`,
@@ -34296,11 +36178,7 @@ export class Api<
      * @request DELETE:/admin/exchanges/{id}/inbound/items/{action_id}
      * @secure
      */
-    adminDeleteExchangesIdInboundItemsActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteExchangesIdInboundItemsActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminExchangeReturnResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/items/${actionId}`,
         method: "DELETE",
@@ -34321,7 +36199,7 @@ export class Api<
     adminPostExchangesIdInboundShippingMethod: (
       id: string,
       data: AdminPostReturnsShippingReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeReturnResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/shipping-method`,
@@ -34353,7 +36231,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/shipping-method/${actionId}`,
@@ -34375,11 +36253,7 @@ export class Api<
      * @request DELETE:/admin/exchanges/{id}/inbound/shipping-method/{action_id}
      * @secure
      */
-    adminDeleteExchangesIdInboundShippingMethodActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteExchangesIdInboundShippingMethodActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminExchangeReturnResponse, Error | string>({
         path: `/admin/exchanges/${id}/inbound/shipping-method/${actionId}`,
         method: "DELETE",
@@ -34407,7 +36281,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/items`,
@@ -34440,7 +36314,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/items/${actionId}`,
@@ -34472,7 +36346,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/items/${actionId}`,
@@ -34502,7 +36376,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/shipping-method`,
@@ -34535,7 +36409,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/shipping-method/${actionId}`,
@@ -34567,7 +36441,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangePreviewResponse, Error | string>({
         path: `/admin/exchanges/${id}/outbound/shipping-method/${actionId}`,
@@ -34596,7 +36470,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExchangeRequestResponse, Error | string>({
         path: `/admin/exchanges/${id}/request`,
@@ -34671,7 +36545,7 @@ export class Api<
         /** Filter by associated stock location's ID. */
         stock_location_id?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentProviderListResponse, Error | string>({
         path: `/admin/fulfillment-providers`,
@@ -34691,19 +36565,14 @@ export class Api<
      * @request GET:/admin/fulfillment-providers/{id}/options
      * @secure
      */
-    adminGetFulfillmentProvidersIdOptions: (
-      id: string,
-      params: RequestParams = {}
-    ) =>
-      this.request<AdminFulfillmentProviderOptionsListResponse, Error | string>(
-        {
-          path: `/admin/fulfillment-providers/${id}/options`,
-          method: "GET",
-          secure: true,
-          format: "json",
-          ...params,
-        }
-      ),
+    adminGetFulfillmentProvidersIdOptions: (id: string, params: RequestParams = {}) =>
+      this.request<AdminFulfillmentProviderOptionsListResponse, Error | string>({
+        path: `/admin/fulfillment-providers/${id}/options`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
 
     /**
      * @description Delete a fulfillment set.
@@ -34838,7 +36707,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentSetResponse, Error | string>({
         path: `/admin/fulfillment-sets/${id}/service-zones`,
@@ -34870,7 +36739,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminServiceZoneResponse, Error | string>({
         path: `/admin/fulfillment-sets/${id}/service-zones/${zoneId}`,
@@ -35017,7 +36886,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentSetResponse, Error | string>({
         path: `/admin/fulfillment-sets/${id}/service-zones/${zoneId}`,
@@ -35039,11 +36908,7 @@ export class Api<
      * @request DELETE:/admin/fulfillment-sets/{id}/service-zones/{zone_id}
      * @secure
      */
-    adminDeleteFulfillmentSetsIdServiceZonesZoneId: (
-      id: string,
-      zoneId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteFulfillmentSetsIdServiceZonesZoneId: (id: string, zoneId: string, params: RequestParams = {}) =>
       this.request<AdminServiceZoneDeleteResponse, Error | string>({
         path: `/admin/fulfillment-sets/${id}/service-zones/${zoneId}`,
         method: "DELETE",
@@ -35070,7 +36935,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentResponse, Error | string>({
         path: `/admin/fulfillments`,
@@ -35101,7 +36966,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentResponse, Error | string>({
         path: `/admin/fulfillments/${id}/cancel`,
@@ -35131,7 +36996,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFulfillmentResponse, Error | string>({
         path: `/admin/fulfillments/${id}/shipment`,
@@ -35321,7 +37186,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -35372,7 +37237,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInventoryItemResponse, Error | string>({
         path: `/admin/inventory-items`,
@@ -35396,12 +37261,9 @@ export class Api<
      */
     adminPostInventoryItemsLocationLevelsBatch: (
       data: AdminBatchInventoryItemsLocationLevels,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
-      this.request<
-        AdminBatchInventoryItemsLocationLevelsResponse,
-        Error | string
-      >({
+      this.request<AdminBatchInventoryItemsLocationLevelsResponse, Error | string>({
         path: `/admin/inventory-items/location-levels/batch`,
         method: "POST",
         body: data,
@@ -35429,7 +37291,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInventoryItemResponse, Error | string>({
         path: `/admin/inventory-items/${id}`,
@@ -35527,7 +37389,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInventoryItemResponse, Error | string>({
         path: `/admin/inventory-items/${id}`,
@@ -35621,7 +37483,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -35689,7 +37551,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInventoryItemResponse, Error | string>({
         path: `/admin/inventory-items/${id}/location-levels`,
@@ -35714,7 +37576,7 @@ export class Api<
     adminPostInventoryItemsIdLocationLevelsBatch: (
       id: string,
       data: AdminBatchInventoryItemLocationsLevel,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<any, Error | string>({
         path: `/admin/inventory-items/${id}/location-levels/batch`,
@@ -35756,7 +37618,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInventoryItemResponse, Error | string>({
         path: `/admin/inventory-items/${id}/location-levels/${locationId}`,
@@ -35788,7 +37650,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -35828,6 +37690,7 @@ export class Api<
      * @name AdminGetInvites
      * @summary List Invites
      * @request GET:/admin/invites
+     * @secure
      */
     adminGetInvites: (
       query?: {
@@ -36102,7 +37965,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -36130,6 +37993,7 @@ export class Api<
         path: `/admin/invites`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -36141,6 +38005,7 @@ export class Api<
      * @name AdminPostInvites
      * @summary Create Invite
      * @request POST:/admin/invites
+     * @secure
      */
     adminPostInvites: (
       data: {
@@ -36160,13 +38025,14 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInviteResponse, Error | string>({
         path: `/admin/invites`,
         method: "POST",
         query: query,
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -36179,6 +38045,7 @@ export class Api<
      * @name AdminPostInvitesAccept
      * @summary Accept Invite
      * @request POST:/admin/invites/accept
+     * @secure
      */
     adminPostInvitesAccept: (
       data: {
@@ -36199,7 +38066,7 @@ export class Api<
          */
         last_name?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         | {
@@ -36218,6 +38085,7 @@ export class Api<
         path: `/admin/invites/accept`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -36230,6 +38098,7 @@ export class Api<
      * @name AdminGetInvitesId
      * @summary Get an Invite
      * @request GET:/admin/invites/{id}
+     * @secure
      */
     adminGetInvitesId: (
       id: string,
@@ -36240,12 +38109,13 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInviteResponse, Error | string>({
         path: `/admin/invites/${id}`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -36257,6 +38127,7 @@ export class Api<
      * @name AdminDeleteInvitesId
      * @summary Delete Invite
      * @request DELETE:/admin/invites/{id}
+     * @secure
      */
     adminDeleteInvitesId: (id: string, params: RequestParams = {}) =>
       this.request<
@@ -36282,6 +38153,7 @@ export class Api<
       >({
         path: `/admin/invites/${id}`,
         method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -36293,6 +38165,7 @@ export class Api<
      * @name AdminPostInvitesIdResend
      * @summary Refresh Invite Token
      * @request POST:/admin/invites/{id}/resend
+     * @secure
      */
     adminPostInvitesIdResend: (
       id: string,
@@ -36303,12 +38176,13 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminInviteResponse, Error | string>({
         path: `/admin/invites/${id}/resend`,
         method: "POST",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -36364,7 +38238,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminNotificationListResponse, Error | string>({
         path: `/admin/notifications`,
@@ -36393,7 +38267,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminNotificationResponse, Error | string>({
         path: `/admin/notifications/${id}`,
@@ -36413,10 +38287,7 @@ export class Api<
      * @request POST:/admin/order-edits
      * @secure
      */
-    adminPostOrderEdits: (
-      data: AdminPostOrderEditsReqSchema,
-      params: RequestParams = {}
-    ) =>
+    adminPostOrderEdits: (data: AdminPostOrderEditsReqSchema, params: RequestParams = {}) =>
       this.request<AdminOrderEditResponse, Error | string>({
         path: `/admin/order-edits`,
         method: "POST",
@@ -36492,11 +38363,7 @@ export class Api<
      * @request POST:/admin/order-edits/{id}/items
      * @secure
      */
-    adminPostOrderEditsIdItems: (
-      id: string,
-      data: AdminPostOrderEditsAddItemsReqSchema,
-      params: RequestParams = {}
-    ) =>
+    adminPostOrderEditsIdItems: (id: string, data: AdminPostOrderEditsAddItemsReqSchema, params: RequestParams = {}) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/items`,
         method: "POST",
@@ -36520,7 +38387,7 @@ export class Api<
       id: string,
       itemId: string,
       data: AdminPostOrderEditsUpdateItemQuantityReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/items/item/${itemId}`,
@@ -36545,7 +38412,7 @@ export class Api<
       id: string,
       actionId: string,
       data: AdminPostOrderEditsItemsActionReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/items/${actionId}`,
@@ -36566,11 +38433,7 @@ export class Api<
      * @request DELETE:/admin/order-edits/{id}/items/{action_id}
      * @secure
      */
-    adminDeleteOrderEditsIdItemsActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteOrderEditsIdItemsActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/items/${actionId}`,
         method: "DELETE",
@@ -36609,7 +38472,7 @@ export class Api<
     adminPostOrderEditsIdShippingMethod: (
       id: string,
       data: AdminPostOrderEditsShippingReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/shipping-method`,
@@ -36634,7 +38497,7 @@ export class Api<
       id: string,
       actionId: string,
       data: AdminPostOrderEditsShippingActionReqSchema,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/shipping-method/${actionId}`,
@@ -36655,11 +38518,7 @@ export class Api<
      * @request DELETE:/admin/order-edits/{id}/shipping-method/{action_id}
      * @secure
      */
-    adminDeleteOrderEditsIdShippingMethodActionId: (
-      id: string,
-      actionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminDeleteOrderEditsIdShippingMethodActionId: (id: string, actionId: string, params: RequestParams = {}) =>
       this.request<AdminOrderEditPreviewResponse, Error | string>({
         path: `/admin/order-edits/${id}/shipping-method/${actionId}`,
         method: "DELETE",
@@ -36715,30 +38574,6 @@ export class Api<
         $or?: object[];
         /** Filter by sales channel IDs to retrieve the orders associated with them. */
         sales_channel_id?: string[];
-        /** Filter by the order's fulfillment status. */
-        fulfillment_status?: (
-          | "canceled"
-          | "not_fulfilled"
-          | "partially_fulfilled"
-          | "fulfilled"
-          | "partially_shipped"
-          | "shipped"
-          | "partially_delivered"
-          | "delivered"
-        )[];
-        /** Filter by the order's payment status. */
-        payment_status?: (
-          | "canceled"
-          | "not_paid"
-          | "awaiting"
-          | "authorized"
-          | "partially_authorized"
-          | "captured"
-          | "partially_captured"
-          | "partially_refunded"
-          | "refunded"
-          | "requires_action"
-        )[];
         /** Filter by region IDs to retrieve their associated orders. */
         region_id?: string | string[];
         /**
@@ -37059,7 +38894,7 @@ export class Api<
         /** The order's customer id. */
         customer_id?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -37122,7 +38957,7 @@ export class Api<
         updated_at?: any;
         deleted_at?: any;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}`,
@@ -37152,7 +38987,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}`,
@@ -37183,7 +39018,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/archive`,
@@ -37212,7 +39047,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/cancel`,
@@ -37243,7 +39078,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderChangesResponse, Error | string>({
         path: `/admin/orders/${id}/changes`,
@@ -37276,7 +39111,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/complete`,
@@ -37337,7 +39172,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/fulfillments`,
@@ -37379,7 +39214,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/fulfillments/${fulfillmentId}/cancel`,
@@ -37411,7 +39246,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/fulfillments/${fulfillmentId}/mark-as-delivered`,
@@ -37484,7 +39319,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/fulfillments/${fulfillmentId}/shipments`,
@@ -37538,7 +39373,7 @@ export class Api<
          */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -37592,7 +39427,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/transfer`,
@@ -37623,7 +39458,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderResponse, Error | string>({
         path: `/admin/orders/${id}/transfer/cancel`,
@@ -37663,7 +39498,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPaymentCollectionResponse, Error | string>({
         path: `/admin/payment-collections`,
@@ -37719,7 +39554,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPaymentCollectionResponse, Error | string>({
         path: `/admin/payment-collections/${id}/mark-as-paid`,
@@ -38014,7 +39849,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -38096,7 +39931,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -38147,7 +39982,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPaymentResponse, Error | string>({
         path: `/admin/payments/${id}`,
@@ -38183,7 +40018,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPaymentResponse, Error | string>({
         path: `/admin/payments/${id}/capture`,
@@ -38231,7 +40066,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPaymentResponse, Error | string>({
         path: `/admin/payments/${id}/refund`,
@@ -38451,7 +40286,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListListResponse, Error | string>({
         path: `/admin/price-lists`,
@@ -38480,7 +40315,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListResponse, Error | string>({
         path: `/admin/price-lists`,
@@ -38511,7 +40346,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListResponse, Error | string>({
         path: `/admin/price-lists/${id}`,
@@ -38541,7 +40376,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListResponse, Error | string>({
         path: `/admin/price-lists/${id}`,
@@ -38658,7 +40493,7 @@ export class Api<
         /** The prices to delete. */
         delete?: string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListBatchResponse, Error | string>({
         path: `/admin/price-lists/${id}/prices/batch`,
@@ -38689,7 +40524,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPriceListResponse, Error | string>({
         path: `/admin/price-lists/${id}/products`,
@@ -38755,7 +40590,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPricePreferenceListResponse, Error | string>({
         path: `/admin/price-preferences`,
@@ -38784,7 +40619,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPricePreferenceResponse, Error | string>({
         path: `/admin/price-preferences`,
@@ -38815,7 +40650,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPricePreferenceResponse, Error | string>({
         path: `/admin/price-preferences/${id}`,
@@ -38845,7 +40680,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPricePreferenceResponse, Error | string>({
         path: `/admin/price-preferences/${id}`,
@@ -39184,7 +41019,7 @@ export class Api<
         /** The product category's name. */
         name?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductCategoryListResponse, Error | string>({
         path: `/admin/product-categories`,
@@ -39213,7 +41048,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductCategoryResponse, Error | string>({
         path: `/admin/product-categories`,
@@ -39254,7 +41089,7 @@ export class Api<
          */
         include_descendants_tree?: boolean;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductCategoryResponse, Error | string>({
         path: `/admin/product-categories/${id}`,
@@ -39322,7 +41157,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductCategoryResponse, Error | string>({
         path: `/admin/product-categories/${id}`,
@@ -39377,7 +41212,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductCategoryResponse, Error | string>({
         path: `/admin/product-categories/${id}/products`,
@@ -39672,7 +41507,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTagListResponse, Error | string>({
         path: `/admin/product-tags`,
@@ -39701,7 +41536,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTagResponse, Error | string>({
         path: `/admin/product-tags`,
@@ -39732,7 +41567,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTagResponse, Error | string>({
         path: `/admin/product-tags/${id}`,
@@ -39770,7 +41605,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTagResponse, Error | string>({
         path: `/admin/product-tags/${id}`,
@@ -40083,7 +41918,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTypeListResponse, Error | string>({
         path: `/admin/product-types`,
@@ -40112,7 +41947,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTypeResponse, Error | string>({
         path: `/admin/product-types`,
@@ -40143,7 +41978,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTypeResponse, Error | string>({
         path: `/admin/product-types/${id}`,
@@ -40181,7 +42016,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductTypeResponse, Error | string>({
         path: `/admin/product-types/${id}`,
@@ -40502,7 +42337,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -41122,7 +42957,7 @@ export class Api<
           $or?: object[];
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -41176,7 +43011,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products`,
@@ -41207,7 +43042,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminBatchProductResponse, Error | string>({
         path: `/admin/products/batch`,
@@ -41237,7 +43072,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminExportProductResponse, Error | string>({
         path: `/admin/products/export`,
@@ -41257,10 +43092,7 @@ export class Api<
      * @request POST:/admin/products/import
      * @secure
      */
-    adminPostProductsImport: (
-      data: AdminImportProductRequest,
-      params: RequestParams = {}
-    ) =>
+    adminPostProductsImport: (data: AdminImportProductRequest, params: RequestParams = {}) =>
       this.request<AdminImportProductResponse, Error | string>({
         path: `/admin/products/import`,
         method: "POST",
@@ -41280,10 +43112,7 @@ export class Api<
      * @request POST:/admin/products/import/{transaction_id}/confirm
      * @secure
      */
-    adminPostProductsImportTransactionIdConfirm: (
-      transactionId: string,
-      params: RequestParams = {}
-    ) =>
+    adminPostProductsImportTransactionIdConfirm: (transactionId: string, params: RequestParams = {}) =>
       this.request<any, Error | string>({
         path: `/admin/products/import/${transactionId}/confirm`,
         method: "POST",
@@ -41309,7 +43138,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}`,
@@ -41342,7 +43171,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}`,
@@ -41425,7 +43254,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -41480,7 +43309,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}/options`,
@@ -41512,7 +43341,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductOptionResponse, Error | string>({
         path: `/admin/products/${id}/options/${optionId}`,
@@ -41546,7 +43375,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}/options/${optionId}`,
@@ -41578,7 +43407,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductOptionDeleteResponse, Error | string>({
         path: `/admin/products/${id}/options/${optionId}`,
@@ -41880,7 +43709,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -41935,7 +43764,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}/variants`,
@@ -41967,7 +43796,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminBatchProductVariantResponse, Error | string>({
         path: `/admin/products/${id}/variants/batch`,
@@ -42042,7 +43871,7 @@ export class Api<
           variant_id: string;
         }[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductVariantInventoryBatchResponse, Error | string>({
         path: `/admin/products/${id}/variants/inventory-items/batch`,
@@ -42073,7 +43902,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductVariantResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}`,
@@ -42107,7 +43936,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}`,
@@ -42139,7 +43968,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductVariantDeleteResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}`,
@@ -42170,7 +43999,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductVariantResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}/inventory-items`,
@@ -42204,7 +44033,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminProductVariantResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}/inventory-items/${inventoryItemId}`,
@@ -42237,12 +44066,9 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
-      this.request<
-        AdminProductVariantInventoryLinkDeleteResponse,
-        Error | string
-      >({
+      this.request<AdminProductVariantInventoryLinkDeleteResponse, Error | string>({
         path: `/admin/products/${id}/variants/${variantId}/inventory-items/${inventoryItemId}`,
         method: "DELETE",
         query: query,
@@ -42538,7 +44364,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -42748,7 +44574,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPromotionResponse, Error | string>({
         path: `/admin/promotions`,
@@ -42784,7 +44610,7 @@ export class Api<
          */
         application_method_type?: "fixed" | "percentage";
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -42840,7 +44666,7 @@ export class Api<
          */
         application_method_type?: "fixed" | "percentage";
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -42875,7 +44701,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPromotionResponse, Error | string>({
         path: `/admin/promotions/${id}`,
@@ -42970,7 +44796,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminPromotionResponse, Error | string>({
         path: `/admin/promotions/${id}`,
@@ -43047,7 +44873,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43110,7 +44936,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43173,7 +44999,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43229,7 +45055,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43295,7 +45121,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43346,7 +45172,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<RefundReasonResponse, Error | string>({
         path: `/admin/refund-reasons`,
@@ -43377,7 +45203,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<RefundReasonResponse, Error | string>({
         path: `/admin/refund-reasons/${id}`,
@@ -43418,7 +45244,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<RefundReasonResponse, Error | string>({
         path: `/admin/refund-reasons/${id}`,
@@ -43753,7 +45579,7 @@ export class Api<
         /** The region's currency code. */
         currency_code?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -43804,7 +45630,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminRegionResponse, Error | string>({
         path: `/admin/regions`,
@@ -43835,7 +45661,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminRegionResponse, Error | string>({
         path: `/admin/regions/${id}`,
@@ -43892,7 +45718,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminRegionResponse, Error | string>({
         path: `/admin/regions/${id}`,
@@ -44243,7 +46069,7 @@ export class Api<
           $exists?: boolean;
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -44294,7 +46120,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReservationResponse, Error | string>({
         path: `/admin/reservations`,
@@ -44325,7 +46151,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReservationResponse, Error | string>({
         path: `/admin/reservations/${id}`,
@@ -44373,7 +46199,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReservationResponse, Error | string>({
         path: `/admin/reservations/${id}`,
@@ -44712,7 +46538,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnReasonListResponse, Error | string>({
         path: `/admin/return-reasons`,
@@ -44741,7 +46567,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnReasonResponse, Error | string>({
         path: `/admin/return-reasons`,
@@ -44772,7 +46598,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnReasonResponse, Error | string>({
         path: `/admin/return-reasons/${id}`,
@@ -44802,7 +46628,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnReasonResponse, Error | string>({
         path: `/admin/return-reasons/${id}`,
@@ -44880,30 +46706,6 @@ export class Api<
         $or?: object[];
         /** Filter by sales channel IDs to retrieve their associated returns. */
         sales_channel_id?: string[];
-        /** Filter by fulfillment statuses. */
-        fulfillment_status?: (
-          | "canceled"
-          | "not_fulfilled"
-          | "partially_fulfilled"
-          | "fulfilled"
-          | "partially_shipped"
-          | "shipped"
-          | "partially_delivered"
-          | "delivered"
-        )[];
-        /** Filter by payment statuses. */
-        payment_status?: (
-          | "canceled"
-          | "not_paid"
-          | "awaiting"
-          | "authorized"
-          | "partially_authorized"
-          | "captured"
-          | "partially_captured"
-          | "partially_refunded"
-          | "refunded"
-          | "requires_action"
-        )[];
         /** Filter by region IDs to retrieve their associated returns. */
         region_id?: string | string[];
         /**
@@ -45224,7 +47026,7 @@ export class Api<
         /** The return's customer id. */
         customer_id?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -45275,7 +47077,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderReturnResponse, Error | string>({
         path: `/admin/returns`,
@@ -45306,7 +47108,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnResponse, Error | string>({
         path: `/admin/returns/${id}`,
@@ -45336,7 +47138,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}`,
@@ -45358,11 +47160,7 @@ export class Api<
      * @request POST:/admin/returns/{id}/cancel
      * @secure
      */
-    adminPostReturnsIdCancel: (
-      id: string,
-      data: AdminPostCancelReturnReqSchema,
-      params: RequestParams = {}
-    ) =>
+    adminPostReturnsIdCancel: (id: string, data: AdminPostCancelReturnReqSchema, params: RequestParams = {}) =>
       this.request<AdminReturnResponse, Error | string>({
         path: `/admin/returns/${id}/cancel`,
         method: "POST",
@@ -45392,7 +47190,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/dismiss-items`,
@@ -45425,7 +47223,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/dismiss-items/${actionId}`,
@@ -45457,7 +47255,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/dismiss-items/${actionId}`,
@@ -45487,7 +47285,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminOrderReturnResponse, Error | string>({
         path: `/admin/returns/${id}/receive`,
@@ -45557,7 +47355,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/receive-items`,
@@ -45590,7 +47388,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/receive-items/${actionId}`,
@@ -45622,7 +47420,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/receive-items/${actionId}`,
@@ -45652,7 +47450,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/receive/confirm`,
@@ -45684,7 +47482,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/request`,
@@ -45754,7 +47552,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/request-items`,
@@ -45787,7 +47585,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/request-items/${actionId}`,
@@ -45819,7 +47617,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/request-items/${actionId}`,
@@ -45849,7 +47647,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/shipping-method`,
@@ -45882,7 +47680,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/shipping-method/${actionId}`,
@@ -45914,7 +47712,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminReturnPreviewResponse, Error | string>({
         path: `/admin/returns/${id}/shipping-method/${actionId}`,
@@ -46221,7 +48019,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -46272,7 +48070,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminSalesChannelResponse, Error | string>({
         path: `/admin/sales-channels`,
@@ -46303,7 +48101,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminSalesChannelResponse, Error | string>({
         path: `/admin/sales-channels/${id}`,
@@ -46333,7 +48131,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminSalesChannelResponse, Error | string>({
         path: `/admin/sales-channels/${id}`,
@@ -46388,7 +48186,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminSalesChannelResponse, Error | string>({
         path: `/admin/sales-channels/${id}/products`,
@@ -46691,7 +48489,7 @@ export class Api<
          */
         admin_only?: boolean;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -46742,7 +48540,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingOptionResponse, Error | string>({
         path: `/admin/shipping-options`,
@@ -46773,7 +48571,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingOptionResponse, Error | string>({
         path: `/admin/shipping-options/${id}`,
@@ -46874,15 +48672,7 @@ export class Api<
         rules?: (
           | {
               /** The operator used to check whether a rule applies. */
-              operator:
-                | "in"
-                | "eq"
-                | "ne"
-                | "gt"
-                | "gte"
-                | "lt"
-                | "lte"
-                | "nin";
+              operator: "in" | "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "nin";
               /**
                * attribute
                * The name of a property or table that the rule applies to.
@@ -46899,15 +48689,7 @@ export class Api<
                */
               id: string;
               /** The operator used to check whether a rule applies. */
-              operator:
-                | "in"
-                | "eq"
-                | "ne"
-                | "gt"
-                | "gte"
-                | "lt"
-                | "lte"
-                | "nin";
+              operator: "in" | "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "nin";
               /**
                * attribute
                * The name of a property or table that the rule applies to.
@@ -46926,7 +48708,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingOptionResponse, Error | string>({
         path: `/admin/shipping-options/${id}`,
@@ -46983,7 +48765,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -47310,7 +49092,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -47361,7 +49143,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingProfileResponse, Error | string>({
         path: `/admin/shipping-profiles`,
@@ -47392,7 +49174,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingProfileResponse, Error | string>({
         path: `/admin/shipping-profiles/${id}`,
@@ -47435,7 +49217,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminShippingProfileResponse, Error | string>({
         path: `/admin/shipping-profiles/${id}`,
@@ -47752,7 +49534,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationListResponse, Error | string>({
         path: `/admin/stock-locations`,
@@ -47781,7 +49563,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations`,
@@ -47812,7 +49594,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations/${id}`,
@@ -47842,7 +49624,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations/${id}`,
@@ -47897,7 +49679,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations/${id}/fulfillment-providers`,
@@ -47940,7 +49722,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations/${id}/fulfillment-sets`,
@@ -47977,7 +49759,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStockLocationResponse, Error | string>({
         path: `/admin/stock-locations/${id}/sales-channels`,
@@ -48041,7 +49823,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStoreListResponse, Error | string>({
         path: `/admin/stores`,
@@ -48070,7 +49852,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStoreResponse, Error | string>({
         path: `/admin/stores/${id}`,
@@ -48100,7 +49882,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminStoreResponse, Error | string>({
         path: `/admin/stores/${id}`,
@@ -48443,7 +50225,7 @@ export class Api<
          */
         shipping_option_type_id?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -48494,7 +50276,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRateResponse, Error | string>({
         path: `/admin/tax-rates`,
@@ -48525,7 +50307,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRateResponse, Error | string>({
         path: `/admin/tax-rates/${id}`,
@@ -48555,7 +50337,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRateResponse, Error | string>({
         path: `/admin/tax-rates/${id}`,
@@ -48605,7 +50387,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRateResponse, Error | string>({
         path: `/admin/tax-rates/${id}/rules`,
@@ -48637,7 +50419,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -49282,7 +51064,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -49333,7 +51115,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRegionResponse, Error | string>({
         path: `/admin/tax-regions`,
@@ -49364,7 +51146,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRegionResponse, Error | string>({
         path: `/admin/tax-regions/${id}`,
@@ -49394,7 +51176,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminTaxRegionResponse, Error | string>({
         path: `/admin/tax-regions/${id}`,
@@ -49455,7 +51237,7 @@ export class Api<
             )[];
           }
         | object[],
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFileListResponse, Error | string>({
         path: `/admin/uploads`,
@@ -49485,7 +51267,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminFileResponse, Error | string>({
         path: `/admin/uploads/${id}`,
@@ -49541,6 +51323,7 @@ export class Api<
      * @name AdminGetUsers
      * @summary List Users
      * @request GET:/admin/users
+     * @secure
      */
     adminGetUsers: (
       query?: {
@@ -49819,12 +51602,13 @@ export class Api<
           $exists?: boolean;
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminUserListResponse, Error | string>({
         path: `/admin/users`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -49836,6 +51620,7 @@ export class Api<
      * @name AdminGetUsersMe
      * @summary Get Logged-In User
      * @request GET:/admin/users/me
+     * @secure
      */
     adminGetUsersMe: (
       query?: {
@@ -49845,12 +51630,13 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminUserResponse, Error | string>({
         path: `/admin/users/me`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -49862,6 +51648,7 @@ export class Api<
      * @name AdminGetUsersId
      * @summary Get a User
      * @request GET:/admin/users/{id}
+     * @secure
      */
     adminGetUsersId: (
       id: string,
@@ -49872,12 +51659,13 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminUserResponse, Error | string>({
         path: `/admin/users/${id}`,
         method: "GET",
         query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -49889,6 +51677,7 @@ export class Api<
      * @name AdminPostUsersId
      * @summary Update a User
      * @request POST:/admin/users/{id}
+     * @secure
      */
     adminPostUsersId: (
       id: string,
@@ -49900,13 +51689,14 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminUserResponse, Error | string>({
         path: `/admin/users/${id}`,
         method: "POST",
         query: query,
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -49919,11 +51709,13 @@ export class Api<
      * @name AdminDeleteUsersId
      * @summary Delete a User
      * @request DELETE:/admin/users/{id}
+     * @secure
      */
     adminDeleteUsersId: (id: string, params: RequestParams = {}) =>
       this.request<AdminUserDeleteResponse, Error | string>({
         path: `/admin/users/${id}`,
         method: "DELETE",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -49964,7 +51756,7 @@ export class Api<
         /** Filter by a workflow ID. */
         workflow_id?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50015,7 +51807,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminWorkflowExecutionResponse, Error | string>({
         path: `/admin/workflows-executions/${id}`,
@@ -50038,7 +51830,7 @@ export class Api<
     adminPostWorkflowsExecutionsWorkflowIdRun: (
       workflowId: string,
       data: AdminCreateWorkflowsRun,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50094,7 +51886,7 @@ export class Api<
     adminPostWorkflowsExecutionsWorkflowIdStepsFailure: (
       workflowId: string,
       data: AdminCreateWorkflowsAsyncResponse,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50127,7 +51919,7 @@ export class Api<
     adminPostWorkflowsExecutionsWorkflowIdStepsSuccess: (
       workflowId: string,
       data: AdminCreateWorkflowsAsyncResponse,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50157,10 +51949,7 @@ export class Api<
      * @request GET:/admin/workflows-executions/{workflow_id}/subscribe
      * @secure
      */
-    adminGetWorkflowsExecutionsWorkflowIdSubscribe: (
-      workflowId: string,
-      params: RequestParams = {}
-    ) =>
+    adminGetWorkflowsExecutionsWorkflowIdSubscribe: (workflowId: string, params: RequestParams = {}) =>
       this.request<string, Error | string>({
         path: `/admin/workflows-executions/${workflowId}/subscribe`,
         method: "GET",
@@ -50187,7 +51976,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<AdminWorkflowExecutionResponse, Error | string>({
         path: `/admin/workflows-executions/${workflowId}/${transactionId}`,
@@ -50211,12 +52000,294 @@ export class Api<
       workflowId: string,
       transactionId: string,
       stepId: string,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<string, Error | string>({
         path: `/admin/workflows-executions/${workflowId}/${transactionId}/${stepId}/subscribe`,
         method: "GET",
         secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a commission rule with 'site' reference type.
+     *
+     * @tags Admin
+     * @name AdminGetDefaultCommissionRule
+     * @summary Get default commission rule
+     * @request GET:/admin/commission/default
+     * @secure
+     */
+    adminGetDefaultCommissionRule: (params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Commission aggregate object */
+          commission_rule?: AdminCommissionAggregate;
+        },
+        any
+      >({
+        path: `/admin/commission/default`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates or updates default commission rule.
+     *
+     * @tags Admin
+     * @name AdminUpsertDefaultCommissionRule
+     * @summary Upsert default CommissionRule
+     * @request POST:/admin/commission/default
+     * @secure
+     */
+    adminUpsertDefaultCommissionRule: (data: AdminUpsertDefaultCommissionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Commission rule object */
+          commission_rule?: AdminCommissionRule;
+        },
+        any
+      >({
+        path: `/admin/commission/default`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of commission rules.
+     *
+     * @tags Admin
+     * @name AdminListCommissionRules
+     * @summary List Commission rules
+     * @request GET:/admin/commission/rules
+     * @secure
+     */
+    adminListCommissionRules: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          commission_rules?: AdminCommissionAggregate[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/admin/commission/rules`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a new commission rule.
+     *
+     * @tags Admin
+     * @name AdminCreateCommissionRule
+     * @summary Create a CommissionRule
+     * @request POST:/admin/commission/rules
+     * @secure
+     */
+    adminCreateCommissionRule: (data: AdminCreateCommissionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Commission rule object */
+          commission_rule?: AdminCommissionRule;
+        },
+        any
+      >({
+        path: `/admin/commission/rules`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a commission rule by id.
+     *
+     * @tags Admin
+     * @name AdminGetCommissionRuleById
+     * @summary Get commission rule by id
+     * @request GET:/admin/commission/rules/{id}
+     * @secure
+     */
+    adminGetCommissionRuleById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Commission aggregate object */
+          commission_rule?: AdminCommissionAggregate;
+        },
+        any
+      >({
+        path: `/admin/commission/rules/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates commission rule by id.
+     *
+     * @tags Admin
+     * @name AdminUpdateCommissionRuleById
+     * @summary Update CommissionRule
+     * @request POST:/admin/commission/rules/{id}
+     * @secure
+     */
+    adminUpdateCommissionRuleById: (id: string, data: AdminUpdateCommissionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Commission rule object */
+          commission_rule?: AdminCommissionRule;
+        },
+        any
+      >({
+        path: `/admin/commission/rules/${id}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a commission rule by id.
+     *
+     * @tags Admin
+     * @name AdminDeleteCommissionRuleById
+     * @summary Delete a Commission Rule
+     * @request DELETE:/admin/commission/rules/{id}
+     * @secure
+     */
+    adminDeleteCommissionRuleById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted rule */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/admin/commission/rules/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves rules list
+     *
+     * @tags Admin
+     * @name AdminListRules
+     * @summary List rules
+     * @request GET:/admin/configuration
+     * @secure
+     */
+    adminListRules: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          configuration_rules?: ConfigurationRule[];
+          /** The total number of requests */
+          count?: number;
+          /** The number of requests skipped */
+          offset?: number;
+          /** The number of requests per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/admin/configuration`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a request to admin to accept new resource
+     *
+     * @tags Admin
+     * @name AdminCreateRule
+     * @summary Create a configuration rule
+     * @request POST:/admin/configuration
+     * @secure
+     */
+    adminCreateRule: (data: AdminCreateRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A configuration rule object */
+          configuration_rule?: ConfigurationRule;
+        },
+        any
+      >({
+        path: `/admin/configuration`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates a rule
+     *
+     * @tags Admin
+     * @name AdminUpdateRule
+     * @summary Update a configuration rule
+     * @request POST:/admin/configuration/{id}
+     * @secure
+     */
+    adminUpdateRule: (id: string, data: AdminUpdateRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A configuration rule object */
+          configuration_rule?: ConfigurationRule;
+        },
+        any
+      >({
+        path: `/admin/configuration/${id}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -50238,11 +52309,11 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
         /** Filter by request type */
-        type?: "product" | "product_collection" | "product_category" | "seller";
+        type?: "product" | "product_collection" | "product_category" | "seller" | "review_remove" | "product_type";
         /** Filter by request status */
         status?: "pending" | "rejected" | "accepted";
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50279,7 +52350,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50305,11 +52376,7 @@ export class Api<
      * @request POST:/admin/requests/{id}
      * @secure
      */
-    adminReviewRequestById: (
-      id: string,
-      data: AdminReviewRequest,
-      params: RequestParams = {}
-    ) =>
+    adminReviewRequestById: (id: string, data: AdminReviewRequest, params: RequestParams = {}) =>
       this.request<
         {
           id?: string;
@@ -50344,14 +52411,9 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
         /** Filter by request status */
-        status?:
-          | "pending"
-          | "refunded"
-          | "withdrawn"
-          | "escalated"
-          | "canceled";
+        status?: "pending" | "refunded" | "withdrawn" | "escalated" | "canceled";
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50388,7 +52450,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50414,11 +52476,7 @@ export class Api<
      * @request POST:/admin/return-request/{id}
      * @secure
      */
-    adminUpdateOrderReturnRequestById: (
-      id: string,
-      data: AdminUpdateOrderReturnRequest,
-      params: RequestParams = {}
-    ) =>
+    adminUpdateOrderReturnRequestById: (id: string, data: AdminUpdateOrderReturnRequest, params: RequestParams = {}) =>
       this.request<
         {
           /** A return request object with its properties */
@@ -50431,6 +52489,120 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves review list
+     *
+     * @tags Admin
+     * @name AdminListReviews
+     * @summary List reviews
+     * @request GET:/admin/reviews
+     * @secure
+     */
+    adminListReviews: (
+      query?: {
+        /** The number of items to return. Default 50. */
+        limit?: number;
+        /** The number of items to skip before starting the response. Default 0. */
+        offset?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+        /** Filter by review reference */
+        reference?: "product" | "seller";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          reviews?: Review[];
+          /** The total number of reviews */
+          count?: number;
+          /** The number of reviews skipped */
+          offset?: number;
+          /** The number of reviews per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/admin/reviews`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a review by id.
+     *
+     * @tags Admin
+     * @name AdminGetReviewById
+     * @summary Get review by id
+     * @request GET:/admin/reviews/{id}
+     * @secure
+     */
+    adminGetReviewById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          review?: Review;
+        },
+        any
+      >({
+        path: `/admin/reviews/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of sellers.
+     *
+     * @tags Admin
+     * @name AdminListSellers
+     * @summary List Sellers
+     * @request GET:/admin/sellers
+     * @secure
+     */
+    adminListSellers: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          sellers?: VendorSeller[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/admin/sellers`,
+        method: "GET",
+        query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -50501,11 +52673,7 @@ export class Api<
      * @summary Authenticate User
      * @request POST:/auth/user/{auth_provider}
      */
-    adminPostActorTypeAuthProvider: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    adminPostActorTypeAuthProvider: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse | AuthCallbackResponse, Error | string>({
         path: `/auth/user/${authProvider}`,
         method: "POST",
@@ -50523,10 +52691,7 @@ export class Api<
      * @summary Validate Authentication Callback
      * @request POST:/auth/user/{auth_provider}/callback
      */
-    adminPostActorTypeAuthProviderCallback: (
-      authProvider: string,
-      params: RequestParams = {}
-    ) =>
+    adminPostActorTypeAuthProviderCallback: (authProvider: string, params: RequestParams = {}) =>
       this.request<AuthResponse, Error | string>({
         path: `/auth/user/${authProvider}/callback`,
         method: "POST",
@@ -50542,11 +52707,7 @@ export class Api<
      * @summary Retrieve Registration JWT Token
      * @request POST:/auth/user/{auth_provider}/register
      */
-    adminPostActorTypeAuthProviderRegister: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    adminPostActorTypeAuthProviderRegister: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse, Error | string>({
         path: `/auth/user/${authProvider}/register`,
         method: "POST",
@@ -50557,7 +52718,7 @@ export class Api<
       }),
 
     /**
-     * @description Generate a reset password token for an admin user. This API route emits the `` event, passing it the token as a payload. You can listen to that event and send the user a notification. The notification should have a URL that accepts a `token` query parameter. Use the generated token to update the user's password using the Reset Password API route.
+     * @description Generate a reset password token for an admin user. This API route doesn't reset the admin's password or send them the reset instructions in a notification. Instead, This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event in a subscriber as explained in [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/reset-password), then send the user a notification. The notification is sent using a [Notification Module Provider](https://docs.medusajs.com/resources/architectural-modules/notification), and it should have the URL to reset the password in the Medusa Admin dashboard, such as `http://localhost:9000/app/reset-password?token=123`. Use the generated token to update the user's password using the [Reset Password API route](https://docs.medusajs.com/api/admin#auth_postactor_typeauth_providerupdate).
      *
      * @tags Admin Auth
      * @name AdminPostActorTypeAuthProviderResetPassword
@@ -50567,7 +52728,7 @@ export class Api<
     adminPostActorTypeAuthProviderResetPassword: (
       authProvider: string,
       data: BaseCartAddress,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, Error | string>({
         path: `/auth/user/${authProvider}/reset-password`,
@@ -50578,22 +52739,15 @@ export class Api<
       }),
 
     /**
-     * @description Reset a user's password. Generate the reset password token first using the Get Reset Password Token API route.
+     * @description Reset an admin user's password using a reset-password token generated with the [Generate Reset Password Token API route](https://docs.medusajs.com/api/admin#auth_postactor_typeauth_providerresetpassword). You pass the token as a bearer token in the request's Authorization header.
      *
      * @tags Admin Auth
      * @name AdminPostActorTypeAuthProviderUpdate
      * @summary Reset an Admin User's Password
      * @request POST:/auth/user/{auth_provider}/update
+     * @secure
      */
-    adminPostActorTypeAuthProviderUpdate: (
-      authProvider: string,
-      query: {
-        /** The reset password token received using the Get Reset Password API route. */
-        token: string;
-      },
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    adminPostActorTypeAuthProviderUpdate: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<
         {
           /**
@@ -50606,8 +52760,8 @@ export class Api<
       >({
         path: `/auth/user/${authProvider}/update`,
         method: "POST",
-        query: query,
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -50621,11 +52775,7 @@ export class Api<
      * @summary Authenticate Customer
      * @request POST:/auth/customer/{auth_provider}
      */
-    storePostActorTypeAuthProvider: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    storePostActorTypeAuthProvider: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse | AuthCallbackResponse, Error | string>({
         path: `/auth/customer/${authProvider}`,
         method: "POST",
@@ -50643,10 +52793,7 @@ export class Api<
      * @summary Validate Authentication Callback
      * @request POST:/auth/customer/{auth_provider}/callback
      */
-    storePostActorTypeAuthProviderCallback: (
-      authProvider: string,
-      params: RequestParams = {}
-    ) =>
+    storePostActorTypeAuthProviderCallback: (authProvider: string, params: RequestParams = {}) =>
       this.request<AuthResponse, Error | string>({
         path: `/auth/customer/${authProvider}/callback`,
         method: "POST",
@@ -50662,11 +52809,7 @@ export class Api<
      * @summary Retrieve Registration JWT Token
      * @request POST:/auth/customer/{auth_provider}/register
      */
-    storePostActorTypeAuthProviderRegister: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    storePostActorTypeAuthProviderRegister: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse, Error | string>({
         path: `/auth/customer/${authProvider}/register`,
         method: "POST",
@@ -50677,7 +52820,7 @@ export class Api<
       }),
 
     /**
-     * @description Generate a reset password token for a customer. This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event and send the user a notification. The notification should have a URL that accepts a `token` query parameter. Use the generated token to update the user's password using the Reset Password API route.
+     * @description Generate a reset password token for a customer. This API route doesn't reset the customer password or send them the reset instructions in a notification. Instead, This API route emits the `auth.password_reset` event, passing it the token as a payload. You can listen to that event in a subscriber as explained in [this guide](https://docs.medusajs.com/resources/commerce-modules/auth/reset-password), then send the customer a notification. The notification is sent using a [Notification Module Provider](https://docs.medusajs.com/resources/architectural-modules/notification), and it should have a URL that accepts a `token` query parameter, allowing the customer to reset their password from the storefront. Use the generated token to update the customer's password using the [Reset Password API route](https://docs.medusajs.com/api/store#auth_postactor_typeauth_providerupdate).
      *
      * @tags Store Auth
      * @name StorePostActorTypeAuthProviderResetPassword
@@ -50687,7 +52830,7 @@ export class Api<
     storePostActorTypeAuthProviderResetPassword: (
       authProvider: string,
       data: BaseCartAddress,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, Error | string>({
         path: `/auth/customer/${authProvider}/reset-password`,
@@ -50698,22 +52841,15 @@ export class Api<
       }),
 
     /**
-     * @description Reset a customer's password. Generate the reset password token first using the Get Reset Password Token API route.
+     * @description Reset a customer's password using a reset-password token generated with the [Generate Reset Password Token API route](https://docs.medusajs.com/api/store#auth_postactor_typeauth_providerresetpassword). You pass the token as a bearer token in the request's Authorization header.
      *
      * @tags Store Auth
      * @name StorePostActorTypeAuthProviderUpdate
      * @summary Reset a Customer's Password
      * @request POST:/auth/customer/{auth_provider}/update
+     * @secure
      */
-    storePostActorTypeAuthProviderUpdate: (
-      authProvider: string,
-      query: {
-        /** The reset password token received using the Get Reset Password API route. */
-        token: string;
-      },
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    storePostActorTypeAuthProviderUpdate: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<
         {
           /**
@@ -50726,8 +52862,8 @@ export class Api<
       >({
         path: `/auth/customer/${authProvider}/update`,
         method: "POST",
-        query: query,
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -50741,11 +52877,7 @@ export class Api<
      * @summary Authenticate Seller
      * @request POST:/auth/seller/{auth_provider}
      */
-    postSellerTypeAuthProvider: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    postSellerTypeAuthProvider: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse | AuthCallbackResponse, Error | string>({
         path: `/auth/seller/${authProvider}`,
         method: "POST",
@@ -50763,11 +52895,7 @@ export class Api<
      * @summary Retrieve Registration JWT Token
      * @request POST:/auth/seller/{auth_provider}/register
      */
-    postSellerTypeAuthProviderRegister: (
-      authProvider: string,
-      data: BaseCartAddress,
-      params: RequestParams = {}
-    ) =>
+    postSellerTypeAuthProviderRegister: (authProvider: string, data: BaseCartAddress, params: RequestParams = {}) =>
       this.request<AuthResponse, Error | string>({
         path: `/auth/seller/${authProvider}/register`,
         method: "POST",
@@ -50798,7 +52926,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts`,
@@ -50827,7 +52955,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}`,
@@ -50858,7 +52986,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -50893,7 +53021,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         | {
@@ -50960,7 +53088,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/customer`,
@@ -50988,7 +53116,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/line-items`,
@@ -51019,7 +53147,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/line-items/${lineId}`,
@@ -51049,7 +53177,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -51092,10 +53220,7 @@ export class Api<
      */
     storePostCartsIdPromotions: (
       id: string,
-      data: {
-        /** Promotion codes to add to the cart. */
-        promo_codes: string[];
-      },
+      data: StoreCartAddPromotion,
       query?: {
         /**
          * fields
@@ -51103,7 +53228,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/promotions`,
@@ -51132,7 +53257,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -51174,7 +53299,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/shipping-methods`,
@@ -51203,7 +53328,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCartResponse, Error | string>({
         path: `/store/carts/${id}/taxes`,
@@ -51573,7 +53698,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -51622,7 +53747,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCollectionResponse, Error | string>({
         path: `/store/collections/${id}`,
@@ -51680,7 +53805,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCurrencyListResponse, Error | string>({
         path: `/store/currencies`,
@@ -51707,7 +53832,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCurrencyResponse, Error | string>({
         path: `/store/currencies/${code}`,
@@ -51735,7 +53860,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerResponse, Error | string>({
         path: `/store/customers`,
@@ -51765,7 +53890,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerResponse, Error | string>({
         path: `/store/customers/me`,
@@ -51794,7 +53919,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerResponse, Error | string>({
         path: `/store/customers/me`,
@@ -51850,7 +53975,7 @@ export class Api<
          */
         q?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerAddressListResponse, Error | string>({
         path: `/store/customers/me/addresses`,
@@ -51947,7 +54072,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerResponse, Error | string>({
         path: `/store/customers/me/addresses`,
@@ -51978,7 +54103,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerAddressResponse, Error | string>({
         path: `/store/customers/me/addresses/${addressId}`,
@@ -52076,7 +54201,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreCustomerResponse, Error | string>({
         path: `/store/customers/me/addresses/${addressId}`,
@@ -52107,7 +54232,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -52185,18 +54310,9 @@ export class Api<
          */
         $or?: object[];
         /** The order's status. */
-        status?:
-          | string
-          | (
-              | "canceled"
-              | "requires_action"
-              | "pending"
-              | "completed"
-              | "draft"
-              | "archived"
-            )[];
+        status?: string | ("canceled" | "requires_action" | "pending" | "completed" | "draft" | "archived")[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -52246,7 +54362,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreOrderResponse, Error | string>({
         path: `/store/orders/${id}`,
@@ -52274,7 +54390,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreOrderResponse, Error | string>({
         path: `/store/orders/${id}/transfer/accept`,
@@ -52304,7 +54420,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreOrderResponse, Error | string>({
         path: `/store/orders/${id}/transfer/cancel`,
@@ -52333,7 +54449,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreOrderResponse, Error | string>({
         path: `/store/orders/${id}/transfer/decline`,
@@ -52364,7 +54480,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreOrderResponse, Error | string>({
         path: `/store/orders/${id}/transfer/request`,
@@ -52394,7 +54510,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StorePaymentCollectionResponse, Error | string>({
         path: `/store/payment-collections`,
@@ -52424,7 +54540,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StorePaymentCollectionResponse, Error | string>({
         path: `/store/payment-collections/${id}/payment-sessions`,
@@ -52472,7 +54588,7 @@ export class Api<
          */
         region_id: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -52880,7 +54996,7 @@ export class Api<
         /** Filter by a product category name. */
         name?: string | string[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductCategoryListResponse, Error | string>({
         path: `/store/product-categories`,
@@ -52917,7 +55033,7 @@ export class Api<
          */
         include_descendants_tree?: boolean;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductCategoryResponse, Error | string>({
         path: `/store/product-categories/${id}`,
@@ -53287,7 +55403,7 @@ export class Api<
           $exists?: boolean;
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductTagListResponse, Error | string>({
         path: `/store/product-tags`,
@@ -53314,7 +55430,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductTagResponse, Error | string>({
         path: `/store/product-tags/${id}`,
@@ -53684,7 +55800,7 @@ export class Api<
           $exists?: boolean;
         };
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductTypeListResponse, Error | string>({
         path: `/store/product-types`,
@@ -53711,7 +55827,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductTypeResponse, Error | string>({
         path: `/store/product-types/${id}`,
@@ -54134,7 +56250,7 @@ export class Api<
          */
         cart_id?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54218,7 +56334,7 @@ export class Api<
          */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreProductResponse, Error | string>({
         path: `/store/products/${id}`,
@@ -54280,7 +56396,7 @@ export class Api<
          */
         $or?: object[];
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54329,7 +56445,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54394,7 +56510,7 @@ export class Api<
          */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54443,7 +56559,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreReturnReasonResponse, Error | string>({
         path: `/store/return-reasons/${id}`,
@@ -54504,7 +56620,7 @@ export class Api<
          */
         is_return?: boolean;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreShippingOptionListResponse, Error | string>({
         path: `/store/shipping-options`,
@@ -54540,7 +56656,7 @@ export class Api<
          */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<StoreShippingOptionResponse, Error | string>({
         path: `/store/shipping-options/${id}/calculate`,
@@ -54566,7 +56682,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54597,10 +56713,7 @@ export class Api<
      * @request POST:/store/return-request
      * @secure
      */
-    storeCreateOrderReturnRequest: (
-      data: StoreCreateOrderReturnRequest,
-      params: RequestParams = {}
-    ) =>
+    storeCreateOrderReturnRequest: (data: StoreCreateOrderReturnRequest, params: RequestParams = {}) =>
       this.request<
         {
           /** A return request object with its properties */
@@ -54632,7 +56745,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54648,8 +56761,867 @@ export class Api<
         format: "json",
         ...params,
       }),
+
+    /**
+     * @description Retrieves the reviews created by the authenticated user.
+     *
+     * @tags Review
+     * @name StoreGetMyReviews
+     * @summary Get reviews of the current user
+     * @request GET:/store/reviews
+     * @secure
+     */
+    storeGetMyReviews: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          products?: Review[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/store/reviews`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates new review with rating and comment
+     *
+     * @tags Review
+     * @name StoreCreateNewReview
+     * @summary Create new review
+     * @request POST:/store/reviews
+     * @secure
+     */
+    storeCreateNewReview: (
+      data: StoreCreateReview,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          product?: Review;
+        },
+        any
+      >({
+        path: `/store/reviews`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a review of specified id
+     *
+     * @tags Review
+     * @name StoreGetReviewById
+     * @summary Get Review
+     * @request GET:/store/reviews/{id}
+     * @secure
+     */
+    storeGetReviewById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          product?: Review;
+        },
+        any
+      >({
+        path: `/store/reviews/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates customer_note and rating for the review of specified id
+     *
+     * @tags Review
+     * @name StoreUpdateReviewById
+     * @summary Update a Review
+     * @request POST:/store/reviews/{id}
+     * @secure
+     */
+    storeUpdateReviewById: (
+      id: string,
+      data: StoreUpdateReview,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          product?: Review;
+        },
+        any
+      >({
+        path: `/store/reviews/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a review by id.
+     *
+     * @tags Review
+     * @name StoreDeleteReviewById
+     * @summary Delete a Review
+     * @request DELETE:/store/reviews/{id}
+     * @secure
+     */
+    storeDeleteReviewById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Review */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/store/reviews/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves the seller list.
+     *
+     * @tags Store
+     * @name StoreGetSellers
+     * @summary Get sellers
+     * @request GET:/store/seller
+     * @secure
+     */
+    storeGetSellers: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          products?: StoreSeller[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/store/seller`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves seller of specified handle
+     *
+     * @tags Seller
+     * @name StoreGetSellerByHandle
+     * @summary Get seller
+     * @request GET:/store/seller/{handle}
+     * @secure
+     */
+    storeGetSellerByHandle: (
+      handle: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A seller object with its properties */
+          product?: StoreSeller;
+        },
+        any
+      >({
+        path: `/store/seller/${handle}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
   };
   vendor = {
+    /**
+     * @description Retrieves the api keys associated with the seller.
+     *
+     * @tags Seller
+     * @name VendorGetSellerMyApiKeys
+     * @summary Get api keys of the current seller
+     * @request GET:/vendor/api-keys
+     * @secure
+     */
+    vendorGetSellerMyApiKeys: (params: RequestParams = {}) =>
+      this.request<
+        {
+          api_keys?: SellerApiKey[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/api-keys`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a seller api key
+     *
+     * @tags Seller
+     * @name VendorCreateApiKey
+     * @summary Create seller api key
+     * @request POST:/vendor/api-keys
+     * @secure
+     */
+    vendorCreateApiKey: (data: VendorCreateSellerApiKey, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A seller api key with explicit token value */
+          api_key?: SellerApiKeyExplicit;
+        },
+        any
+      >({
+        path: `/vendor/api-keys`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves an api key by id for the authenticated vendor.
+     *
+     * @tags Seller
+     * @name VendorGetSellerApiKeyById
+     * @summary Get an api key by id
+     * @request GET:/vendor/api-keys/{id}
+     * @secure
+     */
+    vendorGetSellerApiKeyById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A seller api key details */
+          api_key?: SellerApiKey;
+        },
+        any
+      >({
+        path: `/vendor/api-keys/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Revokes an api key by id for the authenticated vendor.
+     *
+     * @tags Seller
+     * @name VendorRevokeSellerApiKeyById
+     * @summary Revoke an api key by id
+     * @request DELETE:/vendor/api-keys/{id}
+     * @secure
+     */
+    vendorRevokeSellerApiKeyById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A seller api key details */
+          api_key?: SellerApiKey;
+        },
+        any
+      >({
+        path: `/vendor/api-keys/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of campaigns for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorListCampaigns
+     * @summary List Campaigns
+     * @request GET:/vendor/campaigns
+     * @secure
+     */
+    vendorListCampaigns: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          campaigns?: VendorCampaign[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/campaigns`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a new campaign for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorCreateCampaign
+     * @summary Create campaign
+     * @request POST:/vendor/campaigns
+     * @secure
+     */
+    vendorCreateCampaign: (
+      data: VendorCreateCampaign,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The campaign's details. */
+          campaign?: VendorCampaign;
+        },
+        any
+      >({
+        path: `/vendor/campaigns`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves campaign by id for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorGetCampaignById
+     * @summary Get campaign
+     * @request GET:/vendor/campaigns/{id}
+     * @secure
+     */
+    vendorGetCampaignById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The campaign's details. */
+          campaign?: VendorCampaign;
+        },
+        any
+      >({
+        path: `/vendor/campaigns/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates campaign by id for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorUpdateCampaignById
+     * @summary Update campaign
+     * @request POST:/vendor/campaigns/{id}
+     * @secure
+     */
+    vendorUpdateCampaignById: (
+      id: string,
+      data: VendorUpdateCampaign,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The campaign's details. */
+          campaign?: VendorCampaign;
+        },
+        any
+      >({
+        path: `/vendor/campaigns/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes campaign by id for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorDeleteCampaignById
+     * @summary Delete campaign
+     * @request DELETE:/vendor/campaigns/{id}
+     * @secure
+     */
+    vendorDeleteCampaignById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted campaign. */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/campaigns/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves marketplace rules list
+     *
+     * @tags Seller
+     * @name VendorListRules
+     * @summary List rules
+     * @request GET:/vendor/configuration
+     * @secure
+     */
+    vendorListRules: (params: RequestParams = {}) =>
+      this.request<
+        {
+          configuration_rules?: ConfigurationRule[];
+        },
+        any
+      >({
+        path: `/vendor/configuration`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of customer groups.
+     *
+     * @tags Seller
+     * @name VendorListCustomerGroups
+     * @summary List Customer Groups
+     * @request GET:/vendor/customer-groups
+     * @secure
+     */
+    vendorListCustomerGroups: (
+      query?: {
+        /** The number of items to return. Default 50. */
+        limit?: number;
+        /** The number of items to skip before starting the response. Default 0. */
+        offset?: number;
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          customer_groups?: VendorCustomerGroup[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a new customer group
+     *
+     * @tags Seller
+     * @name VendorCreateCustomerGroup
+     * @summary Create a customer group
+     * @request POST:/vendor/customer-groups
+     * @secure
+     */
+    vendorCreateCustomerGroup: (data: VendorCreateCustomerGroup, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Customer group details. */
+          customer_group?: VendorCustomerGroup;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieve customer group by id
+     *
+     * @tags Seller
+     * @name VendorGetCustomerGroupById
+     * @summary Retrieve customer group by id
+     * @request GET:/vendor/customer-groups/{id}
+     * @secure
+     */
+    vendorGetCustomerGroupById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** Customer group details. */
+          member?: VendorCustomerGroup;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates customer group
+     *
+     * @tags Seller
+     * @name VendorUpdateCustomerGroup
+     * @summary Update customer group
+     * @request POST:/vendor/customer-groups/{id}
+     * @secure
+     */
+    vendorUpdateCustomerGroup: (id: string, data: VendorCreateCustomerGroup, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Customer group details. */
+          customer_group?: VendorCustomerGroup;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups/${id}`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a customer group by id.
+     *
+     * @tags Seller
+     * @name VendorDeleteCustomerGroupById
+     * @summary Delete a customer group
+     * @request DELETE:/vendor/customer-groups/{id}
+     * @secure
+     */
+    vendorDeleteCustomerGroupById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Customer group */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Adds or removes customers to a customer group
+     *
+     * @tags Seller
+     * @name VendorUpdateCustomersInCustomerGroup
+     * @summary Link customers to customer group
+     * @request POST:/vendor/customer-groups/{id}/customers
+     * @secure
+     */
+    vendorUpdateCustomersInCustomerGroup: (id: string, data: VendorLinkCustomersToGroup, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Customer group details. */
+          customer_group?: VendorCustomerGroup;
+        },
+        any
+      >({
+        path: `/vendor/customer-groups/${id}/customers`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of customers who placed an order in sellers store.
+     *
+     * @tags Seller
+     * @name VendorListSellerCustomers
+     * @summary List Customers
+     * @request GET:/vendor/customers
+     * @secure
+     */
+    vendorListSellerCustomers: (
+      query?: {
+        /** The number of items to return. Default 50. */
+        limit?: number;
+        /** The number of items to skip before starting the response. Default 0. */
+        offset?: number;
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          customers?: VendorCustomer[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/customers`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves the details of specified customer.
+     *
+     * @tags Seller
+     * @name VendorGetCustomer
+     * @summary Get Customer details
+     * @request GET:/vendor/customers/{id}
+     * @secure
+     */
+    vendorGetCustomer: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Customer who placed an order in sellers store. */
+          customer?: VendorCustomer;
+        },
+        any
+      >({
+        path: `/vendor/customers/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of orders for the specified customer.
+     *
+     * @tags Order
+     * @name VendorListOrdersByCustomerId
+     * @summary List Orders by customer id
+     * @request GET:/vendor/customers/{id}/orders
+     * @secure
+     */
+    vendorListOrdersByCustomerId: (
+      id: string,
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          orders?: VendorCustomerOrderOverview[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/customers/${id}/orders`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of Fulfillment Providers.
+     *
+     * @tags Stock Location
+     * @name VendorListFulfillmentProviders
+     * @summary List Fulfillment Providers
+     * @request GET:/vendor/fulfillment-providers
+     * @secure
+     */
+    vendorListFulfillmentProviders: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          fulfillment_providers?: VendorFulfillmentSet[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/fulfillment-providers`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
     /**
      * @description Deletes a Fulfillment Set.
      *
@@ -54693,11 +57665,7 @@ export class Api<
      * @request POST:/vendor/fulfillment-sets/{id}/service-zones
      * @secure
      */
-    vendorCreateServiceZone: (
-      id: string,
-      data: VendorCreateServiceZone,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateServiceZone: (id: string, data: VendorCreateServiceZone, params: RequestParams = {}) =>
       this.request<
         {
           /** The service zone's fulfillment set. */
@@ -54727,7 +57695,7 @@ export class Api<
       id: string,
       zoneId: string,
       data: VendorUpdateServiceZone,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54754,11 +57722,7 @@ export class Api<
      * @request DELETE:/vendor/fulfillment-sets/{id}/service-zones/{zone_id}
      * @secure
      */
-    vendorDeleteServiceZoneById: (
-      id: string,
-      zoneId: string,
-      params: RequestParams = {}
-    ) =>
+    vendorDeleteServiceZoneById: (id: string, zoneId: string, params: RequestParams = {}) =>
       this.request<
         {
           /** The ID of the deleted Service Zone. */
@@ -54826,11 +57790,7 @@ export class Api<
      * @request POST:/vendor/inventory-items/{id}
      * @secure
      */
-    vendorUpdateInventoryItem: (
-      id: string,
-      data: VendorUpdateInventoryItem,
-      params: RequestParams = {}
-    ) =>
+    vendorUpdateInventoryItem: (id: string, data: VendorUpdateInventoryItem, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/vendor/inventory-items/${id}`,
         method: "POST",
@@ -54866,11 +57826,7 @@ export class Api<
      * @request POST:/vendor/inventory-items/{id}/location-levels
      * @secure
      */
-    vendorCreateInventoryLevel: (
-      id: string,
-      data: VendorCreateInventoryLevel,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateInventoryLevel: (id: string, data: VendorCreateInventoryLevel, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/vendor/inventory-items/${id}/location-levels`,
         method: "POST",
@@ -54889,11 +57845,7 @@ export class Api<
      * @request GET:/vendor/inventory-items/{id}/location-levels/{location_id}
      * @secure
      */
-    vendorGetInventoryLevel: (
-      id: string,
-      locationId: string,
-      params: RequestParams = {}
-    ) =>
+    vendorGetInventoryLevel: (id: string, locationId: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/vendor/inventory-items/${id}/location-levels/${locationId}`,
         method: "GET",
@@ -54914,7 +57866,7 @@ export class Api<
       id: string,
       locationId: string,
       data: VendorUpdateInventoryLevel,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<void, any>({
         path: `/vendor/inventory-items/${id}/location-levels/${locationId}`,
@@ -54945,7 +57897,7 @@ export class Api<
         /** Field used to order the results. */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -54976,10 +57928,7 @@ export class Api<
      * @request POST:/vendor/invites
      * @secure
      */
-    vendorCreateInvite: (
-      data: VendorInviteMember,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateInvite: (data: VendorInviteMember, params: RequestParams = {}) =>
       this.request<
         {
           /** A member invite object with its properties */
@@ -55005,11 +57954,7 @@ export class Api<
      * @request POST:/vendor/invites/{id}/accept
      * @secure
      */
-    vendorAcceptInvite: (
-      id: string,
-      data: VendorAcceptMemberInvite,
-      params: RequestParams = {}
-    ) =>
+    vendorAcceptInvite: (id: string, data: VendorAcceptMemberInvite, params: RequestParams = {}) =>
       this.request<
         {
           /** A member invite object with its properties */
@@ -55022,6 +57967,30 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves the member associated with the authenticated user.
+     *
+     * @tags Member
+     * @name VendorGetMemberMe
+     * @summary Get Current Member
+     * @request GET:/vendor/me
+     * @secure
+     */
+    vendorGetMemberMe: (params: RequestParams = {}) =>
+      this.request<
+        {
+          /** A member object with its properties */
+          member?: VendorMember;
+        },
+        any
+      >({
+        path: `/vendor/me`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -55048,7 +58017,7 @@ export class Api<
         /** Field used to order the results. */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55065,30 +58034,6 @@ export class Api<
         path: `/vendor/members`,
         method: "GET",
         query: query,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * @description Retrieves the member associated with the authenticated user.
-     *
-     * @tags Member
-     * @name VendorGetMemberMe
-     * @summary Get Current Member
-     * @request GET:/vendor/members/me
-     * @secure
-     */
-    vendorGetMemberMe: (params: RequestParams = {}) =>
-      this.request<
-        {
-          /** A member object with its properties */
-          member?: VendorMember;
-        },
-        any
-      >({
-        path: `/vendor/members/me`,
-        method: "GET",
         secure: true,
         format: "json",
         ...params,
@@ -55127,11 +58072,7 @@ export class Api<
      * @request POST:/vendor/members/{id}
      * @secure
      */
-    vendorUpdateMemberById: (
-      id: string,
-      data: VendorUpdateMember,
-      params: RequestParams = {}
-    ) =>
+    vendorUpdateMemberById: (id: string, data: VendorUpdateMember, params: RequestParams = {}) =>
       this.request<
         {
           /** A member object with its properties */
@@ -55206,7 +58147,7 @@ export class Api<
         /** Search query for filtering orders */
         q?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55277,6 +58218,37 @@ export class Api<
       }),
 
     /**
+     * @description Retrieves a list of order changes for the authenticated vendor.
+     *
+     * @tags Order
+     * @name VendorListOrderChanges
+     * @summary List Order Changes
+     * @request GET:/vendor/orders/{id}/changes
+     * @secure
+     */
+    vendorListOrderChanges: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          order_changes?: VendorOrderChange[];
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/changes`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Mark order as complete.
      *
      * @tags Order
@@ -55301,6 +58273,85 @@ export class Api<
       }),
 
     /**
+     * @description Cancel order fulfillment.
+     *
+     * @tags Order
+     * @name VendorCancelOrderFulfillment
+     * @summary Cancel order fulfillment.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/cancel
+     * @secure
+     */
+    vendorCancelOrderFulfillment: (id: string, fulfillmentId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/cancel`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Mark order fulfillment shipment as delivered.
+     *
+     * @tags Order
+     * @name VendorOrderFulfillmentMarkDelivered
+     * @summary Mark order fulfillment shipment as delivered.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/mark-as-delivered
+     * @secure
+     */
+    vendorOrderFulfillmentMarkDelivered: (id: string, fulfillmentId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/mark-as-delivered`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Update order fulfillment shipment.
+     *
+     * @tags Order
+     * @name VendorUpdateOrderFulfillmentShipment
+     * @summary Update order fulfillment shipment.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/shipments
+     * @secure
+     */
+    vendorUpdateOrderFulfillmentShipment: (
+      id: string,
+      fulfillmentId: string,
+      data: VendorOrderCreateShipment,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/shipments`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Retrieves the payout account for the authenticated vendor.
      *
      * @tags Payment Account
@@ -55314,7 +58365,7 @@ export class Api<
         /** Comma-separated fields that should be included in the returned data. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55340,10 +58391,7 @@ export class Api<
      * @request POST:/vendor/payout-account
      * @secure
      */
-    vendorCreatePayoutAccount: (
-      data: VendorCreatePayoutAccount,
-      params: RequestParams = {}
-    ) =>
+    vendorCreatePayoutAccount: (data: VendorCreatePayoutAccount, params: RequestParams = {}) =>
       this.request<
         {
           /** A payout account object with its properties */
@@ -55369,10 +58417,7 @@ export class Api<
      * @request POST:/vendor/payout-account/onboarding
      * @secure
      */
-    vendorCreateOnboarding: (
-      data: VendorCreateOnboarding,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateOnboarding: (data: VendorCreateOnboarding, params: RequestParams = {}) =>
       this.request<
         {
           /** A payout account object with its properties */
@@ -55385,6 +58430,480 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of price lists.
+     *
+     * @tags Price Lists
+     * @name VendorListPriceLists
+     * @summary List Price lists
+     * @request GET:/vendor/price-lists
+     * @secure
+     */
+    vendorListPriceLists: (
+      query?: {
+        /** The number of items to return. Default 50. */
+        limit?: number;
+        /** The number of items to skip before starting the response. Default 0. */
+        offset?: number;
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          price_lists?: VendorPriceList[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/price-lists`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates new price list
+     *
+     * @tags Price Lists
+     * @name VendorCreatePriceList
+     * @summary Create price list
+     * @request POST:/vendor/price-lists
+     * @secure
+     */
+    vendorCreatePriceList: (
+      data: VendorCreatePriceList,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The price list's details. */
+          price_list?: VendorPriceList;
+        },
+        any
+      >({
+        path: `/vendor/price-lists`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves the details of specified price list.
+     *
+     * @tags Price Lists
+     * @name VendorGetPriceListById
+     * @summary Get price list details
+     * @request GET:/vendor/price-lists/{id}
+     * @secure
+     */
+    vendorGetPriceListById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The price list's details. */
+          price_list?: VendorPriceList;
+        },
+        any
+      >({
+        path: `/vendor/price-lists/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates price list price
+     *
+     * @tags Price Lists
+     * @name VendorUpdatePriceList
+     * @summary Update price list
+     * @request POST:/vendor/price-lists/{id}
+     * @secure
+     */
+    vendorUpdatePriceList: (
+      id: string,
+      data: VendorUpdatePriceList,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The price list's details. */
+          price_list?: VendorPriceList;
+        },
+        any
+      >({
+        path: `/vendor/price-lists/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Delete a price list.
+     *
+     * @tags Price Lists
+     * @name VendorDeletePriceListsId
+     * @summary Delete a Price List
+     * @request DELETE:/vendor/price-lists/{id}
+     * @secure
+     */
+    vendorDeletePriceListsId: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Price list */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/price-lists/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates new price list price
+     *
+     * @tags Price Lists
+     * @name VendorCreatePriceListPrice
+     * @summary Create price list
+     * @request POST:/vendor/price-lists/{id}/prices
+     * @secure
+     */
+    vendorCreatePriceListPrice: (
+      id: string,
+      data: VendorCreatePriceListPrice,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The price list's details. */
+          price_list?: VendorPriceList;
+        },
+        any
+      >({
+        path: `/vendor/price-lists/${id}/prices`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes price list price by id.
+     *
+     * @tags Price Lists
+     * @name VendorDeletePriceListPriceById
+     * @summary Deletes price list price
+     * @request DELETE:/vendor/price-lists/{id}/prices/{price_id}
+     * @secure
+     */
+    vendorDeletePriceListPriceById: (id: string, priceId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Price */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/price-lists/${id}/prices/${priceId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of product categories.
+     *
+     * @tags Product
+     * @name VendorListProductCategories
+     * @summary List product categories
+     * @request GET:/vendor/product-categories
+     * @secure
+     */
+    vendorListProductCategories: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          product_categories?: VendorProductCategory[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/product-categories`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves product category by id.
+     *
+     * @tags Product
+     * @name VendorGetProductCategoryById
+     * @summary Get product category
+     * @request GET:/vendor/product-categories/{id}
+     * @secure
+     */
+    vendorGetProductCategoryById: (
+      id: string,
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product category object with its properties */
+          product_category?: VendorProductCategory;
+        },
+        any
+      >({
+        path: `/vendor/product-categories/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of product tags.
+     *
+     * @tags Product
+     * @name VendorListProductTags
+     * @summary List product tags
+     * @request GET:/vendor/product-tags
+     * @secure
+     */
+    vendorListProductTags: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          product_tags?: VendorProductTag[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/product-tags`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates new product tag
+     *
+     * @tags Product
+     * @name VendorCreateProductTag
+     * @summary Create product tag
+     * @request POST:/vendor/product-tags
+     * @secure
+     */
+    vendorCreateProductTag: (
+      data: VendorCreateProductTag,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product tag object with its properties */
+          product_tag?: VendorProductTag;
+        },
+        any
+      >({
+        path: `/vendor/product-tags`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves product tag by id.
+     *
+     * @tags Product
+     * @name VendorGetProductTagById
+     * @summary Get product tag
+     * @request GET:/vendor/product-tags/{id}
+     * @secure
+     */
+    vendorGetProductTagById: (
+      id: string,
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product tag object with its properties */
+          product_tag?: VendorProductTag;
+        },
+        any
+      >({
+        path: `/vendor/product-tags/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of product types.
+     *
+     * @tags Product
+     * @name VendorListProductTypes
+     * @summary List product types
+     * @request GET:/vendor/product-types
+     * @secure
+     */
+    vendorListProductTypes: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          product_types?: VendorProductType[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/product-types`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves product type by id.
+     *
+     * @tags Product
+     * @name VendorGetProductTypeById
+     * @summary Get product type
+     * @request GET:/vendor/product-types/{id}
+     * @secure
+     */
+    vendorGetProductTypeById: (
+      id: string,
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product type object with its properties */
+          product_type?: VendorProductType;
+        },
+        any
+      >({
+        path: `/vendor/product-types/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -55409,7 +58928,7 @@ export class Api<
         /** The order of the returned items. */
         order?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55440,10 +58959,7 @@ export class Api<
      * @request POST:/vendor/products
      * @secure
      */
-    vendorCreateProduct: (
-      data: VendorCreateProduct,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateProduct: (data: VendorCreateProduct, params: RequestParams = {}) =>
       this.request<
         {
           /** A product object with its properties */
@@ -55475,7 +58991,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55508,7 +59024,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55556,19 +59072,50 @@ export class Api<
       }),
 
     /**
+     * @description Upserts brand and links to the product
+     *
+     * @tags Product
+     * @name VendorAssignBrandToProduct
+     * @summary Assign brand to the Product
+     * @request POST:/vendor/products/{id}/brand
+     * @secure
+     */
+    vendorAssignBrandToProduct: (
+      id: string,
+      data: VendorAssignBrandName,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/brand`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Updates an existing product for the authenticated vendor.
      *
      * @tags Order
      * @name VendorCreateFulfillment
      * @summary Update a Product
-     * @request POST:/vendor/products/{id}/fulfillment
+     * @request POST:/vendor/products/{id}/fulfillments
      * @secure
      */
-    vendorCreateFulfillment: (
-      id: string,
-      data: VendorCreateFulfillment,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateFulfillment: (id: string, data: VendorCreateFulfillment, params: RequestParams = {}) =>
       this.request<
         {
           /** The fulfillment's details. */
@@ -55576,7 +59123,444 @@ export class Api<
         },
         any
       >({
-        path: `/vendor/products/${id}/fulfillment`,
+        path: `/vendor/products/${id}/fulfillments`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates option for product.
+     *
+     * @tags Product
+     * @name VendorCreateOptionForProductById
+     * @summary Create option for product
+     * @request POST:/vendor/products/{id}/options
+     * @secure
+     */
+    vendorCreateOptionForProductById: (
+      id: string,
+      data: CreateProductOption,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/options`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing product option for the authenticated vendor.
+     *
+     * @tags Product
+     * @name VendorUpdateProductOptionById
+     * @summary Update a Product option
+     * @request POST:/vendor/products/{id}/options/{option_id}
+     * @secure
+     */
+    vendorUpdateProductOptionById: (
+      id: string,
+      optionId: string,
+      data: UpdateProductOption,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/options/${optionId}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a product option by id for the authenticated vendor.
+     *
+     * @tags Product
+     * @name VendorDeleteProductOptionById
+     * @summary Delete a Product option
+     * @request DELETE:/vendor/products/{id}/options/{option_id}
+     * @secure
+     */
+    vendorDeleteProductOptionById: (id: string, optionId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Product option */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/options/${optionId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing product status for the authenticated vendor.
+     *
+     * @tags Product
+     * @name VendorUpdateProductStatusById
+     * @summary Update a Product status
+     * @request POST:/vendor/products/{id}/status
+     * @secure
+     */
+    vendorUpdateProductStatusById: (
+      id: string,
+      data: VendorUpdateProductStatus,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/status`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates variant for product.
+     *
+     * @tags Product
+     * @name VendorCreateVariantForProductById
+     * @summary Create variant for product
+     * @request POST:/vendor/products/{id}/variants
+     * @secure
+     */
+    vendorCreateVariantForProductById: (
+      id: string,
+      data: CreateProductVariant,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/variants`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing product variant for the authenticated vendor.
+     *
+     * @tags Product
+     * @name VendorUpdateProductVariantById
+     * @summary Update a Product variant
+     * @request POST:/vendor/products/{id}/variants/{variant_id}
+     * @secure
+     */
+    vendorUpdateProductVariantById: (
+      id: string,
+      variantId: string,
+      data: UpdateProductVariant,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product object with its properties */
+          product?: VendorProduct;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/variants/${variantId}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes a product variant by id for the authenticated vendor.
+     *
+     * @tags Product
+     * @name VendorDeleteProductVariantById
+     * @summary Delete a Product variant
+     * @request DELETE:/vendor/products/{id}/variants/{variant_id}
+     * @secure
+     */
+    vendorDeleteProductVariantById: (id: string, variantId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted Product variant */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/products/${id}/variants/${variantId}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of promotions for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorListPromotions
+     * @summary List Promotions
+     * @request GET:/vendor/promotions
+     * @secure
+     */
+    vendorListPromotions: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          promotions?: VendorPromotion[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/promotions`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Creates a new promotion for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorCreatePromotion
+     * @summary Create promotion
+     * @request POST:/vendor/promotions
+     * @secure
+     */
+    vendorCreatePromotion: (data: VendorCreatePromotion, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Promotion object */
+          promotion?: VendorPromotion;
+        },
+        any
+      >({
+        path: `/vendor/promotions`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves promotion by id for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorGetPromotionById
+     * @summary Get promotion
+     * @request GET:/vendor/promotions/{id}
+     * @secure
+     */
+    vendorGetPromotionById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** Promotion object */
+          promotion?: VendorPromotion;
+        },
+        any
+      >({
+        path: `/vendor/promotions/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes promotion by id for the authenticated vendor.
+     *
+     * @tags Promotion
+     * @name VendorDeletePromotionById
+     * @summary Delete promotion
+     * @request DELETE:/vendor/promotions/{id}
+     * @secure
+     */
+    vendorDeletePromotionById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted promotion */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/promotions/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Performs batch create/delete operation on buy-rules
+     *
+     * @tags Promotion
+     * @name VendorBatchBuyRules
+     * @summary Batch buy rules
+     * @request POST:/vendor/promotions/{id}/buy-rules/batch
+     * @secure
+     */
+    vendorBatchBuyRules: (id: string, data: VendorBatchPromotionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Promotion object */
+          promotion?: VendorPromotion;
+        },
+        any
+      >({
+        path: `/vendor/promotions/${id}/buy-rules/batch`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Performs batch create/delete operation on rules
+     *
+     * @tags Promotion
+     * @name VendorBatchRules
+     * @summary Batch rules
+     * @request POST:/vendor/promotions/{id}/rules/batch
+     * @secure
+     */
+    vendorBatchRules: (id: string, data: VendorBatchPromotionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Promotion object */
+          promotion?: VendorPromotion;
+        },
+        any
+      >({
+        path: `/vendor/promotions/${id}/rules/batch`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Performs batch create/delete operation on target-rules
+     *
+     * @tags Promotion
+     * @name VendorBatchTargetRules
+     * @summary Batch target rules
+     * @request POST:/vendor/promotions/{id}/target-rules/batch
+     * @secure
+     */
+    vendorBatchTargetRules: (id: string, data: VendorBatchPromotionRule, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** Promotion object */
+          promotion?: VendorPromotion;
+        },
+        any
+      >({
+        path: `/vendor/promotions/${id}/target-rules/batch`,
         method: "POST",
         body: data,
         secure: true,
@@ -55599,7 +59583,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55630,10 +59614,7 @@ export class Api<
      * @request POST:/vendor/requests
      * @secure
      */
-    vendorCreateRequest: (
-      data: VendorCreateRequest,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateRequest: (data: VendorCreateRequest, params: RequestParams = {}) =>
       this.request<
         {
           /** A request object */
@@ -55665,7 +59646,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55677,6 +59658,141 @@ export class Api<
         path: `/vendor/requests/${id}`,
         method: "GET",
         query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of reservations for the authenticated vendor.
+     *
+     * @tags Reservations
+     * @name VendorListReservations
+     * @summary List Reservations
+     * @request GET:/vendor/reservations
+     * @secure
+     */
+    vendorListReservations: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          reservations?: VendorReservation[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/reservations`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves reservation by id for the authenticated vendor.
+     *
+     * @tags Reservations
+     * @name VendorGetReservationById
+     * @summary Get reservation
+     * @request GET:/vendor/reservations/{id}
+     * @secure
+     */
+    vendorGetReservationById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The reservation's details. */
+          reservation?: VendorReservation;
+        },
+        any
+      >({
+        path: `/vendor/reservations/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing reservation for the authenticated vendor.
+     *
+     * @tags Reservations
+     * @name VendorUpdateReservationById
+     * @summary Update reservation
+     * @request POST:/vendor/reservations/{id}
+     * @secure
+     */
+    vendorUpdateReservationById: (
+      id: string,
+      data: VendorUpdateReservation,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The reservation's details. */
+          reservation?: VendorReservation;
+        },
+        any
+      >({
+        path: `/vendor/reservations/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Deletes reservation by id for the authenticated vendor.
+     *
+     * @tags Reservations
+     * @name VendorDeleteReservationById
+     * @summary Delete reservation
+     * @request DELETE:/vendor/reservations/{id}
+     * @secure
+     */
+    vendorDeleteReservationById: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The ID of the deleted reservation */
+          id?: string;
+          /** The type of the object that was deleted */
+          object?: string;
+          /** Whether or not the items were deleted */
+          deleted?: boolean;
+        },
+        any
+      >({
+        path: `/vendor/reservations/${id}`,
+        method: "DELETE",
         secure: true,
         format: "json",
         ...params,
@@ -55696,7 +59812,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55733,7 +59849,7 @@ export class Api<
         /** Comma-separated fields to include in the response. */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55762,7 +59878,7 @@ export class Api<
     vendorUpdateOrderReturnRequestById: (
       id: string,
       data: VendorUpdateOrderReturnRequest,
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -55781,6 +59897,382 @@ export class Api<
       }),
 
     /**
+     * @description Retrieves a list of returns for the authenticated vendor.
+     *
+     * @tags Return
+     * @name VendorListReturns
+     * @summary List Returns
+     * @request GET:/vendor/returns
+     * @secure
+     */
+    vendorListReturns: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          returns?: VendorReturn[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/returns`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves return by id for the authenticated vendor.
+     *
+     * @tags Return
+     * @name VendorGetReturnById
+     * @summary Get return
+     * @request GET:/vendor/returns/{id}
+     * @secure
+     */
+    vendorGetReturnById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Add damaged items, whose quantity is to be dismissed, to a return.
+     *
+     * @tags Return
+     * @name VendorAddDismissReturnItemById
+     * @summary Add Damaged Item to Return
+     * @request POST:/vendor/returns/{id}/dismiss-items
+     * @secure
+     */
+    vendorAddDismissReturnItemById: (
+      id: string,
+      data: VendorReceiveReturnItems,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/dismiss-items`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Update a damaged item, whose quantity is to be dismissed, in the return by the ID of the  item's `RECEIVE_DAMAGED_RETURN_ITEM` action.
+     *
+     * @tags Return
+     * @name VendorUpdateDismissReturnItemById
+     * @summary Update Damaged Item of Return
+     * @request POST:/vendor/returns/{id}/dismiss-items/{action_id}
+     * @secure
+     */
+    vendorUpdateDismissReturnItemById: (
+      id: string,
+      actionId: string,
+      data: VendorReturnsDismissItemsAction,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/dismiss-items/${actionId}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Remove a damaged item, whose quantity is to be dismissed, in the return by the ID of the  item's `RECEIVE_DAMAGED_RETURN_ITEM` action.
+     *
+     * @tags Return
+     * @name VendorDismissReturnItemById
+     * @summary Remove Damaged Item from Return
+     * @request DELETE:/vendor/returns/{id}/dismiss-items/{action_id}
+     * @secure
+     */
+    vendorDismissReturnItemById: (
+      id: string,
+      actionId: string,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/dismiss-items/${actionId}`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Start a return receival process to be later confirmed.
+     *
+     * @tags Return
+     * @name VendorReturnReceiveById
+     * @summary Start Return Receival
+     * @request POST:/vendor/returns/{id}/receive
+     * @secure
+     */
+    vendorReturnReceiveById: (
+      id: string,
+      data: VendorReceiveReturn,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/receive`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Add received items to return.
+     *
+     * @tags Return
+     * @name VendorAddReceiveReturnItemById
+     * @summary Add received Item to Return
+     * @request POST:/vendor/returns/{id}/receive-items
+     * @secure
+     */
+    vendorAddReceiveReturnItemById: (
+      id: string,
+      data: VendorReceiveReturnItems,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/receive-items`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Update a received item.
+     *
+     * @tags Return
+     * @name VendorUpdateReceiveReturnItemById
+     * @summary Update received Item of Return
+     * @request POST:/vendor/returns/{id}/receive-items/{action_id}
+     * @secure
+     */
+    vendorUpdateReceiveReturnItemById: (
+      id: string,
+      actionId: string,
+      data: VendorReturnsReceiveItemsAction,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/receive-items/${actionId}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Remove a received item
+     *
+     * @tags Return
+     * @name VendorReceiveReturnItemById
+     * @summary Remove received Item from Return
+     * @request DELETE:/vendor/returns/{id}/receive-items/{action_id}
+     * @secure
+     */
+    vendorReceiveReturnItemById: (
+      id: string,
+      actionId: string,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/receive-items/${actionId}`,
+        method: "DELETE",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Confirm a return receival process.
+     *
+     * @tags Return
+     * @name VendorConfirmReturnReceiveById
+     * @summary Confirm Return Receival
+     * @request POST:/vendor/returns/{id}/receive/confirm
+     * @secure
+     */
+    vendorConfirmReturnReceiveById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields that should be included in the returned data. if a field is prefixed with `+` it will be added to the default fields, using `-` will remove it from the default fields. without prefix it will replace the entire default fields. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The return's details. */
+          return?: VendorReturn;
+        },
+        any
+      >({
+        path: `/vendor/returns/${id}/receive/confirm`,
+        method: "POST",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of Sales Channels for authenticated vendor.
+     *
+     * @tags Seller, Sales-channel
+     * @name VendorListSalesChannels
+     * @summary List Sales Channels
+     * @request GET:/vendor/sales-channels
+     * @secure
+     */
+    vendorListSalesChannels: (params: RequestParams = {}) =>
+      this.request<
+        {
+          sales_channels?: VendorSalesChannel[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/sales-channels`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Creates a request to create a new seller with an initial owner member.
      *
      * @tags Seller
@@ -55789,10 +60281,7 @@ export class Api<
      * @request POST:/vendor/sellers
      * @secure
      */
-    vendorCreateSeller: (
-      data: VendorCreateSeller,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateSeller: (data: VendorCreateSeller, params: RequestParams = {}) =>
       this.request<
         {
           /** A request object */
@@ -55842,10 +60331,7 @@ export class Api<
      * @request POST:/vendor/sellers/me
      * @secure
      */
-    vendorUpdateSellerMe: (
-      data: VendorUpdateSeller,
-      params: RequestParams = {}
-    ) =>
+    vendorUpdateSellerMe: (data: VendorUpdateSeller, params: RequestParams = {}) =>
       this.request<
         {
           /** A seller object with its properties */
@@ -55863,15 +60349,159 @@ export class Api<
       }),
 
     /**
-     * @description Retrieves a list of Shipping Options for a Service Zone.
+     * @description Retrieves the onboarding details of the current authenticated seller.
+     *
+     * @tags Seller, Onboarding
+     * @name VendorGetOnboardingStatus
+     * @summary Get onboarding status of the current seller
+     * @request GET:/vendor/sellers/me/onboarding
+     * @secure
+     */
+    vendorGetOnboardingStatus: (params: RequestParams = {}) =>
+      this.request<
+        {
+          /** An onboarding object with its properties */
+          onboarding?: VendorSellerOnboarding;
+        },
+        any
+      >({
+        path: `/vendor/sellers/me/onboarding`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Triggers onboarding status recalculation and retrieves the onboarding details of the current authenticated seller.
+     *
+     * @tags Seller, Onboarding
+     * @name VendorRecalculateOnboardingStatus
+     * @summary Recalculates onboarding status
+     * @request POST:/vendor/sellers/me/onboarding
+     * @secure
+     */
+    vendorRecalculateOnboardingStatus: (params: RequestParams = {}) =>
+      this.request<
+        {
+          /** An onboarding object with its properties */
+          onboarding?: VendorSellerOnboarding;
+        },
+        any
+      >({
+        path: `/vendor/sellers/me/onboarding`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves the reviews about the seller associated with the authenticated user.
+     *
+     * @tags Seller, Review
+     * @name VendorGetSellerMyReviews
+     * @summary Get reviews of the current seller
+     * @request GET:/vendor/sellers/me/reviews
+     * @secure
+     */
+    vendorGetSellerMyReviews: (params: RequestParams = {}) =>
+      this.request<
+        {
+          products?: Review[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/sellers/me/reviews`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a review by id for the authenticated vendor.
+     *
+     * @tags Seller, Review
+     * @name VendorGetSellerReviewById
+     * @summary Get a review by id
+     * @request GET:/vendor/sellers/me/reviews/{id}
+     * @secure
+     */
+    vendorGetSellerReviewById: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          product?: Review;
+        },
+        any
+      >({
+        path: `/vendor/sellers/me/reviews/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates seller_note for the review of specified id
+     *
+     * @tags Seller, Review
+     * @name VendorUpdateReviewById
+     * @summary Update a Review
+     * @request POST:/vendor/sellers/me/reviews/{id}
+     * @secure
+     */
+    vendorUpdateReviewById: (
+      id: string,
+      data: VendorUpdateReview,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product/seller review with rating and comment */
+          product?: Review;
+        },
+        any
+      >({
+        path: `/vendor/sellers/me/reviews/${id}`,
+        method: "POST",
+        query: query,
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of Shipping Options for authenticated vendor.
      *
      * @tags Shipping Option
      * @name VendorListShippingOptions
      * @summary List Shipping Options
-     * @request GET:/vendor/service-zones/{id}/shipping-options
+     * @request GET:/vendor/shipping-options
      * @secure
      */
-    vendorListShippingOptions: (id: string, params: RequestParams = {}) =>
+    vendorListShippingOptions: (params: RequestParams = {}) =>
       this.request<
         {
           shipping_options?: VendorShippingOption[];
@@ -55884,7 +60514,7 @@ export class Api<
         },
         any
       >({
-        path: `/vendor/service-zones/${id}/shipping-options`,
+        path: `/vendor/shipping-options`,
         method: "GET",
         secure: true,
         format: "json",
@@ -55892,19 +60522,15 @@ export class Api<
       }),
 
     /**
-     * @description Creates a Shipping Option for a Service Zone.
+     * @description Creates a Shipping Option for authenticated vendor.
      *
      * @tags Shipping Option
      * @name VendorCreateShippingOption
      * @summary Create a Shipping Option
-     * @request POST:/vendor/service-zones/{id}/shipping-options
+     * @request POST:/vendor/shipping-options
      * @secure
      */
-    vendorCreateShippingOption: (
-      id: string,
-      data: VendorCreateShippingOption,
-      params: RequestParams = {}
-    ) =>
+    vendorCreateShippingOption: (data: VendorCreateShippingOption, params: RequestParams = {}) =>
       this.request<
         {
           /** The shipping option's details. */
@@ -55912,7 +60538,7 @@ export class Api<
         },
         any
       >({
-        path: `/vendor/service-zones/${id}/shipping-options`,
+        path: `/vendor/shipping-options`,
         method: "POST",
         body: data,
         secure: true,
@@ -55954,11 +60580,7 @@ export class Api<
      * @request POST:/vendor/shipping-options/{id}
      * @secure
      */
-    vendorUpdateShippingOptionById: (
-      id: string,
-      data: VendorUpdateShippingOption,
-      params: RequestParams = {}
-    ) =>
+    vendorUpdateShippingOptionById: (id: string, data: VendorUpdateShippingOption, params: RequestParams = {}) =>
       this.request<
         {
           /** The shipping option's details. */
@@ -56010,6 +60632,37 @@ export class Api<
       }),
 
     /**
+     * @description Retrieves store statistics.
+     *
+     * @tags Seller
+     * @name VendorGetStoreStatistics
+     * @summary GetStoreStatistics
+     * @request GET:/vendor/statistics
+     * @secure
+     */
+    vendorGetStoreStatistics: (
+      query?: {
+        time_from?: string;
+        time_to?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          orders?: VendorDateStatistics[];
+          customers?: VendorDateStatistics[];
+        },
+        any
+      >({
+        path: `/vendor/statistics`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Retrieves a list of Stock Locations.
      *
      * @tags Stock Location
@@ -56023,7 +60676,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56054,7 +60707,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56088,7 +60741,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56121,7 +60774,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56161,7 +60814,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56196,7 +60849,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56236,7 +60889,7 @@ export class Api<
         /** The comma-separated fields to include in the response */
         fields?: string;
       },
-      params: RequestParams = {}
+      params: RequestParams = {},
     ) =>
       this.request<
         {
@@ -56251,6 +60904,78 @@ export class Api<
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of stores.
+     *
+     * @tags Store
+     * @name VendorListStores
+     * @summary List Stores
+     * @request GET:/vendor/stores
+     * @secure
+     */
+    vendorListStores: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          stores?: VendorStore[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/stores`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a Store by id.
+     *
+     * @tags Store
+     * @name VendorGetStoreById
+     * @summary Get store
+     * @request GET:/vendor/stores/{id}
+     * @secure
+     */
+    vendorGetStoreById: (
+      id: string,
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** Store object. */
+          store?: VendorStore;
+        },
+        any
+      >({
+        path: `/vendor/stores/${id}`,
+        method: "GET",
+        query: query,
+        secure: true,
         format: "json",
         ...params,
       }),

@@ -1,15 +1,15 @@
-import { getFormattedOrderSetListWorkflow } from '#/workflows/order-set/workflows'
-
 import { MedusaRequest, MedusaResponse } from '@medusajs/framework'
+
+import { getFormattedOrderSetListWorkflow } from '../../../workflows/order-set/workflows'
 
 export const GET = async (req: MedusaRequest, res: MedusaResponse) => {
   const {
     result: { data, metadata }
   } = await getFormattedOrderSetListWorkflow(req.scope).run({
     input: {
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: req.filterableFields,
-      pagination: req.remoteQueryConfig.pagination
+      pagination: req.queryConfig.pagination
     }
   })
 

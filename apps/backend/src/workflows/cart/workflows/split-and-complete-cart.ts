@@ -1,8 +1,5 @@
-import { MARKETPLACE_MODULE } from '#/modules/marketplace'
-import { OrderSetWorkflowEvents } from '#/modules/marketplace/types'
-import { SELLER_MODULE } from '#/modules/seller'
-
 import {
+  MedusaError,
   Modules,
   OrderStatus,
   OrderWorkflowEvents
@@ -21,6 +18,9 @@ import {
 import { CartShippingMethodDTO } from '@medusajs/types/dist/cart'
 import { WorkflowResponse, createWorkflow } from '@medusajs/workflows-sdk'
 
+import { MARKETPLACE_MODULE } from '../../../modules/marketplace'
+import { OrderSetWorkflowEvents } from '../../../modules/marketplace/types'
+import { SELLER_MODULE } from '../../../modules/seller'
 import { createOrderSetStep, validateCartShippingOptionsStep } from '../steps'
 import {
   completeCartFields,
@@ -122,7 +122,14 @@ export const splitAndCompleteCartWorkflow = createWorkflow(
           const sellers = Array.from(sellerLineItemsMap.keys())
 
           const ordersToCreate = sellers.map((sellerId) => {
-            const sm = sellerShippingMethodsMap.get(sellerId)!
+            const sm = sellerShippingMethodsMap.get(sellerId)
+
+            if (!sm) {
+              throw new MedusaError(
+                MedusaError.Types.INVALID_DATA,
+                'Seller shipping method not found!'
+              )
+            }
 
             const items = sellerLineItemsMap.get(sellerId)!.map((item) =>
               prepareLineItemData({

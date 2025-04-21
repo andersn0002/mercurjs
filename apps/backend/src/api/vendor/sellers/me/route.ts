@@ -1,7 +1,7 @@
 import { AuthenticatedMedusaRequest, MedusaResponse } from '@medusajs/framework'
 import { ContainerRegistrationKeys } from '@medusajs/framework/utils'
 
-import { fetchSellerByAuthActorId } from '../../../../shared/infra/http/utils/seller'
+import { fetchSellerByAuthContext } from '../../../../shared/infra/http/utils/seller'
 import { updateSellerWorkflow } from '../../../../workflows/seller/workflows'
 import { VendorUpdateSellerType } from '../validators'
 
@@ -31,10 +31,10 @@ export const GET = async (
   req: AuthenticatedMedusaRequest,
   res: MedusaResponse
 ) => {
-  const seller = await fetchSellerByAuthActorId(
-    req.auth_context.actor_id,
+  const seller = await fetchSellerByAuthContext(
+    req.auth_context,
     req.scope,
-    req.remoteQueryConfig.fields
+    req.queryConfig.fields
   )
 
   res.json({ seller })
@@ -72,7 +72,7 @@ export const POST = async (
   res: MedusaResponse
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
-  const { id } = req.params
+  const { id } = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
   await updateSellerWorkflow(req.scope).run({
     input: {
@@ -86,7 +86,7 @@ export const POST = async (
   } = await query.graph(
     {
       entity: 'seller',
-      fields: req.remoteQueryConfig.fields,
+      fields: req.queryConfig.fields,
       filters: { id }
     },
     { throwIfKeyNotFound: true }

@@ -27,10 +27,12 @@
     "generate:oas": "medusa-oas oas --type combined --paths ./src/api"
   },
   "dependencies": {
-    "@medusajs/admin-sdk": "2.6.1",
-    "@medusajs/cli": "2.6.1",
-    "@medusajs/framework": "2.6.1",
-    "@medusajs/medusa": "2.6.1",
+    "@faker-js/faker": "^9.7.0",
+    "@medusajs/admin-sdk": "2.7.0",
+    "@medusajs/cli": "2.7.0",
+    "@medusajs/framework": "2.7.0",
+    "@medusajs/medusa": "2.7.0",
+    "@mercurjs/http-client": "*",
     "@mikro-orm/core": "6.4.3",
     "@mikro-orm/knex": "6.4.3",
     "@mikro-orm/migrations": "6.4.3",
@@ -39,13 +41,12 @@
     "awilix": "^8.0.1",
     "pg": "^8.13.0",
     "resend": "^4.1.2",
-    "stripe": "^17.4.0",
-    "@mercurjs/http-client": "*"
+    "stripe": "^17.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
-    "@medusajs/medusa-oas-cli": "2.6.1",
-    "@medusajs/test-utils": "2.6.1",
+    "@medusajs/medusa-oas-cli": "2.7.0",
+    "@medusajs/test-utils": "2.7.0",
     "@mikro-orm/cli": "6.4.3",
     "@swc/core": "1.5.7",
     "@swc/jest": "^0.2.36",

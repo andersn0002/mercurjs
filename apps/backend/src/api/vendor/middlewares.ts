@@ -1,9 +1,7 @@
-import { unlessBaseUrl } from '#/shared/infra/http/utils'
-
-import { MiddlewareRoute } from '@medusajs/framework'
-
 import { authenticateVendor } from '../../shared/infra/http/middlewares/authenticate-vendor'
 import { vendorApiKeyMiddlewares } from './api-keys/middlewares'
+import { MiddlewareRoute, authenticate } from '@medusajs/framework'
+import { unlessBaseUrl } from '../../shared/infra/http/utils'
 import { vendorCampaignsMiddlewares } from './campaigns/middlewares'
 import { vendorCors } from './cors'
 import { vendorCustomerGroupsMiddlewares } from './customer-groups/middlewares'
@@ -18,6 +16,7 @@ import { vendorOrderMiddlewares } from './orders/middlewares'
 import { vendorPayoutAccountMiddlewares } from './payout-account/middlewares'
 import { vendorPayoutMiddlewares } from './payouts/middlewares'
 import { vendorPriceListsMiddlewares } from './price-lists/middlewares'
+import { vendorProductCategoriesMiddlewares } from './product-categories/middlewares'
 import { vendorProductTagsMiddlewares } from './product-tags/middlewares'
 import { vendorProductTypesMiddlewares } from './product-types/middlewares'
 import { vendorProductsMiddlewares } from './products/middlewares'
@@ -90,6 +89,7 @@ export const vendorMiddlewares: MiddlewareRoute[] = [
   ...vendorStoresMiddlewares,
   ...vendorProductTagsMiddlewares,
   ...vendorProductTypesMiddlewares,
+  ...vendorProductCategoriesMiddlewares,
   ...vendorUploadMiddlewares,
   ...vendorPromotionsMiddlewares,
   ...vendorReservationsMiddlewares,

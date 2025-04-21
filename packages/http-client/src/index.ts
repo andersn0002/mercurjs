@@ -23775,6 +23775,78 @@ export interface ConfigurationRule {
   is_enabled?: boolean;
 }
 
+export interface CreateProduct {
+  /** The title of the product. */
+  title: string;
+  /** The subtitle of the product. */
+  subtitle?: string;
+  /** The description of the product. */
+  description?: string;
+  /**
+   * Whether the product is a gift card.
+   * @default false
+   */
+  is_giftcard?: boolean;
+  /**
+   * Whether the product can be discounted.
+   * @default true
+   */
+  discountable?: boolean;
+  /** Images of the product. */
+  images?: {
+    url: string;
+  }[];
+  /** The thumbnail of the product. */
+  thumbnail?: string;
+  /** A unique handle to identify the product. */
+  handle?: string;
+  /**
+   * The status of the product.
+   * @default "draft"
+   */
+  status?: "draft" | "proposed" | "published" | "rejected";
+  /** The external ID of the product. */
+  external_id?: string;
+  /** The ID of the product type. */
+  type_id?: string;
+  /** The ID of the collection the product belongs to. */
+  collection_id?: string;
+  /** Categories the product belongs to. */
+  categories?: {
+    id: string;
+  }[];
+  /** Tags associated with the product. */
+  tags?: {
+    id: string;
+  }[];
+  /** Product options. */
+  options?: CreateProductOption[];
+  /** Product variants. */
+  variants?: CreateProductVariant[];
+  /** The weight of the product. */
+  weight?: number;
+  /** The length of the product. */
+  length?: number;
+  /** The height of the product. */
+  height?: number;
+  /** The width of the product. */
+  width?: number;
+  /** The HS code of the product. */
+  hs_code?: string;
+  /** The MID code of the product. */
+  mid_code?: string;
+  /** The country of origin of the product. */
+  origin_country?: string;
+  /** The material composition of the product. */
+  material?: string;
+  /** Additional metadata for the product. */
+  metadata?: object;
+  /** Sales channels to associate the product with. */
+  sales_channels?: {
+    id: string;
+  }[];
+}
+
 export interface CreateProductOption {
   /** The title of the product option (e.g. "Size", "Color"). */
   title: string;
@@ -23994,12 +24066,6 @@ export interface ProductCollectionRequest {
   };
 }
 
-export interface ProductRequest {
-  /** The type of the request */
-  type: "product";
-  data: VendorCreateProduct;
-}
-
 export interface ProductTypeRequest {
   /** The type of the request */
   type: "product_type";
@@ -24123,6 +24189,49 @@ export interface StoreCreateReview {
 }
 
 /**
+ * Seller
+ * A seller object with its properties
+ */
+export interface StoreSeller {
+  /** The unique identifier of the seller. */
+  id?: string;
+  /**
+   * The date with timezone at which the resource was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * The date with timezone at which the resource was last updated.
+   * @format date-time
+   */
+  updated_at?: string;
+  /** The name of the seller. */
+  name?: string;
+  /** A description of the seller. */
+  description?: string | null;
+  /** A unique handle for the seller. */
+  handle?: string;
+  /** Store contact email. */
+  email?: string | null;
+  /** Store contact phone. */
+  phone?: string | null;
+  /** URL to the seller's photo. */
+  photo?: string | null;
+  /** Seller address line. */
+  address_line?: string | null;
+  /** Seller postal code. */
+  postal_code?: string | null;
+  /** Seller city. */
+  city?: string | null;
+  /** Seller state. */
+  state?: string | null;
+  /** Seller country code. */
+  country_code?: string | null;
+  /** Seller tax id. */
+  tax_id?: string | null;
+}
+
+/**
  * Update Review
  * A schema for the review update.
  */
@@ -24138,6 +24247,67 @@ export interface StoreUpdateReview {
    * @maxLength 300
    */
   customer_note?: string;
+}
+
+export interface UpdateProduct {
+  /** The title of the product. */
+  title?: string;
+  /** Whether the product can be discounted. */
+  discountable?: boolean;
+  /** Whether the product is a gift card. */
+  is_giftcard?: boolean;
+  /** The product options to update. */
+  options?: UpdateProductOption[];
+  /** The product variants to update. */
+  variants?: UpdateProductVariant[];
+  /** The subtitle of the product. */
+  subtitle?: string | null;
+  /** The description of the product. */
+  description?: string | null;
+  /** Images of the product. */
+  images?: {
+    url?: string;
+  }[];
+  /** The thumbnail of the product. */
+  thumbnail?: string | null;
+  /** The handle of the product. */
+  handle?: string | null;
+  /** The ID of the product type. */
+  type_id?: string | null;
+  /** The external ID of the product. */
+  external_id?: string | null;
+  /** The ID of the collection the product belongs to. */
+  collection_id?: string | null;
+  /** Product category IDs to associate with the product. */
+  categories?: {
+    id: string;
+  }[];
+  /** Product tag IDs to associate with the product. */
+  tags?: {
+    id: string;
+  }[];
+  /** The weight of the product. */
+  weight?: number | null;
+  /** The length of the product. */
+  length?: number | null;
+  /** The height of the product. */
+  height?: number | null;
+  /** The width of the product. */
+  width?: number | null;
+  /** The HS code of the product. */
+  hs_code?: string | null;
+  /** The MID code of the product. */
+  mid_code?: string | null;
+  /** The country of origin of the product. */
+  origin_country?: string | null;
+  /** The material composition of the product. */
+  material?: string | null;
+  /** Additional metadata for the product. */
+  metadata?: object | null;
+  /** Sales channels to associate the product with. */
+  sales_channels?: {
+    id: string;
+  }[];
 }
 
 export interface UpdateProductOption {
@@ -24415,11 +24585,10 @@ export interface VendorCreateCustomerGroup {
 }
 
 export interface VendorCreateFulfillment {
-  /** The number of items to return. Default 50. */
   requires_shipping?: boolean;
-  /** The number of items to skip before starting the response. Default 0. */
+  /** The location id. */
   location_id?: string;
-  /** Sales channels to associate the product with. */
+  /** Items to create fulfillment. */
   items?: {
     id?: string;
     quantity?: number;
@@ -24520,77 +24689,10 @@ export interface VendorCreatePriceListPrice {
   max_quantity?: number;
 }
 
-export interface VendorCreateProduct {
-  /** The title of the product. */
-  title: string;
-  /** The subtitle of the product. */
-  subtitle?: string;
-  /** The description of the product. */
-  description?: string;
-  /**
-   * Whether the product is a gift card.
-   * @default false
-   */
-  is_giftcard?: boolean;
-  /**
-   * Whether the product can be discounted.
-   * @default true
-   */
-  discountable?: boolean;
-  /** Images of the product. */
-  images?: {
-    url: string;
-  }[];
-  /** The thumbnail of the product. */
-  thumbnail?: string;
-  /** A unique handle to identify the product. */
-  handle?: string;
-  /**
-   * The status of the product.
-   * @default "draft"
-   */
-  status?: "draft" | "proposed" | "published" | "rejected";
-  /** The external ID of the product. */
-  external_id?: string;
-  /** The ID of the product type. */
-  type_id?: string;
-  /** The ID of the collection the product belongs to. */
-  collection_id?: string;
-  /** Categories the product belongs to. */
-  categories?: {
-    id: string;
-  }[];
-  /** Tags associated with the product. */
-  tags?: {
-    id: string;
-  }[];
-  /** Product options. */
-  options?: CreateProductOption[];
-  /** Product variants. */
-  variants?: CreateProductVariant[];
-  /** The weight of the product. */
-  weight?: number;
-  /** The length of the product. */
-  length?: number;
-  /** The height of the product. */
-  height?: number;
-  /** The width of the product. */
-  width?: number;
-  /** The HS code of the product. */
-  hs_code?: string;
-  /** The MID code of the product. */
-  mid_code?: string;
-  /** The country of origin of the product. */
-  origin_country?: string;
-  /** The material composition of the product. */
-  material?: string;
-  /** Additional metadata for the product. */
-  metadata?: object;
-  /** Sales channels to associate the product with. */
-  sales_channels?: {
-    id: string;
-  }[];
-}
+export type VendorCreateProduct = CreateProduct & {
+  /** Additional data to use in products hooks. */
+  additional_data?: Record<string, any>;
+};
 
 export interface VendorCreateProductTag {
   /** The title of the product tag. */
@@ -24627,12 +24729,7 @@ export interface VendorCreatePromotionRule {
 
 export interface VendorCreateRequest {
   /** The resource to be created by request */
-  request:
-    | ProductRequest
-    | ProductCollectionRequest
-    | ProductCategoryRequest
-    | ReviewRemoveRequest
-    | ProductTypeRequest;
+  request: ProductCollectionRequest | ProductCategoryRequest | ReviewRemoveRequest | ProductTypeRequest;
 }
 
 export interface VendorCreateSeller {
@@ -25346,6 +25443,189 @@ export interface VendorOrderAddress {
   updated_at?: string;
 }
 
+/** The order's change. */
+export interface VendorOrderChange {
+  /**
+   * id
+   * The order change's ID.
+   */
+  id?: string;
+  /**
+   * version
+   * The order change's version. This will be the order's version when the change is applied.
+   */
+  version?: number;
+  /** The order change's type. */
+  change_type?: "return" | "exchange" | "claim" | "edit";
+  /**
+   * order_id
+   * The ID of the order this change applies on.
+   */
+  order_id?: string;
+  /**
+   * return_id
+   * The ID of the associated return.
+   */
+  return_id?: string;
+  /**
+   * exchange_id
+   * The ID of the associated exchange.
+   */
+  exchange_id?: string;
+  /**
+   * claim_id
+   * The ID of the associated claim.
+   */
+  claim_id?: string;
+  /** The order change's actions. */
+  actions?: VendorOrderChangeAction[];
+  /** The order change's status. */
+  status?: "canceled" | "requested" | "pending" | "confirmed" | "declined";
+  /**
+   * requested_by
+   * The ID of the user that requested the change.
+   */
+  requested_by?: string;
+  /**
+   * requested_at
+   * The date the order change was requested.
+   * @format date-time
+   */
+  requested_at?: string;
+  /**
+   * confirmed_by
+   * The ID of the user that confirmed the order change.
+   */
+  confirmed_by?: string;
+  /**
+   * confirmed_at
+   * The date the order change was confirmed.
+   * @format date-time
+   */
+  confirmed_at?: string;
+  /**
+   * declined_by
+   * The ID of the user that declined the order change.
+   */
+  declined_by?: string;
+  /**
+   * declined_reason
+   * The reason the order change was declined.
+   */
+  declined_reason?: string;
+  /** The order change's metadata, can hold custom key-value pairs. */
+  metadata?: object;
+  /**
+   * declined_at
+   * The date the order change was declined.
+   * @format date-time
+   */
+  declined_at?: string;
+  /**
+   * canceled_by
+   * The ID of the user that canceled the order change.
+   */
+  canceled_by?: string;
+  /**
+   * canceled_at
+   * The date the order change was canceled.
+   * @format date-time
+   */
+  canceled_at?: string;
+  /**
+   * created_at
+   * The date the order change was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the order change was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
+/** The order change action's details. */
+export interface VendorOrderChangeAction {
+  /**
+   * id
+   * The action's ID.
+   */
+  id?: string;
+  /**
+   * order_change_id
+   * The ID of the order change that the action belongs to.
+   */
+  order_change_id?: string;
+  /**
+   * order_id
+   * The ID of the order the associated change is for.
+   */
+  order_id?: string;
+  /**
+   * return_id
+   * The ID of the associated return.
+   */
+  return_id?: string;
+  /**
+   * claim_id
+   * The ID of the associated claim.
+   */
+  claim_id?: string;
+  /**
+   * exchange_id
+   * The ID of the associated exchange.
+   */
+  exchange_id?: string;
+  /**
+   * reference
+   * The name of the table this action applies on.
+   */
+  reference?: "claim" | "exchange" | "return" | "order_shipping_method";
+  /**
+   * reference_id
+   * The ID of the record in the referenced table.
+   */
+  reference_id?: string;
+  /** The applied action. */
+  action?:
+    | "CANCEL_RETURN_ITEM"
+    | "FULFILL_ITEM"
+    | "DELIVER_ITEM"
+    | "CANCEL_ITEM_FULFILLMENT"
+    | "ITEM_ADD"
+    | "ITEM_REMOVE"
+    | "ITEM_UPDATE"
+    | "RECEIVE_DAMAGED_RETURN_ITEM"
+    | "RECEIVE_RETURN_ITEM"
+    | "RETURN_ITEM"
+    | "SHIPPING_ADD"
+    | "SHIPPING_REMOVE"
+    | "SHIP_ITEM"
+    | "WRITE_OFF_ITEM"
+    | "REINSTATE_ITEM";
+  /** The action's details. */
+  details?: object;
+  /**
+   * internal_note
+   * A note that's viewed only by admin users.
+   */
+  internal_note?: string;
+  /**
+   * created_at
+   * The date the action was created.
+   * @format date-time
+   */
+  created_at?: string;
+  /**
+   * updated_at
+   * The date the action was updated.
+   * @format date-time
+   */
+  updated_at?: string;
+}
+
 /**
  * VendorOrderCountryCode
  * The country's details.
@@ -25384,6 +25664,20 @@ export interface VendorOrderCountryCode {
    * The country's display name.
    */
   display_name?: string;
+}
+
+export interface VendorOrderCreateShipment {
+  /** Items in the shipment. */
+  items?: {
+    id?: string;
+    quantity?: number;
+  }[];
+  /** Labels of the shipment */
+  labels?: {
+    tracking_number?: string;
+    tracking_url?: string;
+    label_url?: string;
+  }[];
 }
 
 /** The order's details. */
@@ -27446,66 +27740,10 @@ export interface VendorUpdatePriceList {
   type?: "sale" | "override";
 }
 
-export interface VendorUpdateProduct {
-  /** The title of the product. */
-  title?: string;
-  /** Whether the product can be discounted. */
-  discountable?: boolean;
-  /** Whether the product is a gift card. */
-  is_giftcard?: boolean;
-  /** The product options to update. */
-  options?: UpdateProductOption[];
-  /** The product variants to update. */
-  variants?: UpdateProductVariant[];
-  /** The subtitle of the product. */
-  subtitle?: string | null;
-  /** The description of the product. */
-  description?: string | null;
-  /** Images of the product. */
-  images?: {
-    url?: string;
-  }[];
-  /** The thumbnail of the product. */
-  thumbnail?: string | null;
-  /** The handle of the product. */
-  handle?: string | null;
-  /** The ID of the product type. */
-  type_id?: string | null;
-  /** The external ID of the product. */
-  external_id?: string | null;
-  /** The ID of the collection the product belongs to. */
-  collection_id?: string | null;
-  /** Product category IDs to associate with the product. */
-  categories?: {
-    id: string;
-  }[];
-  /** Product tag IDs to associate with the product. */
-  tags?: {
-    id: string;
-  }[];
-  /** The weight of the product. */
-  weight?: number | null;
-  /** The length of the product. */
-  length?: number | null;
-  /** The height of the product. */
-  height?: number | null;
-  /** The width of the product. */
-  width?: number | null;
-  /** The HS code of the product. */
-  hs_code?: string | null;
-  /** The MID code of the product. */
-  mid_code?: string | null;
-  /** The country of origin of the product. */
-  origin_country?: string | null;
-  /** The material composition of the product. */
-  material?: string | null;
-  /** Additional metadata for the product. */
-  metadata?: object | null;
-  /** Sales channels to associate the product with. */
-  sales_channels?: {
-    id: string;
-  }[];
-}
+export type VendorUpdateProduct = UpdateProduct & {
+  /** Additional data to use in products hooks. */
+  additional_data?: Record<string, any>;
+};
 
 export interface VendorUpdateProductStatus {
   /** The status of the product. */
@@ -56692,6 +56930,78 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * @description Retrieves the seller list.
+     *
+     * @tags Store
+     * @name StoreGetSellers
+     * @summary Get sellers
+     * @request GET:/store/seller
+     * @secure
+     */
+    storeGetSellers: (
+      query?: {
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          products?: StoreSeller[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/store/seller`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves seller of specified handle
+     *
+     * @tags Seller
+     * @name StoreGetSellerByHandle
+     * @summary Get seller
+     * @request GET:/store/seller/{handle}
+     * @secure
+     */
+    storeGetSellerByHandle: (
+      handle: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A seller object with its properties */
+          product?: StoreSeller;
+        },
+        any
+      >({
+        path: `/store/seller/${handle}`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
   };
   vendor = {
     /**
@@ -57908,6 +58218,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * @description Retrieves a list of order changes for the authenticated vendor.
+     *
+     * @tags Order
+     * @name VendorListOrderChanges
+     * @summary List Order Changes
+     * @request GET:/vendor/orders/{id}/changes
+     * @secure
+     */
+    vendorListOrderChanges: (
+      id: string,
+      query?: {
+        /** Comma-separated fields to include in the response. */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          order_changes?: VendorOrderChange[];
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/changes`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * @description Mark order as complete.
      *
      * @tags Order
@@ -57927,6 +58268,85 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/vendor/orders/${id}/complete`,
         method: "POST",
         secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Cancel order fulfillment.
+     *
+     * @tags Order
+     * @name VendorCancelOrderFulfillment
+     * @summary Cancel order fulfillment.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/cancel
+     * @secure
+     */
+    vendorCancelOrderFulfillment: (id: string, fulfillmentId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/cancel`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Mark order fulfillment shipment as delivered.
+     *
+     * @tags Order
+     * @name VendorOrderFulfillmentMarkDelivered
+     * @summary Mark order fulfillment shipment as delivered.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/mark-as-delivered
+     * @secure
+     */
+    vendorOrderFulfillmentMarkDelivered: (id: string, fulfillmentId: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/mark-as-delivered`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Update order fulfillment shipment.
+     *
+     * @tags Order
+     * @name VendorUpdateOrderFulfillmentShipment
+     * @summary Update order fulfillment shipment.
+     * @request POST:/vendor/orders/{id}/fulfillments/{fulfillment_id}/shipments
+     * @secure
+     */
+    vendorUpdateOrderFulfillmentShipment: (
+      id: string,
+      fulfillmentId: string,
+      data: VendorOrderCreateShipment,
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** The order's details. */
+          member?: VendorOrderDetails;
+        },
+        any
+      >({
+        path: `/vendor/orders/${id}/fulfillments/${fulfillmentId}/shipments`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -58233,6 +58653,78 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       >({
         path: `/vendor/price-lists/${id}/prices/${priceId}`,
         method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves a list of product categories.
+     *
+     * @tags Product
+     * @name VendorListProductCategories
+     * @summary List product categories
+     * @request GET:/vendor/product-categories
+     * @secure
+     */
+    vendorListProductCategories: (
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+        /** The number of items to skip before starting to collect the result set. */
+        offset?: number;
+        /** The number of items to return. */
+        limit?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          product_categories?: VendorProductCategory[];
+          /** The total number of items available */
+          count?: number;
+          /** The number of items skipped before these items */
+          offset?: number;
+          /** The number of items per page */
+          limit?: number;
+        },
+        any
+      >({
+        path: `/vendor/product-categories`,
+        method: "GET",
+        query: query,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Retrieves product category by id.
+     *
+     * @tags Product
+     * @name VendorGetProductCategoryById
+     * @summary Get product category
+     * @request GET:/vendor/product-categories/{id}
+     * @secure
+     */
+    vendorGetProductCategoryById: (
+      id: string,
+      query?: {
+        /** The comma-separated fields to include in the response */
+        fields?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          /** A product category object with its properties */
+          product_category?: VendorProductCategory;
+        },
+        any
+      >({
+        path: `/vendor/product-categories/${id}`,
+        method: "GET",
+        query: query,
         secure: true,
         format: "json",
         ...params,
@@ -58620,7 +59112,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Order
      * @name VendorCreateFulfillment
      * @summary Update a Product
-     * @request POST:/vendor/products/{id}/fulfillment
+     * @request POST:/vendor/products/{id}/fulfillments
      * @secure
      */
     vendorCreateFulfillment: (id: string, data: VendorCreateFulfillment, params: RequestParams = {}) =>
@@ -58631,7 +59123,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         },
         any
       >({
-        path: `/vendor/products/${id}/fulfillment`,
+        path: `/vendor/products/${id}/fulfillments`,
         method: "POST",
         body: data,
         secure: true,

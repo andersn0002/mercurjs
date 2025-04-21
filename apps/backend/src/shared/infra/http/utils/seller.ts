@@ -6,6 +6,8 @@ import {
   MedusaError
 } from '@medusajs/framework/utils'
 
+import { SellerDTO } from '../../../../modules/seller/types'
+
 export const fetchSellerByAuthActorId = async (
   authActorId: string,
   scope: MedusaContainer,

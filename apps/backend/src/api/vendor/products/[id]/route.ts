@@ -118,11 +118,14 @@ export const POST = async (
 ) => {
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY)
 
+  const { additional_data, ...update } = req.validatedBody
+
   const { result } = await updateProductsWorkflow(req.scope).run({
     input: {
       // @ts-expect-error: updateProductsWorkflow does not support null values
-      update: req.validatedBody,
-      selector: { id: req.params.id }
+      update,
+      selector: { id: req.params.id },
+      additional_data
     }
   })
 

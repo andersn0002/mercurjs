@@ -105,12 +105,7 @@ export const POST = async (
 
   const seller = await fetchSellerByAuthContext(req.auth_context, req.scope)
 
-  const workflow =
-    req.validatedBody.request.type === 'product'
-      ? createProductRequestWorkflow
-      : createRequestWorkflow
-
-  const { result } = await workflow.run({
+  const { result } = await createRequestWorkflow.run({
     input: {
       data: {
         submitter_id: req.auth_context.actor_id,
